@@ -835,7 +835,7 @@ Total Farmers
 Total FPOs
 Verified Buyers
 Verified Service Providers
-Active Lots
+Active Produce
 Open Auctions
 Active Buyer Requirements
 Transactions Today
@@ -1170,7 +1170,7 @@ Example:
 ```text
 Nashik
 
-Verified Lots:
+Verified Produce:
 High
 
 Available Transport:
@@ -1282,7 +1282,7 @@ Moderate
 
 The Admin should not manually operate:
 
-- Farmer lots
+- Farmer produce
 - Buyer bids
 - FPO aggregation
 - Transport bookings

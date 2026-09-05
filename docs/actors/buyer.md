@@ -2,7 +2,7 @@
 
 ## Dashboard Goal
 
-Help a buyer define procurement demand, find matching verified supply, combine lots where needed, compare landed cost and seller reliability, agree complete terms, fulfil assigned tasks, inspect delivery fairly, and pay the final accepted amount.
+Help a buyer define procurement demand, find matching verified supply, combine produce where needed, compare landed cost and seller reliability, agree complete terms, fulfil assigned tasks, inspect delivery fairly, and pay the final accepted amount.
 
 Use one `Buyer` role. Show commercial subtype—trader, wholesaler, processor, retailer, exporter, institutional buyer, or government buyer—as profile information rather than separate dashboard architectures.
 
@@ -16,7 +16,7 @@ Show, in this order:
 
 1. Action queue: counteroffers, expiring bids, assigned service tasks, arriving deliveries, inspections, and payments due.
 2. Active requirements with required, matched, committed, received, and remaining quantities.
-3. Newly matched verified lots and procurement plans that need lot selection.
+3. Newly matched verified produce and procurement plans that need produce selection.
 4. Open offers, auction bids, and seller responses.
 5. In-transit purchases and delivery exceptions.
 6. Deliveries awaiting receiving inspection.
@@ -43,7 +43,7 @@ Primary actions: **Create requirement**, **Review matches**, **Make offer**, **J
 
 - Show `Draft`, `Active`, `Partially sourced`, `Fully sourced`, `Fulfilment`, `Completed`, `Paused`, and `Expired` states.
 - Progress must separately show required, matched, selected, committed, received, accepted, and remaining quantities.
-- Requirement detail combines match results, selected lots, active offers/trades, fulfilment progress, and landed-cost estimate.
+- Requirement detail combines match results, selected produce, active offers/trades, fulfilment progress, and landed-cost estimate.
 - When an FPO is reserving farmer supply, label its response provisional until supply is sufficient and the buyer deal is confirmed.
 
 ## Supply Discovery and Matching
@@ -56,18 +56,18 @@ Primary actions: **Create requirement**, **Review matches**, **Make offer**, **J
 - Farmer-declared-only produce appears only through farmer-opted-in matching as **Upcoming / Unverified Produce**.
 - Allowed actions are **Express interest** and **Request assessment**; binding offers and bids remain unavailable.
 
-### Lot Detail and Comparison
+### Produce Detail and Comparison
 
 - Seller/type, crop/variety, verified quantity and grade, location, harvest/availability date, asking price, photos, assessment report, and seller reliability.
 - Farmer reliability may show quantity accuracy, quality match, readiness, cancellations, completed trades, and disputes.
 - FPO reliability may show fulfilment rate, delivered-versus-committed quantity, quality match, completed trades, and disputes.
 - Compare source price, quality, distance, seller reliability, fulfilment timing, and total landed acquisition cost.
 
-## Multi-Lot Procurement Plan
+## Multi-Produce Procurement Plan
 
-- Allow manual selection of full or partial quantities from multiple eligible lots to satisfy one requirement.
+- Allow manual selection of full or partial quantities from multiple eligible produce to satisfy one requirement.
 - Continuously reconcile selected quantity against requirement target and tolerance.
-- Show each selected lot's seller, quantity, verification, offer/trade state, landed-cost contribution, and delivery compatibility.
+- Show each selected produce's seller, quantity, verification, offer/trade state, landed-cost contribution, and delivery compatibility.
 - Preserve separate offers/trades per seller while presenting combined requirement-level progress and cost.
 - Automatic optimization is not required for the initial UI.
 
@@ -75,13 +75,13 @@ Primary actions: **Create requirement**, **Review matches**, **Make offer**, **J
 
 ### Direct Offer
 
-- Buyer can make an offer on a verified farmer or FPO lot.
+- Buyer can make an offer on a verified farmer or FPO produce.
 - Standard terms include price, quantity, grade/specifications, quantity tolerance, pickup, delivery location, payment timing, expiry, partial-acceptance rules, and transport/storage/quality responsibilities.
 - Preview expected crop cost, buyer-paid services, handling, and total landed cost before submission.
 
 ### Auction Participation
 
-- Auction discovery shows verified lot summary, current state, closing time, seller terms, and bid activity appropriate for the UI.
+- Auction discovery shows verified produce summary, current state, closing time, seller terms, and bid activity appropriate for the UI.
 - Every bid includes complete commercial terms, not price alone.
 - Show the buyer's advisory rank by estimated seller net and comparison labels; do not use winner, winning, outbid, or highest-bidder language. A selected bid becomes **Accepted offer**.
 
@@ -109,7 +109,7 @@ Show both total and per-unit landed cost. Keep seller reliability separate from 
 ## Quality Assessment
 
 - Assessment detail shows grade, verified quantity, date, authorized assessor, crop-specific measurements, observations, photos, and report/certificate.
-- An expired report remains visible as history but the lot returns to **Assessment required** before a binding offer or bid.
+- An expired report remains visible as history but the produce returns to **Assessment required** before a binding offer or bid.
 - Buyer may request an official assessment when only farmer-declared quality is available; the UI must state who requested and who pays.
 - After assessment, buyer may continue, renegotiate, or reject before trade acceptance.
 - After delivery, a disagreement with verified quality must open reassessment/dispute; the buyer cannot directly replace the verified grade.
@@ -124,7 +124,7 @@ Show both total and per-unit landed cost. Keep seller reliability separate from 
 
 ## Delivery and Receiving Inspection
 
-- Track `Pickup scheduled`, `Picked up`, `In transit`, `Arriving`, and `Delivered` with ETA, location context, and proof.
+- Track `Pickup scheduled`, `Picked up`, `In transport`, `Arriving`, and `Delivered` with ETA, location context, and proof.
 - Receiving inspection records expected, delivered, accepted, and rejected quantity; quality/specification result; damage/condition; delivery time; and evidence.
 - Evaluate delivery against the frozen quantity tolerance.
 - Support full acceptance, agreed partial acceptance, or dispute.
@@ -156,8 +156,8 @@ Show both total and per-unit landed cost. Keep seller reliability separate from 
 ## Key UI Rules
 
 - Start with buyer demand and matched supply, not marketplace browsing alone.
-- Prefer verified lots for formal procurement.
-- Support one requirement with multiple lots and partial quantities.
+- Prefer verified produce for formal procurement.
+- Support one requirement with multiple produce records and partial quantities.
 - Compare options by landed cost while keeping seller reliability separately visible.
 - Offers and bids always include full commercial terms.
 - Assign service actions dynamically per trade.
@@ -169,4 +169,4 @@ Show both total and per-unit landed cost. Keep seller reliability separate from 
 ## Responsive Priorities
 
 - Mobile: requirement creation, match cards, saved filters, offer/bid actions, shipment tracking, receiving inspection, evidence capture, and payment tasks.
-- Desktop: demand-to-supply workspace, multi-lot selection, dense comparison, landed-cost breakdown, auction/negotiation monitoring, purchase operations, and procurement analytics.
+- Desktop: demand-to-supply workspace, multi-produce selection, dense comparison, landed-cost breakdown, auction/negotiation monitoring, purchase operations, and procurement analytics.

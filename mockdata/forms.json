@@ -1,0 +1,67 @@
+{
+  "farmerAddProduce": {
+    "description": "Add the crop and its current stage. You can complete or update the remaining details as the produce moves forward.",
+    "submitLabel": "Add produce",
+    "fields": [
+      {
+        "label": "Crop type",
+        "placeholder": "Select a crop",
+        "type": "select",
+        "required": true,
+        "options": ["Red Onion", "Tomato", "Pomegranate", "Wheat", "Maize", "Soybean", "Grapes", "Other"]
+      },
+      {
+        "label": "Variety",
+        "placeholder": "For example, N-53 or Bhagwa",
+        "type": "text",
+        "required": false
+      },
+      {
+        "label": "Current produce stage",
+        "placeholder": "Select the current stage",
+        "type": "select",
+        "required": true,
+        "options": ["Pre-harvest", "Harvested", "Quantity recorded", "Quality assessment pending", "Quality assessed", "In storage", "Storage / pickup pending"]
+      },
+      {
+        "label": "Quantity in kg",
+        "placeholder": "Use an estimate for pre-harvest produce",
+        "type": "number",
+        "required": true,
+        "help": "This can be updated after harvest or official measurement."
+      },
+      {
+        "label": "Farm or produce location",
+        "placeholder": "Village, district",
+        "type": "text",
+        "required": true
+      },
+      {
+        "label": "Harvest or expected harvest date",
+        "placeholder": "Select a date",
+        "type": "date",
+        "required": true
+      },
+      {
+        "label": "Storage status",
+        "placeholder": "Select storage status",
+        "type": "select",
+        "required": true,
+        "options": ["Not required", "Storage needed", "Storage booked", "Currently stored"]
+      },
+      {
+        "label": "Quality status",
+        "placeholder": "Select quality status",
+        "type": "select",
+        "required": true,
+        "options": ["Not assessed", "Assessment requested", "Assessed and valid", "Reassessment needed"]
+      },
+      {
+        "label": "Notes",
+        "placeholder": "Optional handling, harvest or quality notes",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  }
+}

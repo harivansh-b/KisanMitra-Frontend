@@ -1,0 +1,157 @@
+{
+  "farmer": {
+    "urgent": { "title": "Choose an offer for your onion produce", "detail": "3 valid offers · closes today at 5:30 PM", "action": "Compare offers" },
+    "produce": { "crop": "Red Onion", "id": "PRD-2408", "quantity": "4,280 kg", "grade": "Grade A verified", "location": "Niphad, Nashik", "stage": "Quality assessed", "marketStatus": "Offers open" },
+    "offers": [
+      { "buyer": "MahaFresh Foods", "price": "₹30.00/kg", "net": "₹1,20,000", "terms": "Buyer transport · same-day payment", "tag": "Best net return", "tone": "positive" },
+      { "buyer": "Western Fresh", "price": "₹31.00/kg", "net": "₹1,17,800", "terms": "You arrange transport · payment in 7 days", "tag": "Highest price", "tone": "neutral" },
+      { "buyer": "Nashik FPO", "price": "₹29.80/kg", "net": "₹1,19,500", "terms": "Pickup included · payment in 2 days", "tag": "Reliable terms", "tone": "neutral" }
+    ],
+    "sellScenarios": [
+      { "label": "Sell now", "value": "₹1.20L", "detail": "Best confirmed net offer", "recommended": true },
+      { "label": "Nearby mandi", "value": "₹1.16L", "detail": "After travel and fees", "recommended": false },
+      { "label": "Store 7 days", "value": "₹1.18L", "detail": "Forecast after storage cost", "recommended": false }
+    ],
+    "produceLifecycle": [
+      { "label": "Pre-harvest", "state": "complete" },
+      { "label": "Harvested", "state": "complete" },
+      { "label": "Quantity recorded", "state": "complete" },
+      { "label": "Quality assessed", "state": "current" },
+      { "label": "Storage / pickup pending", "state": "upcoming" },
+      { "label": "In transport", "state": "upcoming" },
+      { "label": "Delivered", "state": "upcoming" },
+      { "label": "Transaction complete", "state": "upcoming" }
+    ]
+  },
+  "fpo": {
+    "campaign": { "name": "Red Onion procurement", "id": "CAM-108", "buyer": "MahaFresh Foods", "deadline": "18 hours left", "target": "20.0T", "progress": 82 },
+    "stages": [
+      { "label": "Target", "value": "20.0T", "percent": 100 },
+      { "label": "Committed", "value": "16.4T", "percent": 82 },
+      { "label": "Collected", "value": "11.2T", "percent": 56 },
+      { "label": "Verified", "value": "9.6T", "percent": 48 },
+      { "label": "Purchased", "value": "7.8T", "percent": 39 }
+    ],
+    "economics": [
+      { "label": "Buyer revenue", "value": "₹6.00L" },
+      { "label": "Farmer procurement", "value": "− ₹5.76L" },
+      { "label": "Services estimate", "value": "− ₹12,400" },
+      { "label": "Projected margin", "value": "₹11,600" }
+    ],
+    "reservations": [
+      { "farmer": "Ramesh Patil", "village": "Niphad", "quantity": "4.3T", "state": "Verified", "tone": "positive" },
+      { "farmer": "Sunita Jadhav", "village": "Pimpalgaon", "quantity": "3.2T", "state": "Collection due", "tone": "warning" },
+      { "farmer": "Ganesh More", "village": "Lasalgaon", "quantity": "2.8T", "state": "Reserved", "tone": "neutral" },
+      { "farmer": "4 more farmers", "village": "3 villages", "quantity": "6.1T", "state": "Mixed", "tone": "neutral" }
+    ]
+  },
+  "buyer": {
+    "requirement": { "name": "Red Onion · Grade A", "id": "REQ-331", "destination": "Pune processing unit", "budget": "≤ ₹31.00/kg", "delivery": "By 8 Sep" },
+    "fulfilment": [
+      { "label": "Required", "value": "20.0T", "percent": 100 },
+      { "label": "Matched", "value": "28.4T", "percent": 100 },
+      { "label": "Selected", "value": "18.5T", "percent": 93 },
+      { "label": "Committed", "value": "12.0T", "percent": 60 },
+      { "label": "Received", "value": "8.5T", "percent": 43 }
+    ],
+    "supplyPlan": [
+      { "seller": "Nashik FPO", "produce": "FPO-108", "quantity": "8.5T", "landed": "₹31.40/kg", "quality": "Verified", "selected": true },
+      { "seller": "Patil Farms", "produce": "PRD-2408", "quantity": "4.3T", "landed": "₹30.85/kg", "quality": "Verified", "selected": true },
+      { "seller": "Jadhav Farms", "produce": "PRD-2416", "quantity": "5.7T", "landed": "₹31.10/kg", "quality": "Assessment due", "selected": false }
+    ],
+    "costs": [
+      { "label": "Produce", "value": "₹5.49L" },
+      { "label": "Transport", "value": "₹22,800" },
+      { "label": "Assessment", "value": "₹3,600" },
+      { "label": "Estimated landed", "value": "₹31.12/kg" }
+    ],
+    "arrival": { "seller": "Nashik FPO", "quantity": "8,500 kg", "time": "Arrived at 10:42", "action": "Start receiving check" }
+  },
+  "storage": {
+    "facilities": [
+      { "name": "Cold room B", "range": "2–6°C", "total": "40T", "available": 35, "held": 10, "reserved": 20, "occupied": 35 },
+      { "name": "Dry warehouse A", "range": "Ambient", "total": "32T", "available": 29, "held": 0, "reserved": 12, "occupied": 59 },
+      { "name": "Cold room C", "range": "0–4°C", "total": "46T", "available": 32, "held": 8, "reserved": 15, "occupied": 45 }
+    ],
+    "schedule": [
+      { "time": "10:30", "type": "Check-in", "crop": "Red Onion · 4.0T", "party": "Patil Farms", "dock": "Bay 2", "state": "At gate" },
+      { "time": "12:15", "type": "Check-out", "crop": "Wheat · 8.5T", "party": "Maha Mills", "dock": "Bay 1", "state": "Picking" },
+      { "time": "14:30", "type": "Check-in", "crop": "Pomegranate · 2.2T", "party": "Nashik FPO", "dock": "Unassigned", "state": "Needs bay" }
+    ],
+    "conditions": [
+      { "room": "Cold room B", "value": "4.1°C", "detail": "Within 2–6°C range", "tone": "positive" },
+      { "room": "Cold room C", "value": "5.2°C", "detail": "Above target for 18 min", "tone": "warning" },
+      { "room": "Dry warehouse A", "value": "61% RH", "detail": "Humidity stable", "tone": "neutral" }
+    ],
+    "quotes": [
+      { "crop": "Onion", "capacity": "6T · 12 days", "requester": "MahaFresh", "due": "Due in 1h" },
+      { "crop": "Pomegranate", "capacity": "3T · 5 days", "requester": "Nashik FPO", "due": "Due today" }
+    ]
+  },
+  "transport": {
+    "route": { "id": "SH-100", "vehicle": "MH 15 GT 4821", "driver": "R. Jadhav", "load": "20T Red Onion", "destination": "Pune", "eta": "16:40" },
+    "stops": [
+      { "time": "08:30", "place": "Patil Farms", "detail": "5T pickup", "state": "Complete" },
+      { "time": "10:10", "place": "Nashik FPO", "detail": "7T pickup", "state": "Loading" },
+      { "time": "11:45", "place": "Jadhav Farms", "detail": "8T pickup", "state": "Upcoming" },
+      { "time": "16:40", "place": "MahaFresh Pune", "detail": "Delivery", "state": "Upcoming" }
+    ],
+    "fleet": [
+      { "vehicle": "MH 15 HH 1190", "type": "8T refrigerated", "driver": "S. More", "state": "Available", "tone": "positive" },
+      { "vehicle": "MH 15 GT 4821", "type": "20T truck", "driver": "R. Jadhav", "state": "On route", "tone": "neutral" },
+      { "vehicle": "MH 14 JL 2208", "type": "12T truck", "driver": "A. Pawar", "state": "Service due", "tone": "warning" }
+    ],
+    "quotes": [
+      { "route": "Nashik → Mumbai", "load": "Pomegranate · 5T cold", "value": "₹18,600", "due": "Closes in 2h" },
+      { "route": "Lasalgaon → Pune", "load": "Onion · 12T", "value": "₹21,400", "due": "Closes today" }
+    ]
+  },
+  "quality": {
+    "day": "Friday, 5 September",
+    "schedule": [
+      { "time": "09:30", "crop": "Red Onion", "produce": "PRD-2408", "place": "Patil Farms · Niphad", "state": "Next", "tone": "warning" },
+      { "time": "12:15", "crop": "Wheat", "produce": "PRD-2402", "place": "Nashik FPO collection centre", "state": "Scheduled", "tone": "neutral" },
+      { "time": "15:30", "crop": "Pomegranate", "produce": "PRD-2411", "place": "Dindori", "state": "Re-check", "tone": "neutral" }
+    ],
+    "active": { "crop": "Red Onion", "produce": "PRD-2408", "farmer": "Ramesh Patil", "progress": 40 },
+    "checklist": [
+      { "label": "Confirm produce identity", "state": "Complete" },
+      { "label": "Record assessed quantity", "state": "Complete" },
+      { "label": "Capture sample evidence", "state": "Current" },
+      { "label": "Grade quality attributes", "state": "Pending" },
+      { "label": "Review and submit report", "state": "Pending" }
+    ],
+    "reports": [
+      { "produce": "PRD-2402", "crop": "Wheat", "detail": "Draft · 6,800 kg", "due": "Due 4:00 PM", "tone": "warning" },
+      { "produce": "DSP-041", "crop": "Onion re-check", "detail": "Evidence received", "due": "Due tomorrow", "tone": "neutral" }
+    ]
+  },
+  "admin": {
+    "health": [
+      { "label": "Trades today", "value": "46", "detail": "₹8.4L gross value", "tone": "positive" },
+      { "label": "Verification SLA", "value": "92%", "detail": "Median age 6h", "tone": "positive" },
+      { "label": "Open grievances", "value": "7", "detail": "2 awaiting triage", "tone": "warning" },
+      { "label": "Risk alerts", "value": "3", "detail": "No critical alerts", "tone": "neutral" }
+    ],
+    "verification": [
+      { "applicant": "Deccan Cold Chain", "actor": "Transport", "age": "3h", "documents": "6 / 6", "risk": "Low", "tone": "positive" },
+      { "applicant": "HarvestHub Storage", "actor": "Storage", "age": "9h", "documents": "4 / 5", "risk": "Missing document", "tone": "warning" },
+      { "applicant": "Western Fresh", "actor": "Buyer", "age": "14h", "documents": "7 / 7", "risk": "Review history", "tone": "neutral" }
+    ],
+    "cases": [
+      { "id": "GRV-118", "type": "Quantity grievance", "parties": "Buyer ↔ FPO", "age": "5h", "state": "Triage", "tone": "warning" },
+      { "id": "DSP-039", "type": "Payment default", "parties": "Farmer ↔ Buyer", "age": "2d", "state": "Under review", "tone": "neutral" },
+      { "id": "INC-204", "type": "Temperature excursion", "parties": "Storage provider", "age": "28m", "state": "Monitoring", "tone": "neutral" }
+    ],
+    "outcomes": [
+      { "label": "Farmers paid on time", "value": "94%", "width": 94 },
+      { "label": "Produce accepted in full", "value": "88%", "width": 88 },
+      { "label": "Disputes resolved within SLA", "value": "81%", "width": 81 }
+    ],
+    "audit": [
+      { "time": "11:42", "event": "Verification evidence requested", "actor": "Admin S. Kale" },
+      { "time": "11:18", "event": "Grievance promoted to dispute", "actor": "Admin R. Shah" },
+      { "time": "10:56", "event": "Risk event confirmed", "actor": "System review" }
+    ]
+  }
+}

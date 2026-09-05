@@ -22,12 +22,12 @@ Show, in this order:
 1. Action queue: buyer opportunity decisions, campaign shortfalls, collections, verification gaps, delivery tasks, and overdue payments.
 2. Active procurement campaigns with target, committed, collected, verified, purchased, and still-required quantities.
 3. Relevant buyer demand and commercial viability summary.
-4. FPO-owned inventory, lots awaiting split/merge, and buyer-ready lots.
+4. FPO-owned inventory, produce awaiting split/merge, and buyer-ready produce.
 5. Pending inbound transport, storage, outbound transport, and deliveries.
 6. Farmer payments and buyer receivables as separate summaries.
 7. Active service-provider jobs.
 
-Primary actions: **Evaluate buyer demand**, **Create procurement campaign**, **Manage collection**, **Build FPO lot**, or **Review buyer offers**.
+Primary actions: **Evaluate buyer demand**, **Create procurement campaign**, **Manage collection**, **Build FPO produce**, or **Review buyer offers**.
 
 ## Operating-Mode Entry
 
@@ -59,7 +59,7 @@ Do not present service booking as a required step in procurement or imply that u
 
 ### Farmer Commitments and Collection
 
-- Commitment row shows farmer, verified source lot, available quantity, reserved quantity, collection schedule, and status.
+- Commitment row shows farmer, verified source produce, available quantity, reserved quantity, collection schedule, and status.
 - Allow a commitment to be released, expire, or result in partial purchase without losing the source record.
 - Collection view coordinates inbound transport, arrival, actual quantity, inspection status, and evidence.
 - When verification differs from commitment, show grade/quantity breakdown and the campaign's agreed downgrade or rejection rules.
@@ -70,15 +70,15 @@ Do not present service booking as a required step in procurement or imply that u
 - Review the final accepted quantity by grade, purchase price, gross amount, service deductions if agreed, net payable, and payment timing.
 - Support full purchase, partial purchase, lower-grade counter terms, and rejected remainder.
 - Confirmation records the exact ownership transfer from farmer to FPO.
-- The unpurchased quantity remains in a farmer-owned lot.
+- The unpurchased quantity remains in a farmer-owned produce.
 
-### FPO Inventory and Lot Workbench
+### FPO Inventory and Produce Workbench
 
 - Separate collected-but-not-owned, FPO-owned, buyer-ready, reserved, and sold quantities.
 - Merge only compatible FPO-owned quantities using crop, variety, grade, size, harvest period, moisture, quality characteristics, and buyer specification.
-- Split lots by grade, buyer allocation, or remaining availability.
-- Every resulting lot retains its source farmer lots, purchase records, and ownership history.
-- Lot detail shows quantity, grade, location, storage, availability, buyer allocation, lineage, and verification evidence.
+- Split produce by grade, buyer allocation, or remaining availability.
+- Every resulting produce retains its source farmer produce, purchase records, and ownership history.
+- Produce detail shows quantity, grade, location, storage, availability, buyer allocation, lineage, and verification evidence.
 
 ### Buyer Offers and Sales
 
@@ -101,7 +101,7 @@ Do not present service booking as a required step in procurement or imply that u
 - **Buyer receivables:** FPO-to-buyer invoice value, adjustments, received, pending, and due date per trade.
 - A farmer payment must not depend on buyer payment unless that dependency was explicitly included in accepted farmer terms.
 - Each Farmer-to-FPO purchase and Buyer-to-FPO sale has a separate payment obligation with `Buyer/FPO marked paid → Seller confirmed → Completed` states.
-- Purchase history retains farmer, source lot, quantity/grade, price, payment terms, transfer time, collection location, campaign, and resulting FPO lot.
+- Purchase history retains farmer, source produce, quantity/grade, price, payment terms, transfer time, collection location, campaign, and resulting FPO produce.
 
 ## Farmer Services Screens
 
@@ -133,11 +133,11 @@ Do not present service booking as a required step in procurement or imply that u
 - A reservation is not a purchase, and physical aggregation occurs only after purchase.
 - Require final quantity and quality verification before ownership transfer.
 - Support partial purchase and exact ownership splitting.
-- Preserve source-lot traceability across every split and merge.
+- Preserve source-produce traceability across every split and merge.
 - Keep farmer payment independent from the later buyer trade.
 - Assign quality, storage, and transport actions by ownership, relationship, responsibility, and current state.
 
 ## Responsive Priorities
 
 - Mobile: opportunity alerts, commitment/collection updates, verification decisions, purchase confirmation, task completion, and payment exceptions.
-- Desktop: buyer-demand economics, campaign pipeline, quantity reconciliation, lot split/merge workbench, offer comparison, fulfilment operations, and two-sided payment tracking.
+- Desktop: buyer-demand economics, campaign pipeline, quantity reconciliation, produce split/merge workbench, offer comparison, fulfilment operations, and two-sided payment tracking.

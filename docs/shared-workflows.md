@@ -3,9 +3,9 @@
 ## Direct Farmer-to-Buyer Flow
 
 ```text
-Buyer creates a demand or selects a verified lot
+Buyer creates a demand or selects a verified produce
   → Matching identifies suitable farmer/FPO supply
-  → Buyer selects one or more lots and quantities
+  → Buyer selects one or more produce and quantities
   → Buyer makes a direct offer or joins an auction
   → Seller compares, counters, rejects, or accepts
   → Accepted terms become a frozen trade
@@ -24,9 +24,9 @@ Seller preparation before the buyer flow:
 ```text
 Farmer records expected produce
   → Farmer records harvest and actual quantity
-  → Quality Assessor inspects the lot
-  → Verified lot becomes market-ready
-  → Farmer or FPO publishes the verified lot
+  → Quality Assessor inspects the produce
+  → Verified produce becomes market-ready
+  → Farmer or FPO publishes the verified produce
 ```
 
 ## FPO Procurement and Aggregation Flow
@@ -81,23 +81,26 @@ Alternative states: `Paused`, `Expired`, and `Cancelled`. A recurring demand pro
 
 The initial UI includes one-time public demand only. Recurring and invited demand remain documented future states.
 
-### Supply Match and Multi-Lot Plan
+### Supply Match and Multi-Produce Plan
 
 ```text
 Suggested match → Reviewed → Quantity selected → Offer/Bid submitted
 → Reserved → Trade created → Received
 ```
 
-One demand may reference multiple lots and partial quantities. The UI must continuously show selected, committed, received, and remaining demand quantities.
+One demand may reference multiple produce records and partial quantities. The UI must continuously show selected, committed, received, and remaining demand quantities.
 
 Farmer-opted-in unverified produce follows `Matched as upcoming → Expressed interest/Assessment requested → Verified`. It cannot enter binding offer or bidding states.
 
-### Produce and Lot
+### Produce and Produce
 
 ```text
-Estimated → Harvested → Verification pending → Verified → Listed
-→ Reserved/Offer accepted → Fulfilment → Completed
+Pre-harvest → Harvested → Quantity recorded → Quality assessment pending
+→ Quality assessed → Storage / pickup pending → In transport → Delivered
+→ Transaction complete
 ```
+
+`Offers open`, `Offer accepted`, and similar marketplace states are shown separately from the produce lifecycle. Storage is optional: when it is not required, the produce proceeds from quality assessment or trade confirmation to pickup pending. A delivered produce remains at `Delivered` until the relevant payment obligation is confirmed; only then does it become `Transaction complete`.
 
 Exception states: `Verification failed`, `Withdrawn`, `Expired`, `Cancelled`, and `Disputed`.
 
@@ -142,20 +145,20 @@ Alternative states: `Partially purchased`, `Downgraded offer pending`, `Rejected
 
 The farmer owns the committed quantity until purchase confirmation. A commitment must show reserved quantity, remaining available quantity, expiry, and procurement terms.
 
-### FPO-Owned Lot
+### FPO-Owned Produce
 
 ```text
 Purchased quantity → Available for aggregation → Merged or split
 → Market-ready → Reserved for buyer → Fulfilment → Transferred to buyer
 ```
 
-Every split or merge must preserve source-lot and purchase-record lineage.
+Every split or merge must preserve source-produce and purchase-record lineage.
 
 ### Trade
 
 ```text
 Offer accepted → Tasks assigned → Pickup scheduled → Picked up
-→ In transit → Delivered → Receiving inspection
+→ In transport → Delivered → Receiving inspection
 → Accepted/Partially accepted → Ownership transferred
 → Payment pending → Buyer marked paid → Seller confirmed → Completed
 ```
@@ -193,18 +196,18 @@ Quote requested → Quoted → Confirmed → Check-in due
 
 Exception states: `Capacity changed`, `Condition incident`, `Cancelled`, and `Disputed`.
 
-A booking may contain multiple storage items. Each item references its lot, trade, quantity, check-in/out context, and status.
+A booking may contain multiple storage items. Each item references its produce, trade, quantity, check-in/out context, and status.
 
 ### Shipment / Transport Job
 
 ```text
 Quote requested → Quoted → Confirmed → Vehicle assigned
-→ Pickup due → Picked up → In transit → Delivered → Completed
+→ Pickup due → Picked up → In transport → Delivered → Completed
 ```
 
 Exception states: `Delayed`, `Failed pickup`, `Damage reported`, `Cancelled`, and `Disputed`.
 
-A shipment may contain multiple items and pickup locations while preserving each item's lot, trade, quantity, and handoff evidence.
+A shipment may contain multiple items and pickup locations while preserving each item's produce, trade, quantity, and handoff evidence.
 
 ### Incident
 
@@ -252,13 +255,13 @@ Actions may include warning, temporary restriction/suspension, bidding or provid
 | Requirement published/invited | Buyer | Eligible or invited sellers/FPOs | Crop/specification, quantity/tolerance, location/date, price, payment, preferences, expiry |
 | Supply matched | Platform fixture | Buyer | Match reasons, available quantity, verification, landed-cost inputs, seller reliability |
 | Interest expressed on unverified produce | Buyer | Farmer | Non-binding buyer identity/need, expiry, and assessment-request option |
-| Assessment requested | Farmer/FPO/Buyer | Quality Assessor | Lot, location, required checks, deadline, contact context |
-| Report submitted | Quality Assessor | Lot owner and relevant buyer | Grade, quantity, evidence, exceptions, report identity |
-| Lot listed | Farmer/FPO | Buyer | Verified specifications, available quantity, location, timing, terms |
+| Assessment requested | Farmer/FPO/Buyer | Quality Assessor | Produce, location, required checks, deadline, contact context |
+| Report submitted | Quality Assessor | Produce owner and relevant buyer | Grade, quantity, evidence, exceptions, report identity |
+| Produce listed | Farmer/FPO | Buyer | Verified specifications, available quantity, location, timing, terms |
 | Offer submitted | Buyer/FPO | Seller | Net realization, responsibilities, payment timing, reliability, expiry |
 | Offer accepted | Seller | All trade participants | Frozen terms, next task, owner, due time |
 | Procurement campaign published | FPO | Eligible farmers | Price, target/available quantity, grade, collection, payment, transport, downgrade/rejection rules |
-| Supply committed | Farmer | FPO | Reserved quantity, source lot, verification, ownership, and campaign shortfall |
+| Supply committed | Farmer | FPO | Reserved quantity, source produce, verification, ownership, and campaign shortfall |
 | Procurement target reached | Farmers | FPO | Committed/collected/verified totals and buyer-confirmation action |
 | Conditional commitment proposed/accepted | Buyer/FPO | Buyer/FPO | Frozen commercial terms, supply condition, deadline, and provisional status |
 | FPO purchase finalized | FPO | Farmer | Purchased/rejected quantity, grade, price, ownership-transfer time, and payment status |

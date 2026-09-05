@@ -1,0 +1,195 @@
+{
+  "marketTrend": [
+    { "day": "Mon", "modalPrice": 28.4 },
+    { "day": "Tue", "modalPrice": 29.1 },
+    { "day": "Wed", "modalPrice": 29.8 },
+    { "day": "Thu", "modalPrice": 29.4 },
+    { "day": "Fri", "modalPrice": 30.2 },
+    { "day": "Sat", "modalPrice": 30.8 },
+    { "day": "Sun", "modalPrice": 31.1 }
+  ],
+  "roles": [
+    {
+      "id": "farmer",
+      "name": "Farmer",
+      "profile": "Ramesh Patil",
+      "organization": "Patil Farms · Nashik",
+      "eyebrow": "Farm operations",
+      "title": "Good morning, Ramesh",
+      "subtitle": "Your red onion produce record has three active offers. Review the net return before the offer window closes.",
+      "primaryAction": "Add produce",
+      "metrics": [
+        { "label": "Active produce", "value": "4", "detail": "12.4 tonnes listed", "tone": "neutral" },
+        { "label": "Best net offer", "value": "₹1.20L", "detail": "₹30/kg · buyer transport", "tone": "positive" },
+        { "label": "Pending actions", "value": "3", "detail": "1 closes today", "tone": "warning" },
+        { "label": "Payments due", "value": "₹68,400", "detail": "2 obligations", "tone": "neutral" }
+      ],
+      "queue": [
+        { "title": "Choose an offer for Red Onion", "meta": "PRD-2408 · 4,280 kg", "status": "Closes in 4h", "tone": "warning", "action": "Compare offers" },
+        { "title": "Confirm payment from Sahyadri Foods", "meta": "TR-1042 · ₹68,400", "status": "Buyer marked paid", "tone": "positive", "action": "Review payment" },
+        { "title": "Receiving check scheduled", "meta": "Tomorrow · 08:30 · Patil Farms", "status": "Transport assigned", "tone": "neutral", "action": "View shipment" }
+      ],
+      "records": [
+        { "name": "Red Onion", "id": "PRD-2408", "quantity": "4,280 kg", "counterparty": "3 buyers", "price": "₹29.50/kg", "status": "Offers open", "tone": "positive" },
+        { "name": "Pomegranate", "id": "PRD-2394", "quantity": "1,250 kg", "counterparty": "Sahyadri Foods", "price": "₹54.72/kg", "status": "Payment due", "tone": "warning" },
+        { "name": "Wheat", "id": "PRD-2379", "quantity": "6,800 kg", "counterparty": "Nashik FPO", "price": "₹25.40/kg", "status": "In transport", "tone": "neutral" }
+      ]
+    },
+    {
+      "id": "fpo",
+      "name": "FPO",
+      "profile": "Nashik Farmers Producer Co.",
+      "organization": "Aggregation desk · Nashik",
+      "eyebrow": "Procurement workspace",
+      "title": "Procurement at a glance",
+      "subtitle": "The onion campaign is 82% reserved. Secure the remaining supply before the buyer commitment expires.",
+      "primaryAction": "New campaign",
+      "metrics": [
+        { "label": "Active campaigns", "value": "6", "detail": "3 crops · 2 districts", "tone": "neutral" },
+        { "label": "Supply reserved", "value": "16.4T", "detail": "of 20T target", "tone": "positive" },
+        { "label": "Commitment closes", "value": "18 hrs", "detail": "Buyer terms frozen", "tone": "warning" },
+        { "label": "Farmer payable", "value": "₹3.84L", "detail": "11 obligations", "tone": "neutral" }
+      ],
+      "queue": [
+        { "title": "Secure 3.6T for onion campaign", "meta": "CAM-108 · Grade A · ₹28.80/kg", "status": "82% reserved", "tone": "warning", "action": "Find supply" },
+        { "title": "Review five farmer reservations", "meta": "7.2T declared · 4 villages", "status": "Needs review", "tone": "neutral", "action": "Review" },
+        { "title": "Confirm buyer trade", "meta": "MahaFresh Foods · 20T · Pune", "status": "Supply condition met", "tone": "positive", "action": "Confirm trade" }
+      ],
+      "records": [
+        { "name": "Red Onion campaign", "id": "CAM-108", "quantity": "16,400 / 20,000 kg", "counterparty": "MahaFresh Foods", "price": "₹30.00/kg", "status": "Conditional", "tone": "warning" },
+        { "name": "Wheat aggregation", "id": "CAM-102", "quantity": "28,000 / 30,000 kg", "counterparty": "Maha Mills", "price": "₹26.10/kg", "status": "Collecting", "tone": "neutral" },
+        { "name": "Pomegranate produce", "id": "FPO-094", "quantity": "9,600 kg", "counterparty": "ExportCo", "price": "₹58.40/kg", "status": "Trade confirmed", "tone": "positive" }
+      ]
+    },
+    {
+      "id": "buyer",
+      "name": "Buyer",
+      "profile": "MahaFresh Foods",
+      "organization": "Procurement · Pune",
+      "eyebrow": "Buying desk",
+      "title": "Today’s procurement desk",
+      "subtitle": "Two requirements need attention and your red onion offer is ranked first by estimated seller net return.",
+      "primaryAction": "Post requirement",
+      "metrics": [
+        { "label": "Open requirements", "value": "8", "detail": "42T total demand", "tone": "neutral" },
+        { "label": "Active offers", "value": "12", "detail": "4 sellers responded", "tone": "positive" },
+        { "label": "Deliveries this week", "value": "5", "detail": "2 arriving today", "tone": "neutral" },
+        { "label": "Payment due", "value": "₹2.16L", "detail": "Next due 7 Sep", "tone": "warning" }
+      ],
+      "queue": [
+        { "title": "Review matched onion produce", "meta": "REQ-331 · Need 20T in Pune", "status": "9 new matches", "tone": "positive", "action": "View matches" },
+        { "title": "Record receiving result", "meta": "TR-1045 · Nashik FPO · 8,500 kg", "status": "Arrived", "tone": "warning", "action": "Inspect delivery" },
+        { "title": "Mark farmer payment", "meta": "TR-1042 · ₹68,400", "status": "Due tomorrow", "tone": "neutral", "action": "Record payment" }
+      ],
+      "records": [
+        { "name": "Red Onion · Grade A", "id": "REQ-331", "quantity": "20,000 kg", "counterparty": "9 matched produce", "price": "≤ ₹31.00/kg", "status": "Sourcing", "tone": "positive" },
+        { "name": "Pomegranate", "id": "REQ-328", "quantity": "5,000 kg", "counterparty": "Patil Farms", "price": "₹54.72/kg", "status": "Payment due", "tone": "warning" },
+        { "name": "Wheat", "id": "REQ-319", "quantity": "30,000 kg", "counterparty": "Nashik FPO", "price": "₹26.10/kg", "status": "In transport", "tone": "neutral" }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Storage Manager",
+      "profile": "GreenVault Storage",
+      "organization": "Facility operations · Nashik",
+      "eyebrow": "Storage operations",
+      "title": "Capacity and bookings",
+      "subtitle": "Cold room B has 14 tonnes available. One incoming booking needs a receiving bay assignment.",
+      "primaryAction": "Add availability",
+      "metrics": [
+        { "label": "Available capacity", "value": "38T", "detail": "Across 3 facilities", "tone": "positive" },
+        { "label": "Occupied", "value": "71%", "detail": "84.2T stored", "tone": "neutral" },
+        { "label": "Arrivals today", "value": "4", "detail": "12.8T expected", "tone": "warning" },
+        { "label": "Revenue this month", "value": "₹1.46L", "detail": "+8.4% vs last month", "tone": "positive" }
+      ],
+      "queue": [
+        { "title": "Assign receiving bay", "meta": "SB-208 · Onion · 4,000 kg", "status": "Arrives 14:30", "tone": "warning", "action": "Assign bay" },
+        { "title": "Temperature check due", "meta": "Cold room B · Pomegranate", "status": "Due in 40 min", "tone": "neutral", "action": "Record check" },
+        { "title": "Confirm dispatch quantity", "meta": "SB-197 · 8,500 kg", "status": "Vehicle waiting", "tone": "positive", "action": "Confirm dispatch" }
+      ],
+      "records": [
+        { "name": "Cold room B", "id": "FAC-02", "quantity": "14,000 kg free", "counterparty": "₹1.80/kg/day", "price": "2–6°C", "status": "Available", "tone": "positive" },
+        { "name": "Dry warehouse A", "id": "FAC-01", "quantity": "9,500 kg free", "counterparty": "₹0.65/kg/day", "price": "Ambient", "status": "71% occupied", "tone": "neutral" },
+        { "name": "Cold room C", "id": "FAC-03", "quantity": "14,500 kg free", "counterparty": "₹2.10/kg/day", "price": "0–4°C", "status": "Maintenance 18:00", "tone": "warning" }
+      ]
+    },
+    {
+      "id": "transport",
+      "name": "Transport Manager",
+      "profile": "Nashik Agro Logistics",
+      "organization": "Fleet desk · Nashik",
+      "eyebrow": "Fleet operations",
+      "title": "Dispatch control",
+      "subtitle": "Six vehicles are on the road. A consolidated onion shipment has three pickup points to coordinate.",
+      "primaryAction": "Publish vehicle",
+      "metrics": [
+        { "label": "Vehicles available", "value": "7", "detail": "3 refrigerated", "tone": "positive" },
+        { "label": "Active shipments", "value": "6", "detail": "2 multi-pickup", "tone": "neutral" },
+        { "label": "On-time rate", "value": "94%", "detail": "Last 30 deliveries", "tone": "positive" },
+        { "label": "Quotes awaiting", "value": "5", "detail": "₹42,600 opportunity", "tone": "warning" }
+      ],
+      "queue": [
+        { "title": "Coordinate three onion pickups", "meta": "SH-100 · 20T · Pune", "status": "First pickup 08:30", "tone": "warning", "action": "Open route" },
+        { "title": "Quote Nashik to Mumbai", "meta": "Pomegranate · 5T · Refrigerated", "status": "Closes in 2h", "tone": "neutral", "action": "Send quote" },
+        { "title": "Record delivery handoff", "meta": "SH-094 · MahaFresh Foods", "status": "At destination", "tone": "positive", "action": "Complete handoff" }
+      ],
+      "records": [
+        { "name": "MH 15 GT 4821", "id": "VEH-12", "quantity": "5T truck", "counterparty": "R. Jadhav", "price": "Pune route", "status": "In transport", "tone": "neutral" },
+        { "name": "MH 15 HH 1190", "id": "VEH-08", "quantity": "8T refrigerated", "counterparty": "S. More", "price": "Nashik hub", "status": "Available", "tone": "positive" },
+        { "name": "MH 14 JL 2208", "id": "VEH-17", "quantity": "12T truck", "counterparty": "A. Pawar", "price": "Service due", "status": "Maintenance", "tone": "warning" }
+      ]
+    },
+    {
+      "id": "quality",
+      "name": "Quality Assessor",
+      "profile": "Dr. Meera Deshmukh",
+      "organization": "Independent assessor · Nashik",
+      "eyebrow": "Assessment desk",
+      "title": "Assessments and re-checks",
+      "subtitle": "Two field assessments are scheduled today. One onion produce’s verification expires tomorrow afternoon.",
+      "primaryAction": "Set availability",
+      "metrics": [
+        { "label": "Today’s visits", "value": "2", "detail": "First at 09:30", "tone": "neutral" },
+        { "label": "Reports pending", "value": "3", "detail": "1 due today", "tone": "warning" },
+        { "label": "Verified this month", "value": "41", "detail": "98% on time", "tone": "positive" },
+        { "label": "Re-check requests", "value": "2", "detail": "1 independent review", "tone": "neutral" }
+      ],
+      "queue": [
+        { "title": "Assess Red Onion produce", "meta": "PRD-2408 · 4,000 kg · Patil Farms", "status": "09:30 today", "tone": "warning", "action": "Open assessment" },
+        { "title": "Submit wheat report", "meta": "PRD-2402 · 6,800 kg", "status": "Draft saved", "tone": "neutral", "action": "Complete report" },
+        { "title": "Independent dispute re-check", "meta": "DSP-041 · Quantity variance", "status": "Accepted", "tone": "positive", "action": "View evidence" }
+      ],
+      "records": [
+        { "name": "Red Onion · Patil Farms", "id": "ASM-552", "quantity": "4,000 kg", "counterparty": "Field visit", "price": "Valid 72h", "status": "Scheduled", "tone": "warning" },
+        { "name": "Wheat · PRD-2402", "id": "ASM-548", "quantity": "6,800 kg", "counterparty": "Lab + field", "price": "Report draft", "status": "In progress", "tone": "neutral" },
+        { "name": "Pomegranate · PRD-2394", "id": "ASM-541", "quantity": "1,250 kg", "counterparty": "Grade A", "price": "Valid until 7 Sep", "status": "Verified", "tone": "positive" }
+      ]
+    },
+    {
+      "id": "admin",
+      "name": "Admin",
+      "profile": "Platform Operations",
+      "organization": "KisanMitra control desk",
+      "eyebrow": "Platform oversight",
+      "title": "Operations control room",
+      "subtitle": "Verification queues are healthy. Two grievances need triage and one payment-default case is under review.",
+      "primaryAction": "Review queue",
+      "metrics": [
+        { "label": "Verification queue", "value": "18", "detail": "Median age 6 hours", "tone": "neutral" },
+        { "label": "Open grievances", "value": "7", "detail": "2 require triage", "tone": "warning" },
+        { "label": "Trades this week", "value": "284", "detail": "₹41.8L gross value", "tone": "positive" },
+        { "label": "Risk alerts", "value": "3", "detail": "No critical alerts", "tone": "neutral" }
+      ],
+      "queue": [
+        { "title": "Triage quantity grievance", "meta": "GRV-118 · Trade TR-1045", "status": "Evidence complete", "tone": "warning", "action": "Open grievance" },
+        { "title": "Verify transport provider", "meta": "Deccan Cold Chain · 6 documents", "status": "Submitted 3h ago", "tone": "neutral", "action": "Review documents" },
+        { "title": "Resolve payment default case", "meta": "DSP-039 · Buyer response received", "status": "Under review", "tone": "positive", "action": "Review case" }
+      ],
+      "records": [
+        { "name": "Quantity discrepancy", "id": "DSP-041", "quantity": "1,500 kg disputed", "counterparty": "3 participants", "price": "TR-1045", "status": "Under review", "tone": "warning" },
+        { "name": "Payment default", "id": "DSP-039", "quantity": "₹68,400", "counterparty": "Western Fresh", "price": "TR-1031", "status": "Evidence received", "tone": "neutral" },
+        { "name": "Transport damage", "id": "DSP-034", "quantity": "620 kg affected", "counterparty": "Nashik Agro Logistics", "price": "TR-1018", "status": "Resolved", "tone": "positive" }
+      ]
+    }
+  ]
+}

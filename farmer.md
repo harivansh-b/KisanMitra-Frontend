@@ -232,16 +232,16 @@ The produce is still not eligible for bidding until the required quantity and qu
 
 ---
 
-## 4.3 Verified Lot
+## 4.3 Verified Produce
 
-Only a Verified Lot is allowed to enter bidding.
+Only verified produce is allowed to enter bidding.
 
 Example:
 
 ```text
-VERIFIED LOT
+VERIFIED PRODUCE
 
-Lot ID:
+Produce ID:
 ON-3821
 
 Crop:
@@ -259,7 +259,7 @@ Verified
 
 Core rule:
 
-> A lot can only be placed for bidding after harvesting is complete and the required quantity and quality have been verified.
+> A produce record can only be placed for bidding after harvesting is complete and the required quantity and quality have been verified.
 
 This improves buyer trust and prevents unreliable or inaccurate listings.
 
@@ -294,7 +294,7 @@ After professional assessment:
 Verified Grade A
 ```
 
-can be attached to the lot.
+can be attached to the produce.
 
 ---
 
@@ -483,7 +483,7 @@ The farmer always makes the final decision.
 
 # 10. Auction / Bidding
 
-Once the lot is verified, the farmer can decide when to make it available for bidding.
+Once the produce is verified, the farmer can decide when to make it available for bidding.
 
 Possible options:
 
@@ -517,7 +517,7 @@ The system must distinguish between two different types of opportunities.
 
 ## 11.1 Direct Purchase Offer
 
-A buyer directly offers to purchase the farmer's lot.
+A buyer directly offers to purchase the farmer's produce.
 
 Example:
 
@@ -540,7 +540,7 @@ Quantity:
 
 An FPO may not actually buy the produce.
 
-Instead, it may offer to aggregate the farmer's produce into a larger lot.
+Instead, it may offer to aggregate the farmer's produce into a larger produce.
 
 Example:
 
@@ -553,7 +553,7 @@ Nashik Agro FPO
 Your Contribution:
 4,000 kg
 
-Expected Aggregated Lot:
+Expected Aggregated Produce:
 40 tonnes
 
 Expected Sale Price:
@@ -940,7 +940,7 @@ Auction Started Later
 Therefore, the system should treat:
 
 ```text
-Lot
+Produce
 ```
 
 and:
@@ -953,7 +953,7 @@ as separate concepts.
 
 Services may attach:
 
-- To a Lot before sale
+- To produce before sale
 - To a Trade after sale
 
 ---
@@ -1171,7 +1171,7 @@ Onion price increased 7%.
 ```
 
 ```text
-A new buyer matches your lot.
+A new buyer matches your produce.
 ```
 
 ```text
@@ -1204,7 +1204,7 @@ Possible channels:
 The farmer role determines permanent capabilities such as:
 
 - Create own produce records
-- Create own lots
+- Create own produce
 - Accept or reject offers
 - Raise disputes
 - View own transactions
@@ -1216,7 +1216,7 @@ Authorization should conceptually consider:
 ```text
 Actor Role
 +
-Relationship to Lot / Trade
+Relationship to Produce / Trade
 +
 Assigned Responsibility
 +
@@ -1298,7 +1298,7 @@ The final farmer journey is:
              │                VERIFICATION
              │          Quantity + Quality
              │                     │
-             └──────────────► VERIFIED LOT
+             └──────────────► VERIFIED PRODUCE
                                    │
                                    ▼
                           MARKET INTELLIGENCE
@@ -1354,7 +1354,7 @@ The major farmer features are:
 4. Harvest-time urgent workflow
 5. Produce inventory
 6. Harvested produce record
-7. Verified lot creation
+7. Verified produce creation
 8. Farmer-declared quality
 9. Optional harvesting service
 10. Current mandi price comparison
@@ -1388,7 +1388,7 @@ The major farmer features are:
 
 # 34. Key Product Principles
 
-## Principle 1 — Verified Lots Only for Bidding
+## Principle 1 — Verified Produce Only for Bidding
 
 No unverified harvested produce should enter formal bidding.
 
@@ -1470,6 +1470,6 @@ When will I get paid?
 
 The platform should therefore function as a complete:
 
-> **Pre-Harvest Planning → Market Intelligence → Verified Lot → Bidding → Responsibility Assignment → Fulfilment → Payment**
+> **Pre-Harvest Planning → Market Intelligence → Verified Produce → Bidding → Responsibility Assignment → Fulfilment → Payment**
 
 workflow for the Farmer actor.

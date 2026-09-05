@@ -6,6 +6,8 @@ These documents define the frontend experience for KisanMitra's role-based dashb
 
 - [UI foundation](ui-foundation.md): shared product model, navigation, responsive behavior, and design principles.
 - [UI decisions](ui-decisions.md): resolved cross-actor rules and deferred UI scope.
+- [Design system](design-system.md): global token architecture, reusable variants, and styling acceptance rules.
+- [UI research](ui-research.md): agriculture-product and SaaS/CRM patterns applied to the interface.
 - [Shared workflows](shared-workflows.md): lifecycle states and handoffs between actors.
 - [Mock-data contracts](mock-data-contracts.md): JSON fixture boundaries and shared entity shapes.
 

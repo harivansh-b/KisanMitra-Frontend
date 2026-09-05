@@ -104,7 +104,7 @@ The FPO becomes responsible for:
 - Transport
 - Buyer fulfilment
 - Future bidding/sale
-- Lot management
+- Produce management
 - Risk after ownership transfer
 
 The farmer's involvement in that purchased quantity ends after settlement and transfer.
@@ -482,12 +482,12 @@ These downgrade rules should be stated in the procurement offer.
 
 # 12. Partial Purchase
 
-The FPO should be able to purchase only part of a farmer's lot.
+The FPO should be able to purchase only part of a farmer's produce.
 
 Example:
 
 ```text
-Farmer Lot:
+Farmer Produce:
 5,000 kg Onion
 
 FPO Needs:
@@ -511,13 +511,13 @@ Owner of 3,000 kg:
 Farmer
 ```
 
-This requires support for partial lot transfers.
+This requires support for partial produce transfers.
 
 ---
 
-# 13. FPO Lot Aggregation
+# 13. FPO Produce Aggregation
 
-After the FPO purchases multiple farmer lots, it may combine compatible lots.
+After the FPO purchases multiple farmer produce, it may combine compatible produce.
 
 Example:
 
@@ -538,7 +538,7 @@ Farmer D:
 becomes:
 
 ```text
-FPO AGGREGATED LOT
+FPO AGGREGATED PRODUCE
 
 Crop:
 Red Onion
@@ -553,7 +553,7 @@ Owner:
 FPO
 ```
 
-The original farmer source lots should remain traceable internally.
+The original farmer source produce should remain traceable internally.
 
 ---
 
@@ -589,16 +589,16 @@ Grade A Onion
 +
 Grade C Onion
 =
-Do Not Merge as One Grade A Lot
+Do Not Merge as One Grade A Produce Batch
 ```
 
 ---
 
 # 15. Split and Merge Capabilities
 
-The FPO needs two key lot-management features.
+The FPO needs two key produce-management features.
 
-## Merge Lots
+## Merge Produce
 
 Example:
 
@@ -609,10 +609,10 @@ Example:
 +
 800 kg
 =
-2,000 kg FPO Lot
+2,000 kg FPO Produce
 ```
 
-## Split Lots
+## Split Produce
 
 Example:
 
@@ -626,17 +626,17 @@ Example:
 becomes:
 
 ```text
-Lot A:
+Produce A:
 6T Grade A
 
-Lot B:
+Produce B:
 4T Grade B
 ```
 
 Or:
 
 ```text
-10T Aggregated Lot
+10T Aggregated Produce
 
 7T → Buyer A
 3T → Remains Available
@@ -832,7 +832,7 @@ The UI should expose actions only to the responsible participant.
 
 # 22. FPO Buyer-Side Offer Evaluation
 
-Once the FPO owns and aggregates a lot, it can evaluate buyer offers.
+Once the FPO owns and aggregates produce, it can evaluate buyer offers.
 
 Buyer offers should include:
 
@@ -970,8 +970,8 @@ It should answer:
 - How much farmer supply is committed?
 - How much crop has been collected?
 - What quantity has been verified?
-- What FPO-owned lots exist?
-- What lots are ready for buyer bidding?
+- What FPO-owned produce exist?
+- What produce is ready for buyer bidding?
 - What storage tasks are pending?
 - What transport tasks are pending?
 - What deliveries are in progress?
@@ -1039,7 +1039,7 @@ Once the FPO buys the crop, the farmer should not have to wait for the FPO's buy
 Each purchase should retain:
 
 - Farmer
-- Source lot
+- Source produce
 - Quantity
 - Quality
 - Purchase price
@@ -1047,7 +1047,7 @@ Each purchase should retain:
 - Ownership transfer time
 - Collection location
 - Associated procurement campaign
-- Resulting FPO lot
+- Resulting FPO produce
 
 This creates full traceability.
 
@@ -1136,8 +1136,8 @@ The FPO role should define broad capabilities such as:
 
 - Create procurement offers
 - Purchase farmer produce
-- Manage FPO-owned lots
-- Merge / split lots
+- Manage FPO-owned produce
+- Merge / split produce
 - Accept buyer offers
 - Provide services
 - Arrange assigned transport/storage
@@ -1150,7 +1150,7 @@ Actor Role
 +
 Ownership
 +
-Relationship to Lot / Trade
+Relationship to Produce / Trade
 +
 Assigned Responsibility
 +
@@ -1160,7 +1160,7 @@ Current State
 Example:
 
 ```text
-FPO owns lot:
+FPO owns produce:
 Yes
 
 Transport arranger:
@@ -1194,9 +1194,9 @@ The major FPO features are:
 13. Quality assessment coordination
 14. Partial farmer purchase
 15. Ownership transfer from farmer to FPO
-16. FPO-owned lot management
-17. Merge compatible lots
-18. Split lots
+16. FPO-owned produce management
+17. Merge compatible produce
+18. Split produce
 19. Aggregate farmer purchases
 20. Storage management
 21. Transport management
@@ -1209,7 +1209,7 @@ The major FPO features are:
 28. Farmer payment tracking
 29. Buyer payment tracking
 30. Purchase history
-31. FPO lot traceability
+31. FPO produce traceability
 32. Dispute management
 33. Notifications
 34. Operational dashboard

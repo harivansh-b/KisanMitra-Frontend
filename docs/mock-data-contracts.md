@@ -19,7 +19,7 @@ mockdata/
   users.json
   actors.json
   produce.json
-  lots.json
+  produce.json
   assessments.json
   demands.json
   supply-matches.json
@@ -77,13 +77,15 @@ For buyers, `profileDetails` may contain procurement regions, common crops, typi
 
 `id`, `farmerId`, `stage`, `crop`, `variety`, `location`, `estimatedQuantity`, `actualQuantity`, `harvestWindow`, `moneyNeededBy`, `perishability`, `photos`.
 
-### Lot
+Use the shared produce stages: `PRE_HARVEST`, `HARVESTED`, `QUANTITY_RECORDED`, `QUALITY_ASSESSMENT_PENDING`, `QUALITY_ASSESSED`, `STORAGE_OR_PICKUP_PENDING`, `IN_TRANSPORT`, `DELIVERED`, and `TRANSACTION_COMPLETE`. Marketplace states such as offers being open are stored and displayed separately. The storage step may be skipped when a trade does not require storage.
 
-`id`, `ownerId`, `ownerType`, `produceIds`, `parentLotIds`, `crop`, `variety`, `quantity`, `location`, `qualityDeclaration`, `assessmentId`, `verificationStatus`, `marketStatus`, `availableFrom`, `photos`.
+### Produce
+
+`id`, `ownerId`, `ownerType`, `produceIds`, `parentProduceIds`, `crop`, `variety`, `quantity`, `location`, `qualityDeclaration`, `assessmentId`, `verificationStatus`, `marketStatus`, `availableFrom`, `photos`.
 
 ### Assessment
 
-`id`, `lotId`, `assessorId`, `requesterId`, `payerId`, `status`, `assessmentType`, `assessmentTime`, `assessmentLocation`, `crop`, `assessedQuantity`, `validFrom`, `validUntil`, `validityStatus`, `grade`, `specifications`, `observations`, `evidence`, `previousAssessmentId`, `reportIssuedAt`.
+`id`, `produceId`, `assessorId`, `requesterId`, `payerId`, `status`, `assessmentType`, `assessmentTime`, `assessmentLocation`, `crop`, `assessedQuantity`, `validFrom`, `validUntil`, `validityStatus`, `grade`, `specifications`, `observations`, `evidence`, `previousAssessmentId`, `reportIssuedAt`.
 
 ### Demand
 
@@ -93,7 +95,7 @@ The initial UI uses `demandType: one_time` and `visibility: public`. Recurring a
 
 ### Supply Match
 
-`id`, `demandId`, `produceId`, `lotId`, `sellerId`, `matchPercent`, `matchedQuantity`, `criteria`, `verificationStatus`, `farmerOptedIn`, `allowedActions`, `landedCostEstimate`, `sellerReliability`, `availability`, `transportFeasibility`.
+`id`, `demandId`, `produceId`, `produceId`, `sellerId`, `matchPercent`, `matchedQuantity`, `criteria`, `verificationStatus`, `farmerOptedIn`, `allowedActions`, `landedCostEstimate`, `sellerReliability`, `availability`, `transportFeasibility`.
 
 For opted-in unverified produce, `allowedActions` contains only `express_interest` and `request_assessment`.
 
@@ -105,11 +107,11 @@ For opted-in unverified produce, `allowedActions` contains only `express_interes
 
 `id`, `demandId`, `buyerId`, `status`, `selections`, `selectedQuantity`, `committedQuantity`, `receivedQuantity`, `remainingQuantity`, `estimatedLandedCost`.
 
-Each selection references `lotId`, `sellerId`, selected quantity, current offer/trade ID, and landed-cost contribution.
+Each selection references `produceId`, `sellerId`, selected quantity, current offer/trade ID, and landed-cost contribution.
 
 ### Auction and Bid
 
-Auction: `id`, `lotId`, `sellerId`, `status`, `startsAt`, `endsAt`, `minimumTerms`, `bidIds`, `acceptedBidId`.
+Auction: `id`, `produceId`, `sellerId`, `status`, `startsAt`, `endsAt`, `minimumTerms`, `bidIds`, `acceptedBidId`.
 
 Bid: `id`, `auctionId`, `buyerId`, `status`, `price`, `quantity`, `paymentTerms`, `qualityRequirements`, `quantityTolerance`, `responsibilities`, `pickupWindow`, `deliveryLocation`, `estimatedSellerNet`, `advisoryRank`, `comparisonLabels`, `landedCostEstimate`, `expiresAt`, `revision`.
 
@@ -127,15 +129,15 @@ No bid status means “winner.” `advisoryRank` is based on estimated seller ne
 
 ### FPO Supply Commitment
 
-`id`, `campaignId`, `farmerId`, `sourceLotId`, `status`, `reservedQuantity`, `collectedQuantity`, `verifiedBreakdown`, `acceptedPurchaseQuantity`, `remainingFarmerQuantity`, `expiresAt`.
+`id`, `campaignId`, `farmerId`, `sourceProduceId`, `status`, `reservedQuantity`, `collectedQuantity`, `verifiedBreakdown`, `acceptedPurchaseQuantity`, `remainingFarmerQuantity`, `expiresAt`.
 
 ### FPO Purchase
 
-`id`, `campaignId`, `commitmentId`, `fpoId`, `farmerId`, `sourceLotId`, `resultingLotIds`, `verifiedQuantity`, `purchasedQuantity`, `rejectedQuantity`, `gradeBreakdown`, `price`, `grossAmount`, `deductions`, `netPayable`, `paymentId`, `ownershipTransferId`, `purchasedAt`.
+`id`, `campaignId`, `commitmentId`, `fpoId`, `farmerId`, `sourceProduceId`, `resultingProduceIds`, `verifiedQuantity`, `purchasedQuantity`, `rejectedQuantity`, `gradeBreakdown`, `price`, `grossAmount`, `deductions`, `netPayable`, `paymentId`, `ownershipTransferId`, `purchasedAt`.
 
 ### Ownership Transfer
 
-`id`, `fromActorId`, `toActorId`, `sourceLotId`, `resultingLotId`, `quantity`, `reason`, `relatedType`, `relatedId`, `transferredAt`.
+`id`, `fromActorId`, `toActorId`, `sourceProduceId`, `resultingProduceId`, `quantity`, `reason`, `relatedType`, `relatedId`, `transferredAt`.
 
 ### FPO Service Offering
 
@@ -153,13 +155,13 @@ Storage facility: `id`, `providerOrganizationId`, `location`, `storageTypes`, `c
 
 ### Offer
 
-`id`, `demandId`, `procurementPlanId`, `lotId`, `sellerId`, `buyerId`, `status`, `price`, `quantity`, `pickupWindow`, `deliveryLocation`, `paymentTerms`, `qualityRequirements`, `quantityTolerance`, `partialAcceptanceRules`, `responsibilities`, `estimatedCosts`, `expectedNetRealization`, `landedCostEstimate`, `expiresAt`, `revision`.
+`id`, `demandId`, `procurementPlanId`, `produceId`, `sellerId`, `buyerId`, `status`, `price`, `quantity`, `pickupWindow`, `deliveryLocation`, `paymentTerms`, `qualityRequirements`, `quantityTolerance`, `partialAcceptanceRules`, `responsibilities`, `estimatedCosts`, `expectedNetRealization`, `landedCostEstimate`, `expiresAt`, `revision`.
 
 FPO procurement terms belong to the procurement-campaign entity rather than being represented as an aggregation offer.
 
 ### Trade
 
-`id`, `demandId`, `procurementPlanId`, `conditionalCommitmentId`, `acceptedOfferId`, `acceptedBidId`, `sellerId`, `buyerId`, `lotId`, `status`, `frozenTerms`, `ownershipTransferEvent`, `transportRiskBearerId`, `responsibilities`, `rejectedGoodsPolicy`, `taskSummary`, `delivery`, `receivingInspectionId`, `paymentObligationId`, `amendments`, `disputeStatus`.
+`id`, `demandId`, `procurementPlanId`, `conditionalCommitmentId`, `acceptedOfferId`, `acceptedBidId`, `sellerId`, `buyerId`, `produceId`, `status`, `frozenTerms`, `ownershipTransferEvent`, `transportRiskBearerId`, `responsibilities`, `rejectedGoodsPolicy`, `taskSummary`, `delivery`, `receivingInspectionId`, `paymentObligationId`, `amendments`, `disputeStatus`.
 
 The direct-sale default is `ownershipTransferEvent: buyer_acceptance`. `rejectedGoodsPolicy` includes owner, return arranger/payer, storage payer, collection deadline, fallback action, and fault exceptions.
 
@@ -167,13 +169,13 @@ The direct-sale default is `ownershipTransferEvent: buyer_acceptance`. `rejected
 
 `id`, `serviceType`, `providerOrganizationId`, `arrangerId`, `payerId`, `status`, `items`, `quote`, `schedule`, `requirements`, `evidence`, `incidentIds`.
 
-Each storage `item` references `lotId`, `tradeId`, quantity, check-in/out context, location/bin, and item status.
+Each storage `item` references `produceId`, `tradeId`, quantity, check-in/out context, location/bin, and item status.
 
 ### Shipment
 
 `id`, `providerOrganizationId`, `vehicleId`, `arrangerId`, `payerId`, `transportRiskBearerId`, `status`, `items`, `pickups`, `destination`, `quote`, `schedule`, `trackingSummary`, `pickupEvidence`, `deliveryEvidence`, `incidentIds`.
 
-Each shipment `item` references `tradeId`, `lotId`, quantity, pickup ID, and item status. One shipment may contain several items while their trades remain separate.
+Each shipment `item` references `tradeId`, `produceId`, quantity, pickup ID, and item status. One shipment may contain several items while their trades remain separate.
 
 ### Payment Obligation
 

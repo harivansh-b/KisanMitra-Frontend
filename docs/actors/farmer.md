@@ -13,7 +13,7 @@ Help the farmer understand what produce they have, what it is worth now or later
 Show, in this order:
 
 1. Urgent action card: harvest update, verification, expiring offer, pickup, or overdue payment.
-2. Active produce and lot cards with lifecycle status.
+2. Active produce and produce cards with lifecycle status.
 3. Today's nearest-market baseline and expected net realization.
 4. Best current buyer offer or FPO procurement opportunity.
 5. Sell-now versus hold scenarios when applicable.
@@ -26,16 +26,24 @@ Primary actions: **Add expected produce**, **Record harvest**, **Request verific
 
 ### Produce
 
-- List estimated produce, harvested produce, and verified lots separately.
+- List produce by the shared lifecycle: **Pre-harvest**, **Harvested**, **Quantity recorded**, **Quality assessment pending**, **Quality assessed**, **Storage / pickup pending**, **In transport**, **Delivered**, and **Transaction complete**.
+- Keep marketplace activity such as **Offers open** separate from the produce stage. Storage is optional and may be skipped when the confirmed trade moves directly to pickup.
 - Add/edit pre-harvest facts: crop, variety, location, area, sowing date, harvest window, expected quantity, and money-needed-by.
 - Record actual harvest quantity, photos, and farmer-declared quality.
 - Make declared versus verified information visually distinct.
 
-### Produce or Lot Detail
+#### Add Produce Interaction
 
-- Summary, photos, quantities, harvest dates, perishability, ownership, and status timeline.
+- **Add produce** uses one guided form from both the Overview and Produce workspace.
+- Capture crop type, optional variety, current lifecycle stage, estimated or measured quantity, location, harvest/expected-harvest date, storage status, quality status, and optional notes.
+- The form must support entry at different real-world starting points, including pre-harvest, harvested, quantity recorded, quality assessment pending, quality assessed, in storage, and storage/pickup pending.
+- After submission, add the new produce to the Produce workspace and select the next action from its current state. In the frontend prototype this persists only for the current session.
+
+### Produce or Produce Detail
+
+- Summary, photos, quantities, harvest dates, perishability, ownership, and the shared produce-stage timeline. Clearly mark completed, current, and upcoming stages.
 - Verification report or prominent verification-required state.
-- Contextual actions only: update harvest, request assessment, book pre-sale storage, or list verified lot.
+- Contextual actions only: update harvest, request assessment, book pre-sale storage, or list verified produce.
 - For expected or unverified produce, provide an opt-in control for pre-verification buyer matching. Opted-in interest is non-binding and exposes no offer/bid action.
 - Assessment summary shows when and where it was performed, assessed quantity, validity window, and `Valid`, `Expiring`, or `Expired` state.
 
@@ -48,7 +56,7 @@ Primary actions: **Add expected produce**, **Record harvest**, **Request verific
 
 ### Auction and Listing
 
-- Verified-lot check before entry.
+- Verified-produce check before entry.
 - Start now or schedule; show suggested duration based on perishability.
 - Live competitive-offer view with remaining time, offer count, **Best Net Offer**, **Highest Price**, **Best Payment Terms**, **Lowest Fulfilment Cost**, and early-accept action.
 - Ranking is advisory and the farmer may select any valid bid. After selection, show **Accepted offer**, never winner.
@@ -65,7 +73,7 @@ Primary actions: **Add expected produce**, **Record harvest**, **Request verific
 
 ### Services
 
-- Show quality, storage, or transport actions only when relevant to the lot or assigned trade responsibility.
+- Show quality, storage, or transport actions only when relevant to the produce or assigned trade responsibility.
 - Provider comparisons emphasize suitability, availability, total cost, distance/ETA, and reliability.
 - Keep optional FPO services separate from FPO procurement; using a service does not require selling and does not transfer ownership.
 

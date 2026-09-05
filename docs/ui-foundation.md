@@ -7,7 +7,7 @@ KisanMitra is a market-intelligence and transaction-enablement interface connect
 The UI should make three things clear at all times:
 
 1. What requires the user's attention now.
-2. What state each lot, offer, booking, or trade is in.
+2. What state each produce record, offer, booking, or trade is in.
 3. What the user is responsible for next.
 
 ## Actors
@@ -15,9 +15,9 @@ The UI should make three things clear at all times:
 | Actor | Primary goal |
 | --- | --- |
 | Farmer | Prepare produce, discover its value, select a sale option, and receive payment. |
-| FPO | Provide independent farmer services or purchase verified produce, aggregate FPO-owned lots, and fulfil buyer demand. |
+| FPO | Provide independent farmer services or purchase verified produce, aggregate FPO-owned produce, and fulfil buyer demand. |
 | Buyer | Find suitable verified produce, agree terms, and complete purchases. |
-| Storage Manager | Publish capacity and manage storage requests and stored lots. |
+| Storage Manager | Publish capacity and manage storage requests and stored produce. |
 | Transport Manager | Publish availability, quote jobs, and coordinate deliveries. |
 | Quality Assessor | Inspect produce and issue evidence-backed quantity and quality reports. |
 | Admin | Oversee access, verification, disputes, risk, and platform activity. |
@@ -25,19 +25,19 @@ The UI should make three things clear at all times:
 ## Shared Product Model
 
 - **Produce record:** pre-harvest estimate or harvested produce owned by a farmer.
-- **Lot:** a defined quantity of harvested produce. Only a verified lot can enter formal bidding.
+- **Produce:** a defined quantity of harvested produce. Only a verified produce can enter formal bidding.
 - **Procurement campaign:** an FPO offer to buy qualifying farmer produce against a target quantity, price, collection window, and payment terms.
 - **Supply commitment:** a provisional reservation of farmer-owned, verified produce against an FPO procurement campaign.
 - **FPO purchase:** the finalized purchase of an agreed verified quantity, transferring ownership from farmer to FPO.
-- **Aggregation:** compatible FPO-owned quantities merged into a larger traceable lot after purchase.
+- **Aggregation:** compatible FPO-owned quantities merged into a larger traceable produce after purchase.
 - **Demand:** a buyer's requested crop, grade, quantity, location, price range, and delivery window.
-- **Supply match:** a scored connection between a buyer requirement and an eligible farmer or FPO lot.
-- **Procurement plan:** the buyer's selected quantities from one or more lots used to fulfil a demand.
+- **Supply match:** a scored connection between a buyer requirement and an eligible farmer or FPO produce.
+- **Procurement plan:** the buyer's selected quantities from one or more produce used to fulfil a demand.
 - **Offer:** complete proposed trade terms, not price alone.
 - **Trade:** the frozen agreement created when an offer is accepted.
 - **Assessment:** quantity and quality evidence issued by an assessor.
-- **Service booking:** storage or transport attached to a lot or trade.
-- **Shipment:** one transport movement containing one or more lot/trade items.
+- **Service booking:** storage or transport attached to a produce or trade.
+- **Shipment:** one transport movement containing one or more produce/trade items.
 - **Payment obligation:** one commercial sale's payable amount and two-party confirmation state.
 - **Receiving inspection:** the buyer's evidence-backed record of delivered, accepted, and rejected quantities and condition.
 - **Incident:** an operational fact recorded during assessment, storage, transport, delivery, or payment.
@@ -56,7 +56,7 @@ The UI should make three things clear at all times:
 - Keep reliability visible as its own measure rather than hiding it in a combined score.
 - The farmer always makes the final sell-or-hold and offer decisions.
 - Clearly distinguish farmer-declared quality from assessor-verified quality.
-- Do not allow unverified lots into formal bidding.
+- Do not allow unverified produce into formal bidding.
 - Assign transport, storage, quality, loading, and payment responsibilities per trade.
 - Show both who arranges a service and who pays for it.
 - Freeze accepted trade terms. Later changes must appear as explicit amendments.
@@ -64,7 +64,7 @@ The UI should make three things clear at all times:
 - Use plain language, visible units, local currency, and unambiguous dates and times.
 - Keep FPO service-provider and procurement modes visibly separate. Buying an FPO service never transfers crop ownership.
 - Treat a farmer supply commitment as a reservation, not a sale. Ownership transfers only after final quantity/quality verification and purchase confirmation.
-- Aggregate only compatible produce already owned by the FPO, while preserving source-lot lineage.
+- Aggregate only compatible produce already owned by the FPO, while preserving source-produce lineage.
 - Track farmer-to-FPO payment separately from the later FPO-to-buyer trade.
 - Keep the primary role as `Buyer`; represent trader, wholesaler, processor, retailer, exporter, institutional, or government procurement as a buyer subtype.
 - Start the buyer experience with demand and matched supply rather than requiring marketplace browsing.
@@ -84,6 +84,19 @@ The UI should make three things clear at all times:
 - Use one active actor context at a time; show a role switcher only for mock users with multiple actor profiles.
 - Public views show verification outcomes and aggregated reliability, not raw verification documents, private notes, full case evidence, or fraud flags.
 
+## Design System
+
+All visual styling must originate from a centralized, reusable design system.
+
+- Define global CSS variables/theme tokens for color, typography, spacing, sizing, radii, borders, shadows, opacity, icon treatment, layers, focus states, animation duration, easing, and transitions.
+- Use semantic names such as `primary`, `surface`, `surface-muted`, `text`, `text-muted`, `border`, `success`, `warning`, `danger`, `transition-fast`, and `ease-standard`.
+- Screens and components must not hardcode raw colors or independent visual values.
+- Shared components expose reusable semantic variants. Explicit exceptions are defined as named variants or scoped semantic tokens.
+- Theme changes must propagate throughout the application without editing individual screens.
+- Motion tokens must respect reduced-motion preferences.
+
+The initial visual direction is a professional agricultural marketplace with government-grade trust: mostly neutral surfaces, restrained deep green branding, harvest amber accents, and clear informational/status colors.
+
 ## Responsive Structure
 
 All roles follow one responsive product foundation with role-specific navigation.
@@ -92,7 +105,7 @@ All roles follow one responsive product foundation with role-specific navigation
 
 - Persistent left navigation for primary sections.
 - Top bar for page context, search when useful, notifications, and profile.
-- Show **Switch role** in the profile menu only when another actor profile exists.
+- Show the prominent demo **Switch role** control in the profile area; changing role replaces the actor navigation while preserving the shared scenario.
 - Multi-column dashboards may place attention items and summaries beside operational lists.
 - Dense tables are appropriate for operational roles, with filters and row detail drawers.
 
@@ -110,6 +123,13 @@ All roles follow one responsive product foundation with role-specific navigation
 - Collapse secondary filters into a filter sheet on narrow screens.
 - Turn side-by-side comparisons into swipeable cards or a stacked comparison with pinned labels.
 - Use drawers on desktop and full-screen detail views on mobile.
+
+### Target Widths
+
+- Mobile: 360 px, 390 px, and 430 px.
+- Desktop: 1280 px and above.
+- Farmer and field-assessment tasks are mobile-first.
+- Buyer, FPO, Admin, Transport, and Storage dashboards are desktop-first while retaining complete mobile access.
 
 ## Shared Screen States
 

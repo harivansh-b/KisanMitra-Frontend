@@ -29,7 +29,7 @@ buyer_type
 The Buyer actor should answer four major questions:
 
 1. **What produce do I need?**
-2. **Which verified sellers and lots can satisfy that requirement?**
+2. **Which verified sellers and produce can satisfy that requirement?**
 3. **What is the total landed cost and risk of each option?**
 4. **How do I complete procurement, delivery, acceptance, and payment?**
 
@@ -40,7 +40,7 @@ Create Demand
       ↓
 Discover / Match Supply
       ↓
-Compare Lots
+Compare Produce
       ↓
 Make Offer / Join Auction
       ↓
@@ -225,9 +225,9 @@ Recurring demand is a useful extension but does not need a complex contract syst
 
 # 6. Verified Supply Discovery
 
-Buyers should preferably discover only lots that meet the platform's verification requirements.
+Buyers should preferably discover only produce that meet the platform's verification requirements.
 
-A verified lot may show:
+A verified produce may show:
 
 - Seller
 - Seller type: Farmer / FPO
@@ -246,7 +246,7 @@ A verified lot may show:
 Example:
 
 ```text
-LOT #ON-3821
+PRODUCE #ON-3821
 
 Seller:
 Farmer Kevin
@@ -288,10 +288,10 @@ the platform may return:
 ```text
 MATCHED SUPPLY
 
-FPO Lot A        10T   96% Match
-Farmer Lot B      4T   94% Match
-Farmer Lot C      3T   92% Match
-Farmer Lot D      5T   87% Match
+FPO Produce A        10T   96% Match
+Farmer Produce B      4T   94% Match
+Farmer Produce C      3T   92% Match
+Farmer Produce D      5T   87% Match
 ```
 
 Matching criteria may include:
@@ -311,9 +311,9 @@ A simple deterministic matching engine is sufficient for the initial version.
 
 ---
 
-# 8. Combining Multiple Lots
+# 8. Combining Multiple Produce Sources
 
-A Buyer should be able to satisfy one procurement requirement using multiple lots.
+A Buyer should be able to satisfy one procurement requirement using multiple produce records.
 
 Example:
 
@@ -342,7 +342,7 @@ Farmer D     3T
 TOTAL       20T
 ```
 
-Manual multi-lot selection is sufficient initially.
+Manual multi-produce selection is sufficient initially.
 
 Automatic optimization can be added later.
 
@@ -350,7 +350,7 @@ Automatic optimization can be added later.
 
 # 9. Direct Offers
 
-The Buyer should be able to make a direct offer on a verified Farmer or FPO lot.
+The Buyer should be able to make a direct offer on a verified Farmer or FPO produce.
 
 Example:
 
@@ -387,10 +387,10 @@ The seller can:
 
 # 10. Auction Participation
 
-If a Farmer or FPO puts a verified lot into bidding:
+If a Farmer or FPO puts a verified produce into bidding:
 
 ```text
-Verified Lot
+Verified Produce
       ↓
 Auction
 ```
@@ -583,13 +583,13 @@ The platform should calculate this automatically when comparing sourcing options
 
 ---
 
-# 15. Lot Comparison
+# 15. Produce Comparison
 
 Buyers should compare more than headline price.
 
 Example:
 
-## Lot A
+## Produce A
 
 ```text
 Source Price:
@@ -608,7 +608,7 @@ Total Landed Cost:
 ₹31.20/kg
 ```
 
-## Lot B
+## Produce B
 
 ```text
 Source Price:
@@ -627,7 +627,7 @@ Total Landed Cost:
 ₹31.80/kg
 ```
 
-Lot A may be economically preferable even though its listed crop price is higher.
+Produce A may be economically preferable even though its listed crop price is higher.
 
 ---
 
@@ -714,7 +714,7 @@ Quality Centre #12
 
 # 18. Buyer-Requested Quality Assessment
 
-If a lot only contains:
+If a produce record only contains:
 
 ```text
 Farmer Declared Quality
@@ -1211,7 +1211,7 @@ Example:
 ACTIVE REQUIREMENTS
 3
 
-MATCHED LOTS
+MATCHED PRODUCE
 18
 
 OPEN OFFERS
@@ -1270,7 +1270,7 @@ This creates evidence-based resolution.
 Buyer notifications may include:
 
 ```text
-5 new verified lots match your onion requirement.
+5 new verified produce match your onion requirement.
 ```
 
 ```text
@@ -1311,7 +1311,7 @@ Possible channels:
 The Buyer role defines broad capabilities such as:
 
 - Create requirements
-- Search verified lots
+- Search verified produce
 - Make offers
 - Participate in auctions
 - Accept counteroffers
@@ -1390,7 +1390,7 @@ BUYER CREATES REQUIREMENT
         ↓
 MATCH VERIFIED SUPPLY
         ↓
-REVIEW FARMER / FPO LOTS
+REVIEW FARMER / FPO PRODUCE
         ↓
 COMPARE QUALITY + LANDED COST
         ↓
@@ -1435,9 +1435,9 @@ The major Buyer features are:
 8. Quality requirements
 9. Quantity and tolerance
 10. Delivery date and location
-11. Match verified Farmer/FPO lots
+11. Match verified Farmer/FPO produce
 12. Search verified supply
-13. Combine multiple lots
+13. Combine multiple produce sources
 14. View quality assessments
 15. Request quality assessment
 16. Make direct offers
@@ -1570,7 +1570,7 @@ What do I need?
         ↓
 Who has matching verified supply?
         ↓
-Which combination of lots can fulfil my requirement?
+Which combination of produce can fulfil my requirement?
         ↓
 What is the actual landed cost?
         ↓

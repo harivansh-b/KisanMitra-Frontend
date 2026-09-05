@@ -2,7 +2,7 @@
 
 ## Dashboard Goal
 
-Help storage operators publish usable capacity and pricing, respond to requests, manage lot check-in and check-out, and document condition or capacity exceptions.
+Help storage operators publish usable capacity and pricing, respond to requests, manage produce check-in and check-out, and document condition or capacity exceptions.
 
 The account represents a provider organization with one or more facilities; a single-facility operator uses the same UI with one asset.
 
@@ -20,7 +20,7 @@ Show:
 4. Active bookings and condition alerts.
 5. Recent completions and payment summary.
 
-Primary actions: **Update capacity**, **Respond to request**, **Check in lot**, or **Check out lot**.
+Primary actions: **Update capacity**, **Respond to request**, **Check in produce**, or **Check out produce**.
 
 ## Screens
 
@@ -33,14 +33,14 @@ Primary actions: **Update capacity**, **Respond to request**, **Check in lot**, 
 
 ### Quote Requests
 
-- Requested crop, quantity, dates, conditions, lot/trade context, arranger, payer, and deadline.
+- Requested crop, quantity, dates, conditions, produce/trade context, arranger, payer, and deadline.
 - Respond with availability, price breakdown, terms, and quote expiry; decline with a short reason.
 
 ### Bookings
 
 - List grouped by upcoming check-in, active storage, check-out due, and completed.
-- Booking detail shows agreed terms, contacts, lot identity, quantity, storage conditions, payer, and timeline.
-- A consolidated booking may contain multiple storage items. Each item retains its lot, trade, quantity, check-in/out context, and status.
+- Booking detail shows agreed terms, contacts, produce identity, quantity, storage conditions, payer, and timeline.
+- A consolidated booking may contain multiple storage items. Each item retains its produce, trade, quantity, check-in/out context, and status.
 - For FPO inventory, identify whether storage is before aggregation, during aggregation, or before buyer delivery.
 - Check-in records actual quantity, timestamp, location/bin, condition, and evidence.
 - Check-out records released quantity, condition, recipient, timestamp, and evidence.

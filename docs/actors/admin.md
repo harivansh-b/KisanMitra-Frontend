@@ -4,7 +4,7 @@
 
 Protect trust, transparency, safety, and observability through participant verification, evidence-based dispute resolution, reliability/risk monitoring, and outcome-focused analytics.
 
-Admin normally does not buy, sell, grade, book services, or operate lots. Use one `Admin` role for the current UI; verification, dispute, analytics, and moderation sub-roles are future possibilities only.
+Admin normally does not buy, sell, grade, book services, or operate produce. Use one `Admin` role for the current UI; verification, dispute, analytics, and moderation sub-roles are future possibilities only.
 
 ## Primary Navigation
 
@@ -19,7 +19,7 @@ Show, in this order:
 1. Critical queue: high-severity risk alerts, overdue disputes, stuck high-value trades, and payment failures.
 2. Central verification queue by actor type and aging.
 3. Grievances awaiting triage and open disputes by category and age (`<24h`, `1–3 days`, `>3 days`).
-4. Marketplace activity: participants, active lots/auctions/requirements, trades, failures, and value.
+4. Marketplace activity: participants, active produce/auctions/requirements, trades, failures, and value.
 5. Demand/supply imbalance, price anomaly, and service-availability alerts.
 6. Farmer outcome summary, especially net realization versus nearest-mandi baseline and payment delay.
 7. Recent sensitive admin actions and unresolved follow-ups.
@@ -55,9 +55,9 @@ Primary actions: **Review verification**, **Open dispute**, **Investigate alert*
 
 ## Marketplace Oversight
 
-- Search and inspect participants, lots, assessments, demands, matches, auctions/bids, offers, FPO campaigns/purchases, ownership transfers, trades, services, delivery/receiving records, payments, and disputes.
+- Search and inspect participants, produce, assessments, demands, matches, auctions/bids, offers, FPO campaigns/purchases, ownership transfers, trades, services, delivery/receiving records, payments, and disputes.
 - Record detail shows linked actors, owner, responsibilities, frozen terms, source evidence, state history, amendments/resolutions, and risk flags.
-- Preserve traceability from farmer source lot through partial transfers, FPO split/merge, aggregated lot, delivery, and buyer ownership.
+- Preserve traceability from farmer source produce through partial transfers, FPO split/merge, aggregated produce, delivery, and buyer ownership.
 - Normal records are read-only. Admin intervention occurs only through a documented verification, moderation, or dispute-resolution action.
 
 ## Grievances and Disputes
@@ -119,7 +119,7 @@ Use state, district, taluka, crop/variety, date range, buyer subtype, FPO, facil
 
 ### Areas
 
-- **Marketplace:** farmers/FPOs, verified buyers/providers, lots, auctions, requirements, trades, failures, and trade value.
+- **Marketplace:** farmers/FPOs, verified buyers/providers, produce, auctions, requirements, trades, failures, and trade value.
 - **Market:** crop supply/demand, average platform price, mandi comparison, district price differences, trends, and imbalance.
 - **Farmer outcomes:** net realization, improvement versus mandi, transport/storage cost, verification-to-sale time, distress-sale signal, competing offers, and payment delay.
 - **FPO:** campaigns, commitments, purchased/aggregated volume, fulfilment, farmer payments, service use, procurement price, margin, and failed campaigns.
@@ -134,7 +134,7 @@ Use state, district, taluka, crop/variety, date range, buyer subtype, FPO, facil
 
 - Demand/supply imbalance by crop and region.
 - Platform price deviation from nearby mandi/reference prices, with possible data, unit, mapping, distress, manipulation, or fraud causes.
-- Transport, storage, and assessor shortages alongside verified-lot volume.
+- Transport, storage, and assessor shortages alongside verified-produce volume.
 - Analytics are mostly read-only and should emphasize marketplace outcomes rather than activity alone.
 
 ## Audit

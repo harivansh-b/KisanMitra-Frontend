@@ -32,13 +32,13 @@ Primary actions: **Update availability**, **Send quote**, **Confirm pickup**, or
 
 ### Quote Requests
 
-- Load crop, quantity, pickup/drop-off, time window, handling needs, lot/trade context, arranger, payer, and deadline.
+- Load crop, quantity, pickup/drop-off, time window, handling needs, produce/trade context, arranger, payer, and deadline.
 - Quote includes price breakdown, vehicle, capacity, ETA, schedule, terms, and expiry.
 
 ### Jobs
 
 - Group by upcoming pickup, assigned, in transit, delivery due, exception, and completed.
-- A consolidated shipment may contain multiple items and pickup locations. Each item retains its trade, lot, quantity, pickup, and status.
+- A consolidated shipment may contain multiple items and pickup locations. Each item retains its trade, produce, quantity, pickup, and status.
 - Job detail shows frozen service terms, route, contacts, load, schedule, and milestone timeline.
 - Label FPO procurement transport as inbound (`Farmer → FPO collection centre`) or outbound (`FPO → Buyer`) and keep the two legs as distinct jobs/terms.
 - Pickup confirmation records quantity, time, condition, responsible handoff party, and proof.

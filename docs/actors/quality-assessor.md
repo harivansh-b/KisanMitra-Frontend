@@ -24,7 +24,7 @@ Primary actions: **Accept request**, **Start inspection**, **Resume assessment**
 
 ### Request Queue and Schedule
 
-- Lot, crop, declared quantity/quality, location, requester, required checks, urgency, and preferred window.
+- Produce, crop, declared quantity/quality, location, requester, required checks, urgency, and preferred window.
 - Identify when an assessment supports an FPO collection/procurement decision and show the campaign, committed quantity, and agreed quality rules.
 - Identify buyer-requested pre-trade assessments separately from post-delivery reassessments.
 - Accept, propose another time, or decline with reason.
@@ -34,7 +34,7 @@ Primary actions: **Accept request**, **Start inspection**, **Resume assessment**
 
 ### Assessment Workspace
 
-- Verify lot identity before entering results.
+- Verify produce identity before entering results.
 - Structured checks for actual quantity, grade, crop-specific specifications, visible defects, moisture/ripeness where relevant, sampling notes, and evidence.
 - Show farmer declaration as reference, never as a prefilled verified result.
 - Save progress and clearly identify incomplete required checks.

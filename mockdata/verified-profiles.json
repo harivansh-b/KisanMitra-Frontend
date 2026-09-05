@@ -1,0 +1,11 @@
+[
+  { "name": "Ramesh Patil", "actor": "Farmer", "status": "verified", "label": "Identity verified by KisanMitra Admin" },
+  { "name": "Sunita Jadhav", "actor": "Farmer", "status": "verified", "label": "Identity verified by KisanMitra Admin" },
+  { "name": "Nashik Farmers Producer Co.", "actor": "FPO", "status": "verified", "label": "Organization verified by KisanMitra Admin" },
+  { "name": "Nashik FPO", "actor": "FPO", "status": "verified", "label": "Organization verified by KisanMitra Admin" },
+  { "name": "MahaFresh Foods", "actor": "Buyer", "status": "verified", "label": "Business verified by KisanMitra Admin" },
+  { "name": "Patil Farms", "actor": "Farmer", "status": "verified", "label": "Farmer profile verified by KisanMitra Admin" },
+  { "name": "GreenVault Storage", "actor": "Storage Manager", "status": "verified", "label": "Storage provider verified by KisanMitra Admin" },
+  { "name": "Nashik Agro Logistics", "actor": "Transport Manager", "status": "verified", "label": "Transport provider verified by KisanMitra Admin" },
+  { "name": "Dr. Meera Deshmukh", "actor": "Quality Assessor", "status": "verified", "label": "Assessor profile and authorization verified by KisanMitra Admin" }
+]

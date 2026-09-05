@@ -1,0 +1,130 @@
+{
+  "builder": {
+    "buyer": {
+      "eyebrow": "Purchase terms proposal",
+      "title": "Post a produce requirement",
+      "description": "Define the complete commercial terms farmers and FPOs will review before they accept or counter.",
+      "submitLabel": "Publish proposal",
+      "party": "MahaFresh Foods",
+      "counterparty": "Eligible verified farmers and FPOs"
+    },
+    "fpo": {
+      "eyebrow": "Farmer procurement proposal",
+      "title": "Create a farmer supply agreement",
+      "description": "Set the purchase, collection and payment terms farmers will review before reserving produce.",
+      "submitLabel": "Publish farmer proposal",
+      "party": "Nashik Farmers Producer Co.",
+      "counterparty": "Eligible verified farmers"
+    },
+    "defaults": {
+      "agreement_name": "September red onion procurement",
+      "crop": "Red Onion",
+      "variety": "N-53",
+      "quality_grade": "Grade A",
+      "quality_specifications": "Firm, mature bulbs; 45–65 mm diameter; free from visible rot and excessive surface moisture.",
+      "quantity_kg": "20000",
+      "quantity_tolerance": "± 2%",
+      "production_region": "Nashik district",
+      "price_per_kg": "30.00",
+      "price_basis": "Fixed price per accepted kg",
+      "delivery_location": "MahaFresh Pune processing unit",
+      "delivery_date": "2026-09-12",
+      "delivery_window": "08:00–14:00",
+      "transport_terms": "Buyer arranges and pays",
+      "quality_terms": "Independent assessment before pickup; buyer pays",
+      "weighing_terms": "Certified scale at pickup and receiving; seller may attend",
+      "payment_terms": "Within 2 days of accepted delivery",
+      "payment_method": "Bank transfer / UPI",
+      "partial_acceptance": "Allowed only within agreed tolerance or documented grade split",
+      "rejected_produce": "Remains seller-owned; seller collects within 24 hours unless buyer or buyer-arranged service is at fault",
+      "ownership_transfer": "After buyer accepts delivery",
+      "transport_risk": "Buyer after documented pickup",
+      "exceptions": "Severe weather, government restrictions or other events outside either party’s reasonable control; notify the other party promptly and renegotiate first",
+      "dispute_process": "Direct discussion, then KisanMitra grievance review and mediation",
+      "proposal_expiry": "2026-09-08T18:00",
+      "additional_terms": "Price adjustments require an accepted counterproposal. Verified quality cannot be changed without an evidence-backed reassessment."
+    }
+  },
+  "agreements": {
+    "OFR-782": {
+      "id": "OFR-782",
+      "title": "Red Onion purchase proposal",
+      "status": "Awaiting your decision",
+      "from": "MahaFresh Foods",
+      "to": "Ramesh Patil",
+      "purpose": "Purchase verified Red Onion produce PRD-2408",
+      "expires": "Today, 5:30 PM",
+      "version": "Version 1 · sent 5 Sep, 10:20",
+      "price": "₹29.50/kg",
+      "quantity": "4,280 kg",
+      "sellerNet": "₹1,20,260",
+      "sections": [
+        { "title": "Produce and quality", "items": ["Crop / variety: Red Onion · N-53", "Quality: Grade A · assessment QA-204", "Accepted quantity: 4,280 kg · tolerance ±2%", "Source: Lasalgaon, Nashik"] },
+        { "title": "Delivery and inspection", "items": ["Pickup: 6 Sep, 08:00–10:00", "Delivery: MahaFresh Pune unit", "Transport: arranged and paid by buyer", "Weighing: certified scale at pickup and receiving; seller may attend"] },
+        { "title": "Price and payment", "items": ["Price: ₹29.50 per accepted kg", "Payment: same day after accepted delivery", "Method: bank transfer / UPI", "No deductions unless shown in an accepted amendment"] },
+        { "title": "Risk and exceptions", "items": ["Ownership transfers after buyer accepts delivery", "Transport risk: buyer after documented pickup", "Rejected produce remains seller-owned; collect within 24 hours unless buyer fault", "Disputes: direct discussion, then grievance review and mediation"] }
+      ],
+      "history": ["Buyer submitted version 1 · 5 Sep, 10:20"]
+    },
+    "OFR-779": {
+      "id": "OFR-779",
+      "title": "Red Onion purchase proposal",
+      "status": "Awaiting your decision",
+      "from": "Deccan Produce Trading",
+      "to": "Ramesh Patil",
+      "purpose": "Purchase verified Red Onion produce PRD-2408",
+      "expires": "Today, 6:00 PM",
+      "version": "Version 2 · sent 5 Sep, 11:15",
+      "price": "₹31.00/kg",
+      "quantity": "4,280 kg",
+      "sellerNet": "₹1,17,800",
+      "sections": [
+        { "title": "Produce and quality", "items": ["Crop / variety: Red Onion · N-53", "Quality: Grade A · assessment QA-204", "Quantity: 4,280 kg · tolerance ±2%", "Source: Lasalgaon, Nashik"] },
+        { "title": "Delivery and inspection", "items": ["Pickup: 6 Sep, 10:00–12:00", "Delivery: Deccan market yard, Pune", "Transport: arranged and paid by seller", "Weighing: certified destination scale; seller may attend"] },
+        { "title": "Price and payment", "items": ["Price: ₹31.00 per accepted kg", "Estimated seller transport: ₹14,880", "Payment: within 7 days after acceptance", "Method: bank transfer"] },
+        { "title": "Risk and exceptions", "items": ["Ownership transfers after buyer accepts delivery", "Transport risk: seller until delivery", "Rejected produce remains seller-owned; collect within 24 hours", "Disputes: direct discussion, then grievance review and mediation"] }
+      ],
+      "history": ["Buyer submitted version 1 · 5 Sep, 09:40", "Buyer revised transport estimate · 5 Sep, 11:15"]
+    },
+    "CAM-108": {
+      "id": "CAM-108",
+      "title": "Farmer supply agreement",
+      "status": "Open for reservation",
+      "from": "Nashik Farmers Producer Co.",
+      "to": "Eligible verified farmers",
+      "purpose": "Reserve and purchase Grade A Red Onion for campaign CAM-108",
+      "expires": "6 Sep, 6:00 PM",
+      "version": "Version 1 · published 4 Sep",
+      "price": "₹27.60/kg",
+      "quantity": "Up to 20,000 kg",
+      "sellerNet": "₹1,18,128 for 4,280 kg",
+      "sections": [
+        { "title": "Produce and quality", "items": ["Crop: Red Onion · Grade A", "Farmer chooses reserved quantity", "Final purchase uses verified accepted quantity", "Independent assessment required"] },
+        { "title": "Collection and inspection", "items": ["Collection: Pimpalgaon centre", "Window: 7 Sep, 07:00–15:00", "FPO arranges inbound transport", "Farmer may attend weighing and receiving check"] },
+        { "title": "Price and payment", "items": ["Price: ₹27.60 per accepted kg", "Payment: within 2 days of purchase confirmation", "Reservation is not a purchase", "No dependency on later buyer payment"] },
+        { "title": "Ownership and rejected produce", "items": ["Farmer retains ownership while produce is reserved", "Ownership transfers only for quantity purchased by FPO", "Rejected quantity remains farmer-owned", "Disputes: direct discussion, then grievance review and mediation"] }
+      ],
+      "history": ["FPO published campaign terms · 4 Sep, 16:30"]
+    },
+    "REQ-331": {
+      "id": "REQ-331",
+      "title": "September red onion procurement",
+      "status": "Published proposal",
+      "from": "MahaFresh Foods",
+      "to": "Eligible verified farmers and FPOs",
+      "purpose": "Source Red Onion · Grade A for Pune processing",
+      "expires": "8 Sep, 6:00 PM",
+      "version": "Version 1 · published 5 Sep",
+      "price": "Up to ₹31.00/kg",
+      "quantity": "20,000 kg",
+      "sellerNet": "Final net depends on accepted counterparty terms",
+      "sections": [
+        { "title": "Produce and quality", "items": ["Red Onion · Grade A", "Firm bulbs; 45–65 mm; no visible rot", "Required: 20,000 kg · tolerance ±2%", "Eligible source: Nashik district"] },
+        { "title": "Delivery and inspection", "items": ["Required by 12 Sep", "Delivery: MahaFresh Pune processing unit", "Buyer arranges and pays transport", "Independent assessment before pickup; seller may attend weighing"] },
+        { "title": "Price and payment", "items": ["Target ceiling: ₹31.00 per accepted kg", "Payment within 2 days of accepted delivery", "Bank transfer / UPI", "Any adjustment requires an accepted counterproposal"] },
+        { "title": "Risk and exceptions", "items": ["Ownership transfers after buyer accepts delivery", "Buyer bears transport risk after documented pickup", "Rejected produce remains seller-owned by default", "Direct discussion, then grievance review and mediation"] }
+      ],
+      "history": ["Buyer published requirement proposal · 5 Sep, 09:00"]
+    }
+  }
+}
