@@ -1,0 +1,134 @@
+{
+  "stages": [
+    "Pre-harvest",
+    "Harvested",
+    "Quantity recorded",
+    "Quality assessed",
+    "Storage / pickup pending",
+    "In transport",
+    "Delivered",
+    "Transaction complete"
+  ],
+  "services": [
+    {
+      "id": "harvesting",
+      "label": "Harvesting support",
+      "shortLabel": "Harvest",
+      "description": "Book labour, machinery and field handling for the planned harvest window.",
+      "providerRole": "fpo",
+      "providerLabel": "FPO / machinery provider",
+      "destinationScreen": "Service requests",
+      "lastEligibleStage": 0,
+      "providers": ["Nashik Farmers Producer Co.", "Sahyadri Custom Hiring Centre", "Dindori Farm Services"],
+      "fields": [
+        { "name": "service_date", "label": "Harvest date", "type": "date", "placeholder": "Select planned date" },
+        { "name": "time_window", "label": "Preferred time window", "type": "text", "placeholder": "For example, 06:00–12:00" },
+        { "name": "land_area", "label": "Area to harvest", "type": "text", "placeholder": "Acres or hectares" },
+        { "name": "support_type", "label": "Support required", "type": "select", "placeholder": "Choose labour or equipment", "options": ["Labour only", "Machinery only", "Labour and machinery"] },
+        { "name": "field_access", "label": "Field access and terrain", "type": "text", "placeholder": "Road width, slope or access notes" },
+        { "name": "handling", "label": "Field handling", "type": "select", "placeholder": "Choose handling requirement", "options": ["Harvest only", "Harvest and crate", "Harvest, sort and crate"] }
+      ]
+    },
+    {
+      "id": "measurement",
+      "label": "Quantity measurement",
+      "shortLabel": "Measure quantity",
+      "description": "Arrange witnessed weighing and receive a quantity record for this produce.",
+      "providerRole": "quality",
+      "providerLabel": "Measurement / assessment provider",
+      "destinationScreen": "Requests",
+      "lastEligibleStage": 1,
+      "providers": ["Dr. Meera Deshmukh", "Nashik Agri Assaying Centre", "Lasalgaon Certified Weighbridge"],
+      "fields": [
+        { "name": "service_date", "label": "Measurement date", "type": "date", "placeholder": "Select required date" },
+        { "name": "time_window", "label": "Preferred time window", "type": "text", "placeholder": "For example, 09:00–11:00" },
+        { "name": "estimated_quantity", "label": "Estimated quantity", "type": "text", "placeholder": "Approximate kg" },
+        { "name": "measurement_method", "label": "Measurement method", "type": "select", "placeholder": "Choose method", "options": ["Certified weighbridge", "Portable digital scale", "Crate or bag count with sample weight"] },
+        { "name": "packing_units", "label": "Packing units", "type": "text", "placeholder": "Loose, crates, bags and approximate count" },
+        { "name": "witness", "label": "Witness requirement", "type": "select", "placeholder": "Choose attendance", "options": ["Farmer will attend", "Authorized representative will attend", "Provider evidence is sufficient"] }
+      ]
+    },
+    {
+      "id": "quality",
+      "label": "Quality assessment",
+      "shortLabel": "Assess quality",
+      "description": "Request crop-specific sampling, grading and a time-bound assessment report.",
+      "providerRole": "quality",
+      "providerLabel": "Authorized quality assessor",
+      "destinationScreen": "Requests",
+      "lastEligibleStage": 2,
+      "providers": ["Dr. Meera Deshmukh", "Nashik Agri Assaying Centre", "AgNext Nashik Lab"],
+      "fields": [
+        { "name": "service_date", "label": "Assessment date", "type": "date", "placeholder": "Select required date" },
+        { "name": "time_window", "label": "Preferred time window", "type": "text", "placeholder": "For example, 10:00–13:00" },
+        { "name": "report_purpose", "label": "Report purpose", "type": "select", "placeholder": "Choose purpose", "options": ["Marketplace listing", "Buyer requirement", "FPO collection", "Storage intake"] },
+        { "name": "requested_grade", "label": "Target grade or specification", "type": "text", "placeholder": "For example, Grade A · 45–65 mm" },
+        { "name": "parameters", "label": "Requested parameters", "type": "text", "placeholder": "Moisture, size, damage, maturity or crop-specific tests" },
+        { "name": "sampling_location", "label": "Sampling location", "type": "text", "placeholder": "Farm, collection centre or warehouse" }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage",
+      "shortLabel": "Find storage",
+      "description": "Request suitable capacity with the environmental and handling conditions this crop needs.",
+      "providerRole": "storage",
+      "providerLabel": "Storage provider",
+      "destinationScreen": "Requests",
+      "lastEligibleStage": 4,
+      "providers": ["GreenVault Storage", "Nashik Cold Chain", "Lasalgaon Agri Warehouse"],
+      "fields": [
+        { "name": "service_date", "label": "Check-in date", "type": "date", "placeholder": "Select arrival date" },
+        { "name": "duration", "label": "Expected duration", "type": "text", "placeholder": "For example, 7 days" },
+        { "name": "quantity", "label": "Quantity to store", "type": "text", "placeholder": "Quantity in kg" },
+        { "name": "storage_type", "label": "Storage type", "type": "select", "placeholder": "Choose suitable storage", "options": ["Dry warehouse", "Ventilated storage", "Cold storage", "Controlled atmosphere"] },
+        { "name": "conditions", "label": "Required conditions", "type": "text", "placeholder": "Temperature, humidity or ventilation" },
+        { "name": "packaging", "label": "Packaging and handling", "type": "text", "placeholder": "Crates, bags, pallets and loading support" }
+      ]
+    },
+    {
+      "id": "transport",
+      "label": "Transport",
+      "shortLabel": "Arrange transport",
+      "description": "Request a vehicle and quote for safe movement between pickup and destination.",
+      "providerRole": "transport",
+      "providerLabel": "Transport provider",
+      "destinationScreen": "Quote requests",
+      "lastEligibleStage": 4,
+      "providers": ["Nashik Agro Logistics", "KisanRoute Transport", "Sahyadri Cold Logistics"],
+      "fields": [
+        { "name": "service_date", "label": "Pickup date", "type": "date", "placeholder": "Select pickup date" },
+        { "name": "time_window", "label": "Pickup window", "type": "text", "placeholder": "For example, 08:00–11:00" },
+        { "name": "pickup", "label": "Pickup location", "type": "text", "placeholder": "Farm, collection centre or warehouse" },
+        { "name": "destination", "label": "Destination", "type": "text", "placeholder": "Delivery location" },
+        { "name": "load", "label": "Load and packaging", "type": "text", "placeholder": "Kg, crates or bags" },
+        { "name": "vehicle", "label": "Vehicle conditions", "type": "select", "placeholder": "Choose vehicle requirement", "options": ["Open vehicle with cover", "Closed dry vehicle", "Refrigerated vehicle", "Provider to recommend"] },
+        { "name": "handling", "label": "Loading and unloading", "type": "select", "placeholder": "Choose responsibility", "options": ["Farmer arranges both", "Provider arranges both", "Farmer loads; receiver unloads"] }
+      ]
+    },
+    {
+      "id": "market_linkage",
+      "label": "FPO market linkage",
+      "shortLabel": "Find selling support",
+      "description": "Ask an FPO to aggregate, prepare or connect this produce to suitable demand without transferring ownership yet.",
+      "providerRole": "fpo",
+      "providerLabel": "Verified FPO",
+      "destinationScreen": "Service requests",
+      "lastEligibleStage": 5,
+      "providers": ["Nashik Farmers Producer Co.", "Sahyadri Farmer Collective", "Godavari Producer Company"],
+      "fields": [
+        { "name": "service_date", "label": "Produce available from", "type": "date", "placeholder": "Select availability date" },
+        { "name": "support_scope", "label": "Support required", "type": "select", "placeholder": "Choose support", "options": ["Buyer matching", "Aggregation and buyer matching", "Sorting, packing and buyer matching", "Mandi sale coordination"] },
+        { "name": "quantity", "label": "Quantity offered", "type": "text", "placeholder": "Quantity in kg" },
+        { "name": "quality", "label": "Current quality information", "type": "text", "placeholder": "Declared or assessed grade and report ID" },
+        { "name": "target_price", "label": "Expected minimum net price", "type": "text", "placeholder": "₹ per kg, optional" },
+        { "name": "sale_deadline", "label": "Sale required by", "type": "date", "placeholder": "Select deadline" }
+      ]
+    }
+  ],
+  "commonFields": [
+    { "name": "quote_deadline", "label": "Responses required by", "type": "datetime-local", "placeholder": "Select response deadline" },
+    { "name": "budget", "label": "Budget or preferred pricing", "type": "text", "placeholder": "Optional fixed budget or request quotes", "required": false },
+    { "name": "notes", "label": "Instructions for providers", "type": "textarea", "placeholder": "Access, handling or coordination notes", "required": false }
+  ]
+}

@@ -1310,7 +1310,7 @@ Possible channels:
 
 The Buyer role defines broad capabilities such as:
 
-- Create requirements
+- Add requirements
 - Search verified produce
 - Make offers
 - Participate in auctions

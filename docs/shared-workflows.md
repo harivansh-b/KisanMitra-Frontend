@@ -42,11 +42,15 @@ Buyer posts a requirement
   → Produce is collected and final quantity/quality is verified
   → FPO finalizes full or partial purchases and pays each farmer
   → Exact purchased quantities transfer from farmer to FPO
+  → Ownership receipt creates a new FPO Produce record with source lineage
+  → New FPO Produce enters the Inventory workbench for placement and condition decisions
   → FPO merges only compatible, FPO-owned quantities
   → FPO completes assigned storage and inbound/outbound transport
   → FPO delivers to the buyer and ownership transfers under the buyer trade
   → Buyer payment to the FPO is tracked separately
 ```
+
+The handover boundary is explicit: the Farmer source Produce retains its historical identity, while the purchased quantity is represented by a new FPO-owned Produce linked through the purchase and ownership receipt. The FPO then controls storage, handling, allocation and transport subject to the relevant frozen responsibilities. Custody by a warehouse or transporter does not change ownership. A later Buyer trade creates a second, separate ownership transfer under its own accepted terms.
 
 ## FPO Service Flow
 
@@ -57,6 +61,21 @@ Farmer reviews an FPO service and its price
   → Evidence, status, and payment are recorded
   → Farmer continues to own and control the produce
 ```
+
+## Produce-led Service Request Flow
+
+```text
+Farmer opens a produce
+  → UI shows only current and future stage-relevant services
+  → Farmer completes a service-specific requirement
+  → Farmer publishes publicly or privately to one verified provider
+  → Matching provider receives the request and accepts/quotes or declines
+  → Farmer reviews and awards a provider response
+  → Award creates the service booking/job
+  → Evidence and completion update the produce journey without transferring ownership
+```
+
+Public provider requests are discoverable only by verified providers with a matching capability, crop/handling fit, region and availability. Private requests expose the request only to the selected provider. In both cases, a provider response is non-binding until the Farmer awards it.
 
 ## Primary Lifecycles
 
@@ -73,22 +92,30 @@ The review loop is `Submitted → Admin review → More information requested �
 ### Buyer Demand
 
 ```text
-Draft → Published/Invited → Matching → Partially sourced
-→ Fully sourced → Fulfilment → Completed
+Public:  Draft → Published → Supply proposals → Buyer awards exact quantities → Trades
+Private: Draft → Recipients selected → Direct offers sent → Accepted quantities reserved → Trades
 ```
 
-Alternative states: `Paused`, `Expired`, and `Cancelled`. A recurring demand produces individually trackable procurement occurrences.
+Alternative states: `Paused`, `Expired`, and `Cancelled`.
 
-The initial UI includes one-time public demand only. Recurring and invited demand remain documented future states.
+The initial UI supports one-time public and private requirements from the same requirement builder. Visibility is selected before saving or publishing and becomes read-only after publication. Public requirements collect non-reserving supply proposals; the Buyer compares responses and awards exact quantities. Private requirements behave as direct offers to selected verified produce owners: a full or partial acceptance immediately reserves the accepted quantity and fixes that seller as a contributor. A counter reserves nothing until the Buyer accepts it. Recurring and preferred-supplier demand remain future states.
+
+The Buyer requirement workspace shows visibility, pending responses, committed produce, and remaining quantity. For public requirements, committed means Buyer-awarded quantity. For private direct offers, committed means seller-accepted quantity. Once a private requirement is full, unanswered invitations close as **Requirement filled**; they are not seller cancellations.
+
+### Farmer Offer Window
+
+```text
+Draft → Publicly listed / Privately invited → Buyer/FPO responses
+→ Farmer selects a response → Exact quantity accepted → Trade created
+```
+
+The Farmer starts an offer window from one eligible Produce record already in the Farmer's possession and publishes a complete seller proposal. Crop, variety, available quantity, location, lifecycle state, grade, and assessment evidence are inherited read-only from Produce; the offer window cannot be used to create or rewrite inventory facts. Public windows are discoverable by all eligible verified Buyers/FPOs; private windows go only to selected verified recipients, whose identities and responses remain hidden from one another. Both use the same agreement and counterproposal primitives as Buyer requirements, with the commercial direction reversed: the Farmer is the seller and the responding Buyer/FPO is the purchaser.
+
+Responses are compared by estimated Farmer net return, price, payment timing, and fulfilment cost. Ranking remains advisory. Publishing, invitation, or response submission does not create a trade; only the Farmer's acceptance of an exact quantity and frozen terms does. Unaccepted quantities remain available.
 
 ### Supply Match and Multi-Produce Plan
 
-```text
-Suggested match → Reviewed → Quantity selected → Offer/Bid submitted
-→ Reserved → Trade created → Received
-```
-
-One demand may reference multiple produce records and partial quantities. The UI must continuously show selected, committed, received, and remaining demand quantities.
+One demand may reference multiple produce records and partial quantities. Public responses are compared and awarded by the Buyer. Private recipients accept, partially accept, counter, or decline; acceptance reserves immediately up to the remaining requirement. The UI must continuously show proposed or invited, committed, received, and remaining quantities without combining the two sourcing modes.
 
 Farmer-opted-in unverified produce follows `Matched as upcoming → Expressed interest/Assessment requested → Verified`. It cannot enter binding offer or bidding states.
 
@@ -115,6 +142,8 @@ Alternative terminal states: `Rejected`, `Withdrawn`, and `Expired`.
 An accepted offer must display a read-only snapshot of price, quantity, quality requirement, delivery location, pickup window, payment terms, and service responsibilities.
 
 Auction offers are ranked by estimated seller net for guidance only. Seller selection changes a bid to **Accepted offer**; the UI never labels it winner.
+
+The shared negotiation UI must preserve direction and authority: a public Buyer requirement ends with a Buyer award, a private Buyer direct offer commits on seller acceptance, and a Farmer offer window ends with Farmer acceptance. Public/private visibility, complete terms, version history, counterproposals, exact quantities, expiry, and read-only accepted snapshots remain shared primitives.
 
 ### FPO Buyer Commitment
 

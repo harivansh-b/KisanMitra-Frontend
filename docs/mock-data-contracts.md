@@ -19,7 +19,6 @@ mockdata/
   users.json
   actors.json
   produce.json
-  produce.json
   assessments.json
   demands.json
   supply-matches.json
@@ -81,7 +80,9 @@ Use the shared produce stages: `PRE_HARVEST`, `HARVESTED`, `QUANTITY_RECORDED`, 
 
 ### Produce
 
-`id`, `ownerId`, `ownerType`, `produceIds`, `parentProduceIds`, `crop`, `variety`, `quantity`, `location`, `qualityDeclaration`, `assessmentId`, `verificationStatus`, `marketStatus`, `availableFrom`, `photos`.
+`id`, `ownerId`, `ownerType`, `produceIds`, `parentProduceIds`, `crop`, `variety`, `quantity`, `location`, `qualityDeclaration`, `assessmentId`, `verificationStatus`, `marketStatus`, `availableFrom`, `photos`, `conditionEstimate`, `conditionBasis`, `conditionAsOf`.
+
+`conditionEstimate` is an explainable frontend indicator derived from recorded harvest, handling, storage, and assessment signals. It must never be labelled or treated as a verified quality grade; pre-harvest produce has no condition percentage.
 
 ### Assessment
 
@@ -91,11 +92,11 @@ Use the shared produce stages: `PRE_HARVEST`, `HARVESTED`, `QUANTITY_RECORDED`, 
 
 `id`, `buyerId`, `demandType`, `visibility`, `invitedSellerIds`, `crop`, `variety`, `specifications`, `grade`, `requiredQuantity`, `quantityTolerance`, `requiredBy`, `deliveryLocation`, `targetPrice`, `paymentTerms`, `transportPreference`, `storagePreference`, `recurrence`, `status`, `matchedQuantity`, `committedQuantity`, `receivedQuantity`, `expiresAt`.
 
-The initial UI uses `demandType: one_time` and `visibility: public`. Recurring and invited values remain reserved for future fixtures.
+The initial UI uses `demandType: one_time` with `visibility: public` or `visibility: private`. Visibility may change while `status: draft` and is immutable after publication. Recurring and preferred-supplier values remain reserved for future fixtures.
 
 ### Supply Match
 
-`id`, `demandId`, `produceId`, `produceId`, `sellerId`, `matchPercent`, `matchedQuantity`, `criteria`, `verificationStatus`, `farmerOptedIn`, `allowedActions`, `landedCostEstimate`, `sellerReliability`, `availability`, `transportFeasibility`.
+`id`, `demandId`, `produceId`, `sellerId`, `matchPercent`, `matchedQuantity`, `criteria`, `verificationStatus`, `farmerOptedIn`, `allowedActions`, `landedCostEstimate`, `sellerReliability`, `availability`, `transportFeasibility`.
 
 For opted-in unverified produce, `allowedActions` contains only `express_interest` and `request_assessment`.
 
@@ -105,15 +106,19 @@ For opted-in unverified produce, `allowedActions` contains only `express_interes
 
 ### Procurement Plan
 
-`id`, `demandId`, `buyerId`, `status`, `selections`, `selectedQuantity`, `committedQuantity`, `receivedQuantity`, `remainingQuantity`, `estimatedLandedCost`.
+`id`, `demandId`, `buyerId`, `status`, `visibility`, `recipientIds`, `requestedQuantity`, `responses`, `awards`, `committedQuantity`, `receivedQuantity`, `remainingQuantity`, `estimatedLandedCost`.
 
-Each selection references `produceId`, `sellerId`, selected quantity, current offer/trade ID, and landed-cost contribution.
+Each recipient references `produceId`, `sellerId`, maximum offered quantity, verification, match reasons, and landed-cost contribution. Public responses record `proposed`, `countered`, `not_awarded`, or `awarded`; only an award records the exact committed quantity and trade ID. Private responses record `accepted_committed`, `partially_committed`, `countered`, `declined`, `pending`, `requirement_filled`, or `expired`; full/partial acceptance records the exact committed quantity, acceptance timestamp, frozen terms, and trade ID immediately. A private counter has no committed quantity or trade ID until Buyer acceptance.
 
 ### Auction and Bid
 
-Auction: `id`, `produceId`, `sellerId`, `status`, `startsAt`, `endsAt`, `minimumTerms`, `bidIds`, `acceptedBidId`.
+OfferWindow: `id`, `produceId`, `sellerId`, `visibility`, `recipientIds`, `status`, `startsAt`, `endsAt`, `minimumTerms`, `responseIds`, `acceptedResponseId`, `acceptedQuantity`, `tradeId`.
 
-Bid: `id`, `auctionId`, `buyerId`, `status`, `price`, `quantity`, `paymentTerms`, `qualityRequirements`, `quantityTolerance`, `responsibilities`, `pickupWindow`, `deliveryLocation`, `estimatedSellerNet`, `advisoryRank`, `comparisonLabels`, `landedCostEstimate`, `expiresAt`, `revision`.
+`visibility` is `public` or `private`; private `recipientIds` reference selected verified Buyers/FPOs and are visible only to the Farmer and Admin. `status` uses `draft`, `publicly_listed`, `privately_invited`, `collecting_offers`, `offer_accepted`, `expired`, `withdrawn`, or `cancelled`. `tradeId` remains empty until the Farmer accepts one response for an exact quantity.
+
+`produceId` is mandatory and references an eligible Farmer-owned Produce record. Crop, variety, available quantity, location, lifecycle state, grade, and quality specifications are projections of that Produce record, not editable OfferWindow fields. Mock UI summaries may copy those values for display, but Produce remains their source of truth.
+
+Bid: `id`, `offerWindowId`, `buyerId`, `status`, `price`, `quantity`, `paymentTerms`, `qualityRequirements`, `quantityTolerance`, `responsibilities`, `pickupWindow`, `deliveryLocation`, `estimatedSellerNet`, `advisoryRank`, `comparisonLabels`, `landedCostEstimate`, `expiresAt`, `revision`.
 
 No bid status means “winner.” `advisoryRank` is based on estimated seller net; seller selection uses `accepted`.
 
@@ -138,6 +143,12 @@ No bid status means “winner.” `advisoryRank` is based on estimated seller ne
 ### Ownership Transfer
 
 `id`, `fromActorId`, `toActorId`, `sourceProduceId`, `resultingProduceId`, `quantity`, `reason`, `relatedType`, `relatedId`, `transferredAt`.
+
+### FPO-Owned Produce
+
+`id`, `fpoId`, `sourceProduceIds`, `purchaseIds`, `ownershipTransferIds`, `crop`, `variety`, `ownedQuantity`, `availableQuantity`, `grade`, `qualitySpecifications`, `assessmentIds`, `conditionEstimate`, `currentLocation`, `stage`, `storageBookingId`, `buyerAllocations`, `shipmentIds`, `lineage`, `nextAction`.
+
+Creation requires a completed Farmer-to-FPO purchase and exact ownership transfer. Source Farmer Produce records remain immutable historical links. Storage and transport providers may hold custody without becoming owner. Splits and compatible merges create linked FPO Produce records while preserving source lineage and reconciling quantities.
 
 ### FPO Service Offering
 

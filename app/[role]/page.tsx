@@ -1,8 +1,8 @@
-import { DashboardShell } from '@/components/dashboard-shell';
-import dashboardData from '@/mockdata/dashboard.json';
+import { notFound, redirect } from 'next/navigation';
+import { roleIdSchema, roleIds } from '@/domain/contracts';
 
 export function generateStaticParams() {
-  return dashboardData.roles.map((role) => ({ role: role.id }));
+  return roleIds.map((role) => ({ role }));
 }
 
 export default async function RoleDashboard({
@@ -11,6 +11,7 @@ export default async function RoleDashboard({
   params: Promise<{ role: string }>;
 }) {
   const { role } = await params;
-
-  return <DashboardShell initialRole={role} />;
+  const parsed = roleIdSchema.safeParse(role);
+  if (!parsed.success) notFound();
+  redirect(`/${parsed.data}/overview`);
 }

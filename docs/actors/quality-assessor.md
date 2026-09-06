@@ -25,6 +25,8 @@ Primary actions: **Accept request**, **Start inspection**, **Resume assessment**
 ### Request Queue and Schedule
 
 - Produce, crop, declared quantity/quality, location, requester, required checks, urgency, and preferred window.
+- Receive public requests matched by crop authorization and operating region, plus private requests addressed to the assessor. Quantity-measurement requests must state method, packing units and witness needs; quality requests must state report purpose, sampling location, target grade and requested crop-specific parameters.
+- Accept and quote or decline. Acceptance remains a response in **Requests** until the Farmer awards the assessor; only an awarded request moves into **Assessments** and the schedule.
 - Identify when an assessment supports an FPO collection/procurement decision and show the campaign, committed quantity, and agreed quality rules.
 - Identify buyer-requested pre-trade assessments separately from post-delivery reassessments.
 - Accept, propose another time, or decline with reason.

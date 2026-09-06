@@ -1055,7 +1055,7 @@ This creates full traceability.
 
 # 30. FPO-to-Buyer Trade Tracking
 
-After aggregation, FPO buyer trades should track:
+After aggregation, confirmed FPO trades should track:
 
 ```text
 Offer Accepted

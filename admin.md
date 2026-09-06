@@ -113,7 +113,7 @@ Unverified Buyer:
 Can Browse
 
 Verified Buyer:
-Can Create Requirements
+Can Add Requirements
 Can Bid
 Can Make Offers
 Can Purchase

@@ -13,19 +13,23 @@ FPO verification should cover registration, operating region, member base, colle
 
 ## Primary Navigation
 
-`Home`, `Buyer Demand`, `Procurement`, `Inventory`, `Buyer Sales`, with `Services`, `Payments`, `Disputes`, and `Profile` under **More** on mobile.
+Keep five primary destinations: `Home`, `Procurement`, `Inventory`, `Sales`, and `Services`.
+
+- **Procurement** contains `Campaigns` and `Farmer supply` as contextual tabs.
+- **Sales** contains `Open demand`, `Responses`, and `Confirmed trades` as contextual tabs.
+- **Services** contains `Service requests` and active/catalogue `Services` as contextual tabs.
+- Keep `Documents`, `Settings`, and demo controls directly visible in the desktop **Manage** section. Mobile navigation may group secondary destinations under **More** to preserve usable tap targets.
+- Use icons only for the five primary destinations. Contextual tabs use text labels and retain the existing underlying screens and actions.
 
 ## Home Dashboard
 
-Show, in this order:
+Keep Home as a prioritization surface rather than a second copy of every workspace. Show, in this order:
 
-1. Action queue: buyer opportunity decisions, campaign shortfalls, collections, verification gaps, delivery tasks, and overdue payments.
-2. Active procurement campaigns with target, committed, collected, verified, purchased, and still-required quantities.
-3. Relevant buyer demand and commercial viability summary.
-4. FPO-owned inventory, produce awaiting split/merge, and buyer-ready produce.
-5. Pending inbound transport, storage, outbound transport, and deliveries.
-6. Farmer payments and buyer receivables as separate summaries.
-7. Active service-provider jobs.
+1. One priority campaign with reserved, target, shortfall, deadline, and a direct Procurement action.
+2. A maximum of five action-queue rows covering campaign shortfalls, Farmer collections, ownership handovers, delivery tasks, and overdue payments.
+3. One compact commercial snapshot for the priority campaign.
+
+Detailed campaign stages, Farmer rows, Buyer negotiations, inventory evidence, logistics and service jobs remain available in their grouped workspaces.
 
 Primary actions: **Evaluate buyer demand**, **Create procurement campaign**, **Manage collection**, **Build FPO produce**, or **Review buyer offers**.
 
@@ -40,14 +44,27 @@ Do not present service booking as a required step in procurement or imply that u
 
 ## Procurement and Sales Screens
 
-### Buyer Demand
+### Open Demand
 
-- Browse buyer requirements by crop, variety, grade/specifications, quantity/tolerance, price, location, delivery date, payment, visibility, recurrence, and buyer reliability.
-- The initial UI uses public, one-time requirements; invited and recurring requirements are deferred.
+- Review **Public Buyer requirements** when the FPO has eligible matching verified produce. The FPO submits a supply proposal that remains unreserved until Buyer award.
+- Review **Private Buyer direct offers** only when the Buyer selected the FPO through matching verified produce. Keep the recipient list and other responses hidden.
+- Show crop, variety, grade/specifications, requested quantity/tolerance, price, location, delivery date, responsibilities, payment, expiry, and buyer reliability for both bid types.
+- A private direct offer supports **Accept**, **Partially accept**, **Counter**, and **Decline**. Acceptance immediately commits the exact quantity and fixes the FPO as a contributing seller, so the FPO should accept only against verified FPO-owned or already secured produce.
+- A private counter reserves nothing until the Buyer accepts it. Public proposals may be conditional on securing farmer supply, but any condition must remain visible and must be satisfied before a Buyer award becomes a confirmed trade.
+- Recurring bids and preferred-supplier lists are deferred.
 - Opportunity detail shows expected buyer revenue; transport, storage, sorting, grading, packaging, and operating costs; intended FPO margin; and maximum feasible farmer price.
-- Use `Interested → Conditional commitment → Confirmed trade`, with `Expired` when the supply condition is not met.
+- For public requirements requiring aggregation, use `Proposal → Conditional supply → Buyer award → Supply confirmed → Confirmed trade`. For private direct offers use `Invited → Accepted quantity reserved → Confirmed trade`, with counters separately awaiting Buyer acceptance.
 - In the conditional state, show frozen buyer price, target quantity, quality, delivery location, responsibilities, and condition deadline while farmer supply is reserved.
 - Confirming the buyer trade is available only when supply, likely quality, timing, and projected margin are viable.
+- Also surface public Farmer offer windows for produce the FPO can procure and private Farmer offer windows addressed to the FPO. Keep these visually distinct from Buyer demand because the FPO responds as a crop buyer, not as a seller.
+- A Farmer offer window shows verified produce, available quantity, minimum price, pickup/payment expectations, responsibilities, expiry, and allowed negotiation fields. The FPO may submit an offer or permitted counterproposal; no purchase exists until the Farmer accepts an exact quantity and freezes the terms.
+
+### Responses
+
+- Show every public proposal, private acceptance, partial acceptance, counterproposal, decline, and conditional public proposal already sent to a Buyer.
+- Keep the offered quantity, revised terms, response expiry, secured supply, remaining supply condition, and Buyer decision visible.
+- A public proposal remains separate from a trade while awaiting Buyer award. A private full or partial acceptance immediately creates the allocation and moves its exact quantity to **Confirmed Trades**.
+- Move public responses to **Confirmed Trades** only after the exact awarded quantity and frozen terms are available and any required supply condition has been satisfied.
 
 ### Procurement Campaigns
 
@@ -71,22 +88,31 @@ Do not present service booking as a required step in procurement or imply that u
 - Support full purchase, partial purchase, lower-grade counter terms, and rejected remainder.
 - Confirmation records the exact ownership transfer from farmer to FPO.
 - The unpurchased quantity remains in a farmer-owned produce.
+- Completing the Farmer-to-FPO purchase creates an ownership receipt and a new FPO Produce record for the exact accepted quantity. It does not overwrite or repurpose the Farmer's source record.
+- Route the new record into **Inventory** immediately. Its first action is determined by its condition, location, existing storage, Buyer allocation, and the responsibilities frozen in the purchase.
 
 ### FPO Inventory and Produce Workbench
 
+- Treat this page as the operational home for produce after Farmer purchase completion. Show new ownership handovers first, followed by produce needing placement, in storage, buyer allocated, dispatch ready, and sold.
 - Separate collected-but-not-owned, FPO-owned, buyer-ready, reserved, and sold quantities.
+- Keep the default inventory row concise: identity, location, FPO-owned quantity, current operation, condition summary, and one recommended next action. Move assessment evidence, storage details, Buyer allocation, complete journey, and lineage into the detail drawer.
+- Use a readable milestone journey rather than a generic percentage: `Farmer purchase → Receiving check → FPO ownership → Storage/dispatch → Buyer allocation → Delivery`.
+- A handover detail shows the source Farmer, source Produce IDs, purchase ID, accepted quantity/grade, payment confirmation, ownership receipt and transfer time.
+- From Inventory, expose stage-appropriate actions such as arrange storage, request transport, request reassessment, allocate to Buyer demand, split produce, merge compatible produce, confirm dispatch, or report an incident.
 - Merge only compatible FPO-owned quantities using crop, variety, grade, size, harvest period, moisture, quality characteristics, and buyer specification.
 - Split produce by grade, buyer allocation, or remaining availability.
 - Every resulting produce retains its source farmer produce, purchase records, and ownership history.
 - Produce detail shows quantity, grade, location, storage, availability, buyer allocation, lineage, and verification evidence.
+- FPO ownership continues until the transfer event in a later FPO-to-Buyer trade. Storage custody or transport possession must never be displayed as ownership.
 
-### Buyer Offers and Sales
+### Confirmed Trades
 
 - Compare buyer offers using expected FPO net realization rather than headline price.
 - Show price, quantity, quality requirement, pickup/delivery, payment timing, expiry, buyer reliability, and responsibility allocation.
 - Expected FPO net includes buyer revenue minus farmer procurement, inbound/outbound transport, storage, sorting, grading, packaging, and operating costs.
-- Negotiation supports accept, reject, and counteroffer; accepted terms become a frozen FPO-to-buyer trade.
+- Direct-offer negotiation supports full acceptance, partial acceptance, decline, and counteroffer. Private Buyer-offer acceptance creates a frozen FPO-to-Buyer allocation immediately; public proposals require Buyer award.
 - If one buyer requirement uses multiple sellers, keep the FPO trade independent while showing its allocation within the buyer's total requirement.
+- Show public Buyer-awarded quantities and private accepted quantities with frozen commercial terms on this page; unanswered demand and uncommitted responses remain in **Open Demand** and **Responses** respectively.
 
 ### Fulfilment
 
@@ -113,7 +139,9 @@ Do not present service booking as a required step in procurement or imply that u
 
 ### Service Requests and Jobs
 
-- Queue by requested, quoted, scheduled, in progress, evidence required, completed, cancelled, and disputed.
+- Keep **Service Requests** as the inbox for unawarded public/private requests and provider responses. Keep **Services** for awarded, scheduled, in-progress, completed, cancelled, or disputed jobs and the service catalogue.
+- Receive public Farmer requests matched to the FPO's verified service capability and private requests addressed specifically to the FPO. Request detail shows the source produce, current stage, scope, field/location access, schedule, response deadline, handling needs, and Farmer instructions.
+- Respond by accepting and quoting or declining. Acceptance remains a response until the Farmer awards it; only then show the work as a confirmed service job.
 - Job detail shows farmer-owned produce, service scope, price, assigned provider/coordinator, schedule, evidence, payment, and status timeline.
 - Quality coordination must identify the independent authorized assessor; the FPO is not automatically the official grading authority.
 

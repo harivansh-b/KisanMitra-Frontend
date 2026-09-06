@@ -16,6 +16,20 @@
       "party": "Nashik Farmers Producer Co.",
       "counterparty": "Eligible verified farmers"
     },
+    "farmer": {
+      "eyebrow": "Produce sale proposal",
+      "title": "Start an offer window",
+      "description": "Publish complete sale terms so verified Buyers and FPOs can respond with comparable offers.",
+      "submitLabel": "Publish offer window",
+      "party": "Ramesh Patil",
+      "counterparty": "Eligible verified Buyers and FPOs"
+    },
+    "farmerRecipients": [
+      { "name": "MahaFresh Foods", "type": "Buyer", "detail": "94% reliability · Pune" },
+      { "name": "Deccan Produce Trading", "type": "Buyer", "detail": "88% reliability · Pune" },
+      { "name": "Nashik Farmers Producer Co.", "type": "FPO", "detail": "Collection centre · Pimpalgaon" },
+      { "name": "Sahyadri Farmer Collective", "type": "FPO", "detail": "Aggregation and market linkage" }
+    ],
     "defaults": {
       "agreement_name": "September red onion procurement",
       "crop": "Red Onion",
@@ -109,22 +123,72 @@
     "REQ-331": {
       "id": "REQ-331",
       "title": "September red onion procurement",
-      "status": "Published proposal",
+      "status": "Private direct offer open",
       "from": "MahaFresh Foods",
-      "to": "Eligible verified farmers and FPOs",
+      "to": "Selected verified farmers and FPOs",
       "purpose": "Source Red Onion · Grade A for Pune processing",
       "expires": "8 Sep, 6:00 PM",
       "version": "Version 1 · published 5 Sep",
       "price": "Up to ₹31.00/kg",
       "quantity": "20,000 kg",
-      "sellerNet": "Final net depends on accepted counterparty terms",
+      "sellerNet": "Shown per seller before acceptance",
+      "visibility": "private",
       "sections": [
         { "title": "Produce and quality", "items": ["Red Onion · Grade A", "Firm bulbs; 45–65 mm; no visible rot", "Required: 20,000 kg · tolerance ±2%", "Eligible source: Nashik district"] },
         { "title": "Delivery and inspection", "items": ["Required by 12 Sep", "Delivery: MahaFresh Pune processing unit", "Buyer arranges and pays transport", "Independent assessment before pickup; seller may attend weighing"] },
         { "title": "Price and payment", "items": ["Target ceiling: ₹31.00 per accepted kg", "Payment within 2 days of accepted delivery", "Bank transfer / UPI", "Any adjustment requires an accepted counterproposal"] },
         { "title": "Risk and exceptions", "items": ["Ownership transfers after buyer accepts delivery", "Buyer bears transport risk after documented pickup", "Rejected produce remains seller-owned by default", "Direct discussion, then grievance review and mediation"] }
       ],
-      "history": ["Buyer published requirement proposal · 5 Sep, 09:00"]
+      "history": ["Buyer fixed commercial terms · 5 Sep, 09:00", "Private direct offers sent to selected verified sellers"]
+    },
+    "REQ-328": {
+      "id": "REQ-328",
+      "title": "Pomegranate public requirement",
+      "status": "Supply proposals open",
+      "from": "MahaFresh Foods",
+      "to": "Eligible verified farmers and FPOs",
+      "purpose": "Source Pomegranate · Export grade for Mumbai export desk",
+      "expires": "8 Sep, 4:00 PM",
+      "version": "Version 1 · published 6 Sep",
+      "price": "Up to ₹55.00/kg",
+      "quantity": "5,000 kg",
+      "sellerNet": "Depends on proposed price and fulfilment responsibility",
+      "visibility": "public",
+      "sections": [
+        { "title": "Produce and quality", "items": ["Pomegranate · Export grade", "Uniform colour; 250–350 g; export packing suitable", "Required: 5,000 kg · tolerance ±2%", "Verified produce required"] },
+        { "title": "Delivery and inspection", "items": ["Required by 12 Sep", "Delivery: MahaFresh Mumbai export desk", "Buyer arranges and pays transport", "Independent assessment and certified weighing required"] },
+        { "title": "Price and payment", "items": ["Buyer ceiling: ₹55.00 per accepted kg", "Payment within 3 days of accepted delivery", "Bank transfer", "Seller may submit a conforming proposal or counterproposal"] },
+        { "title": "Award and ownership", "items": ["Submitting a proposal does not reserve produce", "Buyer awards an exact quantity to selected sellers", "Unselected responses are marked Not awarded", "Ownership transfers after Buyer accepts delivery"] }
+      ],
+      "history": ["Buyer published public requirement · 6 Sep, 09:30", "Three verified sellers submitted supply proposals"]
+    },
+    "CC-071": {
+      "id": "CC-071",
+      "title": "Red Onion buyer demand",
+      "status": "Private direct offer · awaiting FPO response",
+      "from": "MahaFresh Foods",
+      "to": "Nashik Farmers Producer Co.",
+      "purpose": "Supply Red Onion · Grade A against requirement REQ-331",
+      "expires": "6 Sep, 6:00 PM",
+      "version": "Buyer terms · version 1 · sent 5 Sep, 9:00 AM",
+      "price": "₹30.00/kg",
+      "quantity": "20,000 kg",
+      "sellerNet": "₹11,600 projected FPO margin after listed costs",
+      "visibility": "private",
+      "conditional": {
+        "target": "20,000 kg",
+        "currentlyReserved": "16,400 kg",
+        "remaining": "3,600 kg",
+        "conditionDeadline": "6 Sep, 6:00 PM",
+        "confirmationRule": "FPO should accept only the quantity backed by verified FPO-owned or secured produce"
+      },
+      "sections": [
+        { "title": "Produce and quality", "items": ["Red Onion · N-53 · Grade A", "Firm bulbs; 45–65 mm; no visible rot", "Required: 20,000 kg · tolerance ±2%", "FPO may aggregate compatible verified farmer produce"] },
+        { "title": "Delivery and inspection", "items": ["Required by 12 Sep", "Delivery: MahaFresh Pune processing unit", "Buyer arranges and pays outbound transport", "Independent assessment before dispatch; FPO may attend receiving weighing"] },
+        { "title": "Price and payment", "items": ["Price: ₹30.00 per accepted kg", "Payment within 2 days of accepted delivery", "Bank transfer", "Buyer-to-FPO payment is separate from FPO-to-farmer obligations"] },
+        { "title": "Risk and exceptions", "items": ["Ownership transfers after buyer accepts delivery", "Buyer bears outbound transport risk after documented pickup", "Rejected produce remains FPO-owned by default", "Direct discussion, then grievance review and mediation"] }
+      ],
+      "history": ["Buyer sent private direct offer for REQ-331 · 5 Sep, 9:00 AM", "FPO opened terms for viability review · 5 Sep, 11:10 AM"]
     }
   }
 }

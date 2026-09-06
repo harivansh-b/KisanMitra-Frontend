@@ -74,13 +74,17 @@ export function ActionDialog({
               : 'Review this action before continuing in the local prototype.')}
           </DialogDescription>
         </DialogHeader>
-        <form className="action-form" onSubmit={handleSubmit(submit)}>
+        <form className="action-form" noValidate onSubmit={handleSubmit(submit, () => {
+          window.requestAnimationFrame(() => document.querySelector<HTMLElement>('.action-form [aria-invalid="true"]')?.focus());
+        })}>
+          {Object.keys(errors).length > 0 && <div className="form-error-summary" role="alert"><strong>Check the highlighted fields</strong><span>Complete the required information before continuing.</span></div>}
           {fields.map((field) => {
             const key = fieldKey(field.label);
             const shared = {
               id: `field-${key}`,
               placeholder: field.placeholder,
               'aria-invalid': Boolean(errors[key]),
+              'aria-describedby': errors[key] ? `field-${key}-error` : undefined,
               ...register(key),
             };
             return (
@@ -92,7 +96,7 @@ export function ActionDialog({
                     name={key}
                     render={({ field: controlledField }) => (
                       <Select value={controlledField.value || null} onValueChange={(value) => controlledField.onChange(value ?? '')}>
-                        <SelectTrigger id={`field-${key}`} className="form-select" aria-invalid={Boolean(errors[key])}>
+                        <SelectTrigger id={`field-${key}`} className="form-select" aria-invalid={Boolean(errors[key])} aria-describedby={errors[key] ? `field-${key}-error` : undefined}>
                           <SelectValue placeholder={field.placeholder} />
                         </SelectTrigger>
                         <SelectContent align="start">
@@ -105,7 +109,7 @@ export function ActionDialog({
                   ? <Textarea {...shared} />
                   : <Input type={field.type} {...shared} />}
                 {field.help && <p className="field-help">{field.help}</p>}
-                {errors[key] && <small>{String(errors[key]?.message)}</small>}
+                {errors[key] && <small id={`field-${key}-error`}>{String(errors[key]?.message)}</small>}
               </div>
             );
           })}

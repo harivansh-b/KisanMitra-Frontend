@@ -40,9 +40,9 @@
       "name": "FPO",
       "profile": "Nashik Farmers Producer Co.",
       "organization": "Aggregation desk · Nashik",
-      "eyebrow": "Procurement workspace",
-      "title": "Procurement at a glance",
-      "subtitle": "The onion campaign is 82% reserved. Secure the remaining supply before the buyer commitment expires.",
+      "eyebrow": "FPO workspace",
+      "title": "FPO operations at a glance",
+      "subtitle": "Three priorities need attention across procurement, owned inventory and Buyer fulfilment.",
       "primaryAction": "New campaign",
       "metrics": [
         { "label": "Active campaigns", "value": "6", "detail": "3 crops · 2 districts", "tone": "neutral" },
@@ -68,22 +68,22 @@
       "organization": "Procurement · Pune",
       "eyebrow": "Buying desk",
       "title": "Today’s procurement desk",
-      "subtitle": "Two requirements need attention and your red onion offer is ranked first by estimated seller net return.",
-      "primaryAction": "Post requirement",
+      "subtitle": "The private red onion requirement has 15.28T accepted and locked, with 4.72T still required.",
+      "primaryAction": "Add requirement",
       "metrics": [
         { "label": "Open requirements", "value": "8", "detail": "42T total demand", "tone": "neutral" },
-        { "label": "Active offers", "value": "12", "detail": "4 sellers responded", "tone": "positive" },
+        { "label": "Seller responses", "value": "12", "detail": "Public proposals and private commitments", "tone": "positive" },
         { "label": "Deliveries this week", "value": "5", "detail": "2 arriving today", "tone": "neutral" },
         { "label": "Payment due", "value": "₹2.16L", "detail": "Next due 7 Sep", "tone": "warning" }
       ],
       "queue": [
-        { "title": "Review matched onion produce", "meta": "REQ-331 · Need 20T in Pune", "status": "9 new matches", "tone": "positive", "action": "View matches" },
+        { "title": "Complete private onion sourcing", "meta": "REQ-331 · 15.28T accepted of 20T", "status": "4.72T remaining", "tone": "positive", "action": "Manage responses" },
         { "title": "Record receiving result", "meta": "TR-1045 · Nashik FPO · 8,500 kg", "status": "Arrived", "tone": "warning", "action": "Inspect delivery" },
         { "title": "Mark farmer payment", "meta": "TR-1042 · ₹68,400", "status": "Due tomorrow", "tone": "neutral", "action": "Record payment" }
       ],
       "records": [
-        { "name": "Red Onion · Grade A", "id": "REQ-331", "quantity": "20,000 kg", "counterparty": "9 matched produce", "price": "≤ ₹31.00/kg", "status": "Sourcing", "tone": "positive" },
-        { "name": "Pomegranate", "id": "REQ-328", "quantity": "5,000 kg", "counterparty": "Patil Farms", "price": "₹54.72/kg", "status": "Payment due", "tone": "warning" },
+        { "name": "Red Onion · Grade A", "id": "REQ-331", "quantity": "15,280 / 20,000 kg", "counterparty": "Private · 2 sellers locked", "price": "≤ ₹31.00/kg", "status": "Acceptances open", "tone": "positive" },
+        { "name": "Pomegranate", "id": "REQ-328", "quantity": "2,000 / 5,000 kg", "counterparty": "Public · 3 proposals", "price": "≤ ₹55.00/kg", "status": "Award review", "tone": "warning" },
         { "name": "Wheat", "id": "REQ-319", "quantity": "30,000 kg", "counterparty": "Nashik FPO", "price": "₹26.10/kg", "status": "In transport", "tone": "neutral" }
       ]
     },

@@ -2,10 +2,10 @@
 
 import {
   ArrowRight, Check, ChevronRight, ClipboardCheck, Clock3, IndianRupee, Leaf, MapPin,
-  PackageCheck, ShieldCheck, Thermometer, Truck, Users,
+  LockKeyhole, PackageCheck, ShieldCheck, Thermometer, Truck, Users,
 } from 'lucide-react';
 
-import overviewData from '@/mockdata/role-overviews.json';
+import { roleOverviewFixture as overviewData } from '@/data/fixtures';
 import { Button } from '@/components/ui/button';
 import { VerifiedIdentity } from '@/components/verified-badge';
 import { cn } from '@/lib/utils';
@@ -26,7 +26,7 @@ function PanelTitle({ eyebrow, title, action, onAction }: { eyebrow: string; tit
   );
 }
 
-function FarmerOverview({ onAction, onNavigate }: OverviewProps) {
+function FarmerOverview({ onAction, onNavigate, onOpenAgreement }: OverviewProps) {
   const data = overviewData.farmer;
   return (
     <div className="role-overview farmer-overview">
@@ -63,7 +63,7 @@ function FarmerOverview({ onAction, onNavigate }: OverviewProps) {
       <section className="panel farmer-offers">
         <PanelTitle eyebrow="Competitive offer window" title="Offers ranked for your return" action="Compare full terms" onAction={() => onNavigate('Offers')} />
         <div className="offer-cards">{data.offers.map((offer, index) => (
-          <button className={cn('offer-card', index === 0 && 'is-best')} key={offer.buyer} onClick={() => onAction(`${offer.buyer} offer opened.`)}>
+          <button className={cn('offer-card', index === 0 && 'is-best')} key={offer.id} onClick={() => onOpenAgreement?.(offer.id)}>
             <span className="offer-rank">#{index + 1}</span><Status tone={offer.tone as Tone}>{offer.tag}</Status>
             <VerifiedIdentity name={offer.buyer} as="h3" /><p>{offer.terms}</p>
             <div><span><small>Price</small><strong>{offer.price}</strong></span><span><small>Expected net</small><strong>{offer.net}</strong></span></div>
@@ -74,36 +74,36 @@ function FarmerOverview({ onAction, onNavigate }: OverviewProps) {
   );
 }
 
-function FpoOverview({ onAction, onNavigate }: OverviewProps) {
+function FpoOverview({ onNavigate }: OverviewProps) {
   const data = overviewData.fpo;
   return (
     <div className="role-overview fpo-overview">
-      <div className="mode-switch" aria-label="FPO workspace mode"><button className="is-active">Procurement & sales</button><button onClick={() => onNavigate('Services')}>Farmer services</button></div>
-      <section className="fpo-layout">
-        <article className="panel campaign-command">
-          <PanelTitle eyebrow={data.campaign.id} title={data.campaign.name} action="Open campaign" onAction={() => onNavigate('Campaigns')} />
-          <div className="campaign-summary"><div><Users /><span><small>Buyer</small><VerifiedIdentity name={data.campaign.buyer} as="strong" /></span></div><Status tone="warning">{data.campaign.deadline}</Status></div>
-          <div className="campaign-target"><span><small>Reserved against target</small><strong>16.4T <em>/ {data.campaign.target}</em></strong></span><b>3.6T remaining</b></div>
-          <div className="campaign-meter" aria-label="16.4 tonnes reserved out of 20 tonnes"><span className="is-reserved" /><span className="is-remaining" /></div>
-          <div className="campaign-meter-labels"><span><i />Reserved <strong>16.4T</strong></span><span><i />Still needed <strong>3.6T</strong></span></div>
-          <div className="funnel-stages">{data.stages.map((stage) => <div key={stage.label}><span><small>{stage.label}</small><strong>{stage.value}</strong></span></div>)}</div>
-          <Button onClick={() => onAction('Farmer sourcing opened.')}>Secure remaining 3.6T<ArrowRight data-icon="inline-end" /></Button>
-        </article>
-        <article className="panel economics-card">
-          <PanelTitle eyebrow="Frozen buyer terms" title="Campaign economics" />
-          <dl>{data.economics.map((item, index) => <div className={cn(index === data.economics.length - 1 && 'is-total')} key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
-          <p className="context-note"><ShieldCheck />Terms remain unchanged while farmer supply is being secured.</p>
-        </article>
+      <section className="fpo-home-focus">
+        <div><p className="eyebrow">Priority campaign · {data.campaign.id}</p><h2>{data.campaign.name}</h2><p><VerifiedIdentity name={data.campaign.buyer} /> · {data.campaign.deadline}</p></div>
+        <span><small>Reserved</small><strong>16.4T</strong><em>of {data.campaign.target}</em></span>
+        <span className="is-warning"><small>Still required</small><strong>3.6T</strong><em>before commitment closes</em></span>
+        <Button onClick={() => onNavigate('Campaigns')}>Open procurement<ArrowRight data-icon="inline-end" /></Button>
       </section>
-      <section className="panel supply-table">
-        <PanelTitle eyebrow="Farmer aggregation" title="Reservations to collect" action="Manage supply" onAction={() => onNavigate('Farmer supply')} />
-        <div className="compact-table"><div className="compact-head"><span>Farmer</span><span>Village</span><span>Quantity</span><span>Status</span></div>{data.reservations.map((row) => <button key={row.farmer} onClick={() => onAction(`${row.farmer} reservation opened.`)}><VerifiedIdentity name={row.farmer} as="strong" /><span>{row.village}</span><span>{row.quantity}</span><Status tone={row.tone as Tone}>{row.state}</Status><ChevronRight /></button>)}</div>
+
+      <section className="fpo-home-grid">
+        <article className="panel fpo-action-queue">
+          <PanelTitle eyebrow="Today" title="Work needing attention" />
+          <button onClick={() => onNavigate('Campaigns')}><span className="role-icon"><Users /></span><span><strong>Secure remaining onion supply</strong><small>{data.campaign.id} · 3.6T shortfall</small></span><Status tone="warning">Due first</Status><ChevronRight /></button>
+          <button onClick={() => onNavigate('Farmer supply')}><span className="role-icon"><ClipboardCheck /></span><span><strong>Review Farmer collections</strong><small>{data.reservations.length} grouped reservations</small></span><Status tone="neutral">Needs review</Status><ChevronRight /></button>
+          <button onClick={() => onNavigate('Inventory')}><span className="role-icon"><PackageCheck /></span><span><strong>Place newly purchased produce</strong><small>4,280 kg onion · ownership received</small></span><Status tone="warning">Storage due</Status><ChevronRight /></button>
+        </article>
+
+        <article className="panel economics-card fpo-home-economics">
+          <PanelTitle eyebrow="Priority campaign" title="Commercial snapshot" action="Buyer terms" onAction={() => onNavigate('Open demand')} />
+          <dl>{data.economics.map((item, index) => <div className={cn(index === data.economics.length - 1 && 'is-total')} key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
+          <p className="context-note"><ShieldCheck />Detailed sourcing, reservations and terms remain available in their workspaces.</p>
+        </article>
       </section>
     </div>
   );
 }
 
-function BuyerOverview({ onAction, onNavigate }: OverviewProps) {
+function BuyerOverview({ onNavigate }: OverviewProps) {
   const data = overviewData.buyer;
   return (
     <div className="role-overview buyer-overview">
@@ -113,8 +113,8 @@ function BuyerOverview({ onAction, onNavigate }: OverviewProps) {
       </section>
       <section className="buyer-layout">
         <article className="panel supply-plan">
-          <PanelTitle eyebrow="Multi-produce sourcing" title="Recommended supply plan" action="Browse matches" onAction={() => onNavigate('Marketplace')} />
-          <div className="supply-plan-list">{data.supplyPlan.map((produce) => <button key={produce.produce} onClick={() => onAction(`${produce.produce} match opened.`)}><span className={cn('selection-box', produce.selected && 'is-selected')}>{produce.selected && <Check />}</span><span><VerifiedIdentity name={produce.seller} as="strong" /><small>{produce.produce} · {produce.quality}</small></span><span><small>Quantity</small><strong>{produce.quantity}</strong></span><span><small>Landed</small><strong>{produce.landed}</strong></span><ChevronRight /></button>)}</div>
+          <PanelTitle eyebrow="Private direct offer" title="Accepted supply and pending responses" action="Manage sourcing" onAction={() => onNavigate('Requirements')} />
+          <div className="supply-plan-list">{data.supplyPlan.map((produce) => <button key={produce.produce} onClick={() => onNavigate('Requirements')}><span className={cn('selection-box', produce.selected && 'is-locked')}>{produce.selected ? <LockKeyhole /> : <Clock3 />}</span><span><VerifiedIdentity name={produce.seller} as="strong" /><small>{produce.produce} · {produce.quality}</small></span><span><small>{produce.selected ? 'Committed' : 'Offered'}</small><strong>{produce.quantity}</strong></span><span><small>Landed</small><strong>{produce.landed}</strong></span><ChevronRight /></button>)}</div>
         </article>
         <article className="panel buyer-costs">
           <PanelTitle eyebrow="Decision total" title="Landed cost" />
@@ -140,7 +140,7 @@ function StorageOverview({ onAction, onNavigate }: OverviewProps) {
         <article className="panel dock-schedule"><PanelTitle eyebrow="Dock operations" title="Today’s movements" action="All bookings" onAction={() => onNavigate('Bookings')} /><div>{data.schedule.map((item) => <button key={`${item.time}-${item.crop}`} onClick={() => onAction(`${item.type} opened.`)}><time>{item.time}</time><span className={cn('movement-type', item.type === 'Check-in' ? 'incoming' : 'outgoing')}>{item.type}</span><span><strong>{item.crop}</strong><small>{item.party}</small></span><span><strong>{item.dock}</strong><small>{item.state}</small></span></button>)}</div></article>
         <div className="storage-side">
           <article className="panel condition-panel"><PanelTitle eyebrow="Condition monitoring" title="Rooms" />{data.conditions.map((room) => <button key={room.room} onClick={() => onAction(`${room.room} conditions opened.`)}><Thermometer /><span><strong>{room.room}</strong><small>{room.detail}</small></span><b>{room.value}</b><Status tone={room.tone as Tone}>{room.tone === 'warning' ? 'Alert' : 'Live'}</Status></button>)}</article>
-          <article className="panel quote-mini"><PanelTitle eyebrow="Sales queue" title="Quote requests" action="View all" onAction={() => onNavigate('Bookings')} />{data.quotes.map((quote) => <button key={`${quote.crop}-${quote.capacity}`} onClick={() => onAction(`${quote.crop} quote opened.`)}><span><strong>{quote.crop}</strong><small>{quote.capacity} · {quote.requester}</small></span><b>{quote.due}</b></button>)}</article>
+          <article className="panel quote-mini"><PanelTitle eyebrow="Sales queue" title="Quote requests" action="View all" onAction={() => onNavigate('Requests')} />{data.quotes.map((quote) => <button key={`${quote.crop}-${quote.capacity}`} onClick={() => onNavigate('Requests')}><span><strong>{quote.crop}</strong><small>{quote.capacity} · {quote.requester}</small></span><b>{quote.due}</b></button>)}</article>
         </div>
       </section>
     </div>
@@ -160,7 +160,7 @@ function TransportOverview({ onAction, onNavigate }: OverviewProps) {
         </article>
         <article className="panel fleet-board"><PanelTitle eyebrow="Fleet status" title="Vehicles" action="Manage fleet" onAction={() => onNavigate('Vehicles')} /><div className="fleet-list">{data.fleet.map((vehicle) => <button key={vehicle.vehicle} onClick={() => onAction(`${vehicle.vehicle} opened.`)}><span className="vehicle-symbol"><Truck /></span><span><strong>{vehicle.vehicle}</strong><small>{vehicle.type} · {vehicle.driver}</small></span><Status tone={vehicle.tone as Tone}>{vehicle.state}</Status></button>)}</div></article>
       </section>
-      <section className="panel transport-quotes"><PanelTitle eyebrow="Unassigned work" title="Quote opportunities" action="Open quote desk" onAction={() => onNavigate('Quotes')} /><div>{data.quotes.map((quote) => <button key={quote.route} onClick={() => onAction(`${quote.route} quote opened.`)}><MapPin /><span><strong>{quote.route}</strong><small>{quote.load}</small></span><b>{quote.value}</b><Status tone="warning">{quote.due}</Status><ArrowRight /></button>)}</div></section>
+      <section className="panel transport-quotes"><PanelTitle eyebrow="Unassigned work" title="Quote opportunities" action="Open quote desk" onAction={() => onNavigate('Quote requests')} /><div>{data.quotes.map((quote) => <button key={quote.route} onClick={() => onNavigate('Quote requests')}><MapPin /><span><strong>{quote.route}</strong><small>{quote.load}</small></span><b>{quote.value}</b><Status tone="warning">{quote.due}</Status><ArrowRight /></button>)}</div></section>
     </div>
   );
 }
@@ -171,7 +171,7 @@ function QualityOverview({ onAction, onNavigate }: OverviewProps) {
     <div className="role-overview quality-overview">
       <section className="quality-layout">
         <article className="panel field-schedule"><PanelTitle eyebrow={data.day} title="Field schedule" action="Full calendar" onAction={() => onNavigate('Schedule')} /><ol>{data.schedule.map((visit) => <li key={`${visit.time}-${visit.produce}`}><time>{visit.time}</time><span className="schedule-line" /><button onClick={() => onAction(`${visit.produce} visit opened.`)}><span><strong>{visit.crop}</strong><small>{visit.produce} · {visit.place}</small></span><Status tone={visit.tone as Tone}>{visit.state}</Status><ChevronRight /></button></li>)}</ol></article>
-        <article className="panel assessment-workbench"><PanelTitle eyebrow="Field workbench" title={`${data.active.crop} assessment`} /><div className="assessment-context"><span><small>Produce</small><strong>{data.active.produce}</strong></span><span><small>Farmer</small><VerifiedIdentity name={data.active.farmer} as="strong" /></span><b>Step 3 of 5</b></div><ol className="assessment-checklist">{data.checklist.map((step, index) => <li className={cn(step.state === 'Complete' && 'is-complete', step.state === 'Current' && 'is-current')} key={step.label}><span>{step.state === 'Complete' ? <Check /> : index + 1}</span><strong>{step.label}</strong><small>{step.state}</small></li>)}</ol><Button size="lg" onClick={() => onNavigate('Assessments')}>Continue assessment<ArrowRight data-icon="inline-end" /></Button></article>
+        <article className="panel assessment-workbench"><PanelTitle eyebrow="Field workbench" title={`${data.active.crop} assessment`} action="New requests" onAction={() => onNavigate('Requests')} /><div className="assessment-context"><span><small>Produce</small><strong>{data.active.produce}</strong></span><span><small>Farmer</small><VerifiedIdentity name={data.active.farmer} as="strong" /></span><b>Step 3 of 5</b></div><ol className="assessment-checklist">{data.checklist.map((step, index) => <li className={cn(step.state === 'Complete' && 'is-complete', step.state === 'Current' && 'is-current')} key={step.label}><span>{step.state === 'Complete' ? <Check /> : index + 1}</span><strong>{step.label}</strong><small>{step.state}</small></li>)}</ol><Button size="lg" onClick={() => onNavigate('Assessments')}>Continue assessment<ArrowRight data-icon="inline-end" /></Button></article>
       </section>
       <section className="panel report-deadlines"><PanelTitle eyebrow="Report handoff" title="Drafts and re-checks" action="All reports" onAction={() => onNavigate('Reports')} /><div>{data.reports.map((report) => <button key={report.produce} onClick={() => onAction(`${report.produce} report opened.`)}><ClipboardCheck /><span><strong>{report.crop}</strong><small>{report.produce} · {report.detail}</small></span><Status tone={report.tone as Tone}>{report.due}</Status><ArrowRight /></button>)}</div></section>
     </div>
@@ -198,6 +198,7 @@ function AdminOverview({ onAction, onNavigate }: OverviewProps) {
 type OverviewProps = {
   onAction: (message: string) => void;
   onNavigate: (screen: string) => void;
+  onOpenAgreement?: (agreementId: string) => void;
 };
 
 export function RoleOverview({ roleId, ...props }: OverviewProps & { roleId: RoleId }) {

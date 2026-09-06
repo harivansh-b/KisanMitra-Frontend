@@ -1,6 +1,6 @@
 'use client';
 
-import verifiedProfiles from '@/mockdata/verified-profiles.json';
+import { verifiedProfilesFixture as verifiedProfiles } from '@/data/fixtures';
 import { cn } from '@/lib/utils';
 
 const verificationByName = new Map(

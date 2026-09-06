@@ -3,9 +3,9 @@
     "urgent": { "title": "Choose an offer for your onion produce", "detail": "3 valid offers · closes today at 5:30 PM", "action": "Compare offers" },
     "produce": { "crop": "Red Onion", "id": "PRD-2408", "quantity": "4,280 kg", "grade": "Grade A verified", "location": "Niphad, Nashik", "stage": "Quality assessed", "marketStatus": "Offers open" },
     "offers": [
-      { "buyer": "MahaFresh Foods", "price": "₹30.00/kg", "net": "₹1,20,000", "terms": "Buyer transport · same-day payment", "tag": "Best net return", "tone": "positive" },
-      { "buyer": "Western Fresh", "price": "₹31.00/kg", "net": "₹1,17,800", "terms": "You arrange transport · payment in 7 days", "tag": "Highest price", "tone": "neutral" },
-      { "buyer": "Nashik FPO", "price": "₹29.80/kg", "net": "₹1,19,500", "terms": "Pickup included · payment in 2 days", "tag": "Reliable terms", "tone": "neutral" }
+      { "id": "OFR-782", "buyer": "MahaFresh Foods", "price": "₹30.00/kg", "net": "₹1,20,000", "terms": "Buyer transport · same-day payment", "tag": "Best net return", "tone": "positive" },
+      { "id": "OFR-779", "buyer": "Western Fresh", "price": "₹31.00/kg", "net": "₹1,17,800", "terms": "You arrange transport · payment in 7 days", "tag": "Highest price", "tone": "neutral" },
+      { "id": "CAM-108", "buyer": "Nashik FPO", "price": "₹29.80/kg", "net": "₹1,19,500", "terms": "Pickup included · payment in 2 days", "tag": "Reliable terms", "tone": "neutral" }
     ],
     "sellScenarios": [
       { "label": "Sell now", "value": "₹1.20L", "detail": "Best confirmed net offer", "recommended": true },
@@ -49,15 +49,15 @@
     "requirement": { "name": "Red Onion · Grade A", "id": "REQ-331", "destination": "Pune processing unit", "budget": "≤ ₹31.00/kg", "delivery": "By 8 Sep" },
     "fulfilment": [
       { "label": "Required", "value": "20.0T", "percent": 100 },
-      { "label": "Matched", "value": "28.4T", "percent": 100 },
-      { "label": "Selected", "value": "18.5T", "percent": 93 },
-      { "label": "Committed", "value": "12.0T", "percent": 60 },
+      { "label": "Invited", "value": "40.7T", "percent": 100 },
+      { "label": "Accepted", "value": "15.3T", "percent": 76 },
+      { "label": "Remaining", "value": "4.7T", "percent": 24 },
       { "label": "Received", "value": "8.5T", "percent": 43 }
     ],
     "supplyPlan": [
-      { "seller": "Nashik FPO", "produce": "FPO-108", "quantity": "8.5T", "landed": "₹31.40/kg", "quality": "Verified", "selected": true },
-      { "seller": "Patil Farms", "produce": "PRD-2408", "quantity": "4.3T", "landed": "₹30.85/kg", "quality": "Verified", "selected": true },
-      { "seller": "Jadhav Farms", "produce": "PRD-2416", "quantity": "5.7T", "landed": "₹31.10/kg", "quality": "Assessment due", "selected": false }
+      { "seller": "Nashik FPO", "produce": "FPO-108", "quantity": "11.0T", "landed": "₹31.40/kg", "quality": "Verified · seller locked", "selected": true },
+      { "seller": "Patil Farms", "produce": "PRD-2408", "quantity": "4.28T", "landed": "₹30.85/kg", "quality": "Verified · seller locked", "selected": true },
+      { "seller": "Jadhav Farms", "produce": "PRD-2416", "quantity": "5.7T", "landed": "₹31.10/kg", "quality": "Awaiting response · assessment due", "selected": false }
     ],
     "costs": [
       { "label": "Produce", "value": "₹5.49L" },

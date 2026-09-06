@@ -35,13 +35,13 @@ The root route redirects to the Farmer workspace. Individual workspaces are also
 
 | Actor | Route |
 | --- | --- |
-| Farmer | `/farmer` |
-| FPO | `/fpo` |
-| Buyer | `/buyer` |
-| Storage Manager | `/storage` |
-| Transport Manager | `/transport` |
-| Quality Assessor | `/quality` |
-| Admin | `/admin` |
+| Farmer | `/farmer/overview` |
+| FPO | `/fpo/overview` |
+| Buyer | `/buyer/overview` |
+| Storage Manager | `/storage/overview` |
+| Transport Manager | `/transport/overview` |
+| Quality Assessor | `/quality/overview` |
+| Admin | `/admin/overview` |
 
 Use the **Viewing as** selector in the header to switch actors without restarting the application.
 
@@ -53,6 +53,10 @@ npm run dev
 
 # Check the source for lint errors
 npm run lint
+
+# Validate types and backend-boundary contracts
+npm run typecheck
+npm test
 
 # Create a production build
 npm run build
@@ -77,6 +81,8 @@ public/       Static icons and public assets
 ```
 
 All visual styling should use the semantic tokens defined in [`app/globals.css`](app/globals.css). UI data should remain in JSON format inside `mockdata/`.
+
+Frontend components consume data through the application provider and typed contracts in `domain/`; they do not import mock JSON directly. See [`docs/backend-adapter-contract.md`](docs/backend-adapter-contract.md) for the future backend integration boundary.
 
 ## Common setup issues
 

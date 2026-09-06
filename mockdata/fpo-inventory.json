@@ -1,0 +1,121 @@
+{
+  "summary": [
+    { "label": "FPO-owned produce", "value": "31.98T", "detail": "3 active produce records" },
+    { "label": "Needs placement", "value": "4.28T", "detail": "Storage decision due today", "tone": "warning" },
+    { "label": "In storage", "value": "18.20T", "detail": "Across 2 facilities" },
+    { "label": "Buyer allocated", "value": "9.50T", "detail": "2 confirmed trades", "tone": "positive" }
+  ],
+  "records": [
+    {
+      "id": "FPO-PRD-121",
+      "title": "Nashik Red Onion",
+      "quantity": "4,280 kg",
+      "stage": "Storage decision pending",
+      "status": "New ownership handover",
+      "tone": "warning",
+      "owner": "Nashik Farmers Producer Co.",
+      "location": "Pimpalgaon collection centre",
+      "quality": "Grade A · assessment valid until 7 Sep, 14:30",
+      "conditionScore": 90,
+      "conditionLabel": "Good condition",
+      "conditionBasis": "Receiving check passed · ventilated holding recorded",
+      "storage": "Not booked · placement due today",
+      "allocation": "Unallocated · available for Buyer demand",
+      "acquiredFrom": "Ramesh Patil",
+      "sourceProduceIds": ["PRD-2408"],
+      "purchaseId": "PUR-418",
+      "ownershipReceipt": "OWN-221",
+      "acquiredAt": "5 Sep 2026 · 11:20",
+      "nextAction": "Arrange storage",
+      "journey": [
+        { "label": "Farmer purchase", "status": "complete", "meta": "PUR-418 paid and confirmed" },
+        { "label": "Receiving check", "status": "complete", "meta": "4,280 kg · Grade A" },
+        { "label": "FPO ownership", "status": "complete", "meta": "OWN-221 created" },
+        { "label": "Storage / dispatch", "status": "current", "meta": "Decision required" },
+        { "label": "Buyer allocation", "status": "upcoming", "meta": "Not allocated" }
+      ],
+      "lineage": [
+        "Source Farmer produce: PRD-2408",
+        "Accepted purchase quantity: 4,280 kg",
+        "Farmer payment: confirmed",
+        "Ownership transferred after purchase confirmation",
+        "Original assessment QA-204 retained"
+      ],
+      "actions": ["Arrange storage", "Request transport", "Allocate to Buyer demand", "Split produce"]
+    },
+    {
+      "id": "FPO-PRD-116",
+      "title": "FAQ Wheat aggregation",
+      "quantity": "18,200 kg",
+      "stage": "In storage",
+      "status": "Condition monitored",
+      "tone": "positive",
+      "owner": "Nashik Farmers Producer Co.",
+      "location": "Dry Warehouse A · Zone 3",
+      "quality": "FAQ · composite assessment valid",
+      "conditionScore": 87,
+      "conditionLabel": "Stable in storage",
+      "conditionBasis": "Dry storage checks current · moisture within recorded specification",
+      "storage": "SB-197 · 12 days remaining",
+      "allocation": "12,000 kg allocated to TR-1038 · 6,200 kg available",
+      "acquiredFrom": "12 member Farmers",
+      "sourceProduceIds": ["PRD-2351", "PRD-2354", "PRD-2360", "+9 more"],
+      "purchaseId": "CAM-102 purchases",
+      "ownershipReceipt": "OWN-208–219",
+      "acquiredAt": "1–4 Sep 2026",
+      "nextAction": "Plan dispatch",
+      "journey": [
+        { "label": "Farmer purchases", "status": "complete", "meta": "12 purchases confirmed" },
+        { "label": "Compatible merge", "status": "complete", "meta": "Lineage retained" },
+        { "label": "Storage", "status": "current", "meta": "Checks current" },
+        { "label": "Buyer allocation", "status": "complete", "meta": "12,000 kg reserved" },
+        { "label": "Dispatch", "status": "upcoming", "meta": "Plan vehicle" }
+      ],
+      "lineage": [
+        "12 source Farmer produce records",
+        "Merged only after grade and moisture compatibility check",
+        "Individual purchase quantities remain traceable",
+        "12,000 kg reserved for buyer trade TR-1038",
+        "6,200 kg remains FPO-controlled and available"
+      ],
+      "actions": ["Plan dispatch", "View storage booking", "View source lineage", "Split allocation"]
+    },
+    {
+      "id": "FPO-PRD-109",
+      "title": "Bhagwa Pomegranate",
+      "quantity": "9,500 kg",
+      "stage": "Dispatch ready",
+      "status": "Buyer allocated",
+      "tone": "neutral",
+      "owner": "Nashik Farmers Producer Co.",
+      "location": "Cold Room B · Dispatch bay",
+      "quality": "Export grade · dispatch re-check passed",
+      "conditionScore": 93,
+      "conditionLabel": "Dispatch ready",
+      "conditionBasis": "Cold-chain checks current · packaging and re-check completed",
+      "storage": "SB-188 · checkout scheduled 6 Sep, 06:30",
+      "allocation": "9,500 kg allocated to ExportCo · TR-1029",
+      "acquiredFrom": "7 member Farmers",
+      "sourceProduceIds": ["PRD-2318", "PRD-2322", "PRD-2331", "+4 more"],
+      "purchaseId": "CAM-098 purchases",
+      "ownershipReceipt": "OWN-196–202",
+      "acquiredAt": "30 Aug–2 Sep 2026",
+      "nextAction": "Confirm vehicle",
+      "journey": [
+        { "label": "Farmer purchases", "status": "complete", "meta": "7 purchases confirmed" },
+        { "label": "Cold storage", "status": "complete", "meta": "Conditions maintained" },
+        { "label": "Buyer allocation", "status": "complete", "meta": "TR-1029" },
+        { "label": "Dispatch", "status": "current", "meta": "Vehicle confirmation due" },
+        { "label": "Buyer delivery", "status": "upcoming", "meta": "Awaiting dispatch" }
+      ],
+      "lineage": [
+        "7 compatible source Farmer produce records",
+        "Export-grade sorting and packing completed",
+        "Cold storage evidence attached",
+        "Full quantity frozen to buyer trade TR-1029",
+        "FPO owns produce until buyer acceptance under trade terms"
+      ],
+      "actions": ["Confirm vehicle", "View cold-chain record", "View buyer trade", "Report incident"]
+    }
+  ]
+}

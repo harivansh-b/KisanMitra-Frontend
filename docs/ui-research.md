@@ -58,7 +58,7 @@ KisanMitra should feel like an agricultural operations workspace: calm, grounded
 
 ## Agricultural agreement research
 
-The Buyer requirement and FPO procurement campaign are presented as plain-language commercial proposals rather than price-only posts. The proposal becomes a frozen trade only when a seller accepts it; a counterproposal creates a new visible revision rather than overwriting the earlier terms.
+The Buyer requirement and FPO procurement campaign are presented as plain-language commercial proposals rather than price-only posts. A public requirement follows the sourcing-event pattern: sellers submit proposals and the Buyer awards exact quantities. A private requirement is a direct offer to selected verified produce owners: full or partial acceptance reserves immediately and fixes that seller's allocation, while a counter reserves nothing until Buyer acceptance. A counterproposal creates a new visible revision rather than overwriting earlier terms.
 
 Applied agreement content:
 
@@ -80,3 +80,15 @@ Research references:
 - [FAO learning module on contract content](https://www.fao.org/in-action/contract-farming/learning-centre/contract-farming-course/e-learning-detail/module3-understanding-the-content-of-a-contract/en)
 - [UNIDROIT/FAO/IFAD Legal Guide overview](https://www.unidroit.org/instruments/contract-farming/overview/)
 - [e-NAM trader guidance on assaying and electronic payments](https://enam.gov.in/stakeholders-Involved/traders)
+
+### Shared Farmer and FPO negotiation
+
+Buyer–Farmer and Buyer–FPO negotiations use the same agreement viewer, clause groups, revision history, and **Accept / Decline / Send counterproposal** actions. This reflects the same underlying buyer–seller marketing agreement and avoids teaching two negotiation patterns.
+
+The FPO view adds a conditional commitment panel because the FPO may need to aggregate compatible verified produce before making a final commitment. It shows the Buyer target, currently reserved supply, remaining quantity, condition deadline, and confirmation rule. **Accept conditionally** freezes the Buyer terms but does not create the final trade; final confirmation follows only after the supply condition is met. Farmer acceptance remains direct unless the proposal is an FPO procurement campaign, where it reserves the Farmer's selected quantity.
+
+This design follows FAO guidance that contracts may be made with farmer associations, cooperatives, or intermediaries while retaining the same core price, quality, quantity, delivery, payment, and responsibility terms. It also preserves a clear distinction between the Buyer–FPO agreement and the FPO's separate Farmer procurement agreements.
+
+- [FAO contract arrangements with associations, cooperatives, and intermediaries](https://www.fao.org/4/y0937e/y0937e06.htm)
+- [FAO guidance on producer organizations in fair negotiation](https://www.fao.org/in-action/contract-farming/about/frequently-asked-questions/en)
+- [FAO overview of collective supply agreements and group marketing](https://www.fao.org/4/a0159e/a0159e03.htm)

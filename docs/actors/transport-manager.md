@@ -33,7 +33,9 @@ Primary actions: **Update availability**, **Send quote**, **Confirm pickup**, or
 ### Quote Requests
 
 - Load crop, quantity, pickup/drop-off, time window, handling needs, produce/trade context, arranger, payer, and deadline.
+- Receive public requests matched by route, capacity and vehicle conditions, plus private requests addressed to the provider. Include packaging, loading/unloading responsibility, cover/refrigeration needs, and field-access constraints.
 - Quote includes price breakdown, vehicle, capacity, ETA, schedule, terms, and expiry.
+- A response becomes a transport job only after the Farmer awards it; keep it in **Quote Requests** until then and move the awarded work to **Shipments**.
 
 ### Jobs
 

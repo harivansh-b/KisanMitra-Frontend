@@ -49,13 +49,18 @@ Primary actions: **Review verification**, **Open dispute**, **Investigate alert*
 - Actions: approve, reject, request additional information, suspend, or restore.
 - Prefer an information request over rejection when evidence is incomplete; show required documents, reason, and resubmission state.
 - Consequential actions require reason, confirmation, effective state, and audit preview.
-- Verification affects capabilities, not only badges. For example, an unverified buyer may browse but cannot create requirements, bid, offer, or purchase; an unverified/unauthorized assessor cannot publish an official report.
+- Verification affects capabilities, not only badges. For example, an unverified buyer may browse but cannot add or publish requirements, bid, offer, or purchase; an unverified/unauthorized assessor cannot publish an official report.
 - Use the shared verification permission matrix and display only actor-specific exceptions in the review.
 - Actor detail shows effective permissions and active restrictions after the decision.
 
 ## Marketplace Oversight
 
 - Search and inspect participants, produce, assessments, demands, matches, auctions/bids, offers, FPO campaigns/purchases, ownership transfers, trades, services, delivery/receiving records, payments, and disputes.
+- Distinguish **Buyer bids** from seller-run auctions. Buyer bids carry `public` or `private` visibility; auction bids remain complete Buyer offers inside a seller-run competitive window.
+- Public Buyer bids are visible only to eligible sellers with matching verified produce. Private Buyer bids are visible only to selected eligible Farmers/FPOs, while Admin may inspect recipients for oversight and dispute handling.
+- For private direct offers, retain the response state (`accepted and committed`, `partially committed`, `countered`, `declined`, `pending`, `requirement filled`, or `expired`), accepted quantity, timestamp, remaining balance, and resulting trade ID in the audit view.
+- Verify that public seller proposals reserve nothing until Buyer award, while private full/partial acceptance reserves immediately. Counteroffers reserve nothing until Buyer acceptance.
+- Preserve the accepted private seller allocation; replacement requires an auditable cancellation, failure, expiry, or dispute outcome rather than an ordinary Buyer selection change.
 - Record detail shows linked actors, owner, responsibilities, frozen terms, source evidence, state history, amendments/resolutions, and risk flags.
 - Preserve traceability from farmer source produce through partial transfers, FPO split/merge, aggregated produce, delivery, and buyer ownership.
 - Normal records are read-only. Admin intervention occurs only through a documented verification, moderation, or dispute-resolution action.

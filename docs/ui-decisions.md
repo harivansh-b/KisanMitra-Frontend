@@ -179,7 +179,7 @@ Keep these as separate UI records linked by ID.
 
 Include:
 
-- One-time, public Buyer requirements.
+- One-time Buyer requirements with visibility chosen before publication: public marketplace proposals with Buyer-controlled quantity awards, or private direct offers whose accepted quantities reserve immediately and whose accepted sellers cannot be replaced.
 - Individually priced FPO services.
 - English-only UI content.
 - Layouts remain localization-ready without an initial language switcher.
@@ -191,7 +191,7 @@ Include:
 Defer:
 
 - Recurring Buyer requirements.
-- Invited requirements and preferred-supplier workflows.
+- Preferred-supplier workflows.
 - FPO service packages.
 - Marathi, Hindi, and other localized UI content.
 

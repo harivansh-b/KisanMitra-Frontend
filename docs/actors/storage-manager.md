@@ -31,10 +31,12 @@ Primary actions: **Update capacity**, **Respond to request**, **Check in produce
 - Pricing by unit/day plus visible minimums or additional charges.
 - Provider verification covers facility identity/location, stated capacity/type, supported crops, cold-storage capability, certifications, and contact. Restricted marketplace actions show their verification requirement.
 
-### Quote Requests
+### Requests
 
 - Requested crop, quantity, dates, conditions, produce/trade context, arranger, payer, and deadline.
+- Receive public requests matched by crop, capacity, location and storage capability, plus private requests addressed to the provider. Show storage type, expected duration, temperature/humidity or ventilation needs, packaging, and handling requirements.
 - Respond with availability, price breakdown, terms, and quote expiry; decline with a short reason.
+- A response becomes a booking only after the Farmer awards it; then remove it from the open request queue and show it under **Bookings**.
 
 ### Bookings
 

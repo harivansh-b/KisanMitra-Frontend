@@ -10,9 +10,9 @@
         { "label": "Harvest window", "placeholder": "Select expected dates", "type": "date" }
       ],
       "records": [
-        { "id": "PRD-2408", "title": "Nashik Red Onion", "subtitle": "Grade A · Lasalgaon, Nashik", "metric": "4,280 kg", "status": "Offers open", "tone": "positive", "progress": 50, "stage": "Quality assessed", "nextAction": "Review offers", "details": ["Owner: Ramesh Patil", "Assessment: QA-204 · valid", "Produce stage: Quality assessed", "Expected net: ₹1,20,260"] },
-        { "id": "PRD-118", "title": "Summer Tomato", "subtitle": "Farmer declared · Niphad", "metric": "2,080 kg recorded", "status": "Assessment needed", "tone": "warning", "progress": 38, "stage": "Quantity recorded", "nextAction": "Request assessment", "details": ["Owner: Ramesh Patil", "Harvested: 4 Sep", "Produce stage: Quantity recorded", "Highly perishable"] },
-        { "id": "PRD-112", "title": "Kharif Maize", "subtitle": "Expected produce · Dindori", "metric": "≈ 6,000 kg", "status": "Harvest expected", "tone": "neutral", "progress": 13, "stage": "Pre-harvest", "nextAction": "Record harvest", "details": ["Expected harvest: 21–25 Sep", "Produce stage: Pre-harvest", "Area: 2.4 acres", "Buyer matching: On"] }
+        { "id": "PRD-2408", "title": "Nashik Red Onion", "subtitle": "Lasalgaon, Nashik", "metric": "4,280 kg", "status": "Offers open", "tone": "positive", "progress": 50, "stage": "Quality assessed", "nextAction": "Review offers", "crop": "Red Onion", "variety": "N-53", "availableQuantity": 4280, "qualityGrade": "Grade A", "qualitySpecifications": "Firm, mature bulbs; 45–65 mm diameter; free from visible rot and excessive surface moisture.", "conditionScore": 90, "conditionLabel": "Well maintained", "conditionBasis": "Assessed recently · kept in ventilated holding", "qualityLabel": "Grade A · verified", "qualityVerified": true, "harvestLabel": "Harvested 2 Sep", "details": ["Owner: Ramesh Patil", "Assessment: QA-204 · valid", "Produce stage: Quality assessed", "Storage: Ventilated holding", "Expected net: ₹1,20,260"] },
+        { "id": "PRD-118", "title": "Summer Tomato", "subtitle": "Niphad, Nashik", "metric": "2,080 kg recorded", "status": "Needs attention", "tone": "warning", "progress": 38, "stage": "Quantity recorded", "nextAction": "Request assessment", "crop": "Tomato", "variety": "Summer crop", "availableQuantity": 2080, "qualityGrade": "Not assessed", "qualitySpecifications": "No verified assessment is available.", "conditionScore": 60, "conditionLabel": "Condition at risk", "conditionBasis": "Harvested earlier · suitable storage not recorded", "qualityLabel": "Not assessed", "qualityVerified": false, "harvestLabel": "Harvested 4 Sep", "details": ["Owner: Ramesh Patil", "Harvested: 4 Sep", "Produce stage: Quantity recorded", "Storage: Needed", "Highly perishable"] },
+        { "id": "PRD-112", "title": "Kharif Maize", "subtitle": "Dindori, Nashik", "metric": "≈ 6,000 kg", "status": "Harvest expected", "tone": "neutral", "progress": 13, "stage": "Pre-harvest", "nextAction": "Record harvest", "crop": "Maize", "variety": "Kharif crop", "availableQuantity": 0, "qualityGrade": "Not assessed", "qualitySpecifications": "Produce has not been harvested or assessed.", "conditionLabel": "Starts after harvest", "conditionBasis": "No post-harvest condition estimate yet", "qualityLabel": "Not assessed", "qualityVerified": false, "harvestLabel": "Expected 21–25 Sep", "details": ["Expected harvest: 21–25 Sep", "Produce stage: Pre-harvest", "Area: 2.4 acres", "Buyer matching: On"] }
       ]
     },
     "Offers": {
@@ -24,6 +24,8 @@
         { "label": "Offer window closes", "placeholder": "Choose closing time", "type": "datetime-local" }
       ],
       "records": [
+        { "id": "REQ-331", "title": "MahaFresh Foods · Red Onion demand", "subtitle": "Private direct offer · delivery to Pune", "metric": "₹30.00/kg", "status": "Response requested", "tone": "warning", "progress": 0, "stage": "Direct offer", "nextAction": "Review demand terms", "details": ["Required: 20,000 kg", "Quality: Grade A", "Delivery by: 12 Sep", "Acceptance reserves quantity immediately"] },
+        { "id": "REQ-328", "title": "MahaFresh Foods · Pomegranate demand", "subtitle": "Public requirement · delivery to Mumbai", "metric": "Up to ₹55.00/kg", "status": "Proposals open", "tone": "positive", "progress": 0, "stage": "Public proposal window", "nextAction": "Submit supply proposal", "details": ["Required: 5,000 kg", "Quality: Export grade", "Proposals close: 8 Sep", "No produce is reserved until Buyer award"] },
         { "id": "OFR-782", "title": "MahaFresh Foods", "subtitle": "Buyer pays transport · same-day payment", "metric": "₹1,20,260 net", "status": "Best net offer", "tone": "positive", "progress": 88, "stage": "Offer open", "nextAction": "Review terms", "details": ["Price: ₹29.50/kg", "Quantity: 4,280 kg", "Buyer reliability: 94%", "Ownership: buyer acceptance"] },
         { "id": "OFR-779", "title": "Deccan Produce Trading", "subtitle": "Farmer pays transport · payment in 7 days", "metric": "₹1,17,800 net", "status": "Highest price", "tone": "neutral", "progress": 64, "stage": "Offer open", "nextAction": "Counter offer", "details": ["Price: ₹31.00/kg", "Transport estimate: ₹14,880", "Buyer reliability: 88%", "Expires today at 18:00"] },
         { "id": "CAM-108", "title": "Nashik Farmers Producer Co.", "subtitle": "Collection centre purchase · payment in 2 days", "metric": "₹1,18,128 net", "status": "FPO campaign", "tone": "warning", "progress": 76, "stage": "Accepting commitments", "nextAction": "Reserve quantity", "details": ["Price: ₹27.60/kg", "Collection: Pimpalgaon centre", "Minimum grade: A", "Ownership stays with farmer until purchase"] }
@@ -40,9 +42,9 @@
       ]
     },
     "Services": {
-      "subtitle": "Compare quality, transport and storage services assigned to your produce.",
+      "subtitle": "Track harvesting, measurement, quality, storage, transport and FPO support requested for your produce.",
       "primaryAction": "Find a service",
-      "filters": ["All", "Quality", "Transport", "Storage"],
+      "filters": ["All", "Harvesting", "Measurement", "Quality", "Storage", "Transport", "FPO"],
       "fields": [
         { "label": "Service type", "placeholder": "Quality, transport or storage", "type": "text" },
         { "label": "Produce", "placeholder": "Select produce", "type": "text" },
@@ -50,7 +52,7 @@
       ],
       "records": [
         { "id": "QA-204", "title": "Quality assessment", "subtitle": "Dr. Meera Deshmukh · authorized assessor", "metric": "₹1,200", "status": "Completed", "tone": "positive", "progress": 100, "stage": "Report valid", "nextAction": "View report", "details": ["Produce: PRD-2408", "Assessed: 4,280 kg", "Grade: A", "Valid until: 7 Sep, 14:30"] },
-        { "id": "SH-100", "title": "Nashik to Pune transport", "subtitle": "Nashik Agro Logistics · 5T truck", "metric": "₹8,500", "status": "On the way", "tone": "neutral", "progress": 75, "stage": "In transport", "nextAction": "Track shipment", "details": ["Arranger/payer: MahaFresh Foods", "Produce stage: In transport", "ETA: Today, 16:20", "Booking is read-only for farmer"] }
+        { "id": "SH-100", "title": "Nashik to Pune transport", "subtitle": "Nashik Agro Logistics · 5T truck", "metric": "₹8,500", "status": "On the way", "tone": "neutral", "progress": 75, "stage": "In transport", "nextAction": "Track shipment", "details": ["Produce: PRD-2408", "Arranger/payer: MahaFresh Foods", "Produce stage: In transport", "ETA: Today, 16:20", "Booking is read-only for farmer"] }
       ]
     }
   },
@@ -82,18 +84,54 @@
         { "id": "COM-414", "title": "Anita More · PRD-2398", "subtitle": "Red Onion · mixed grade", "metric": "3,600 kg reserved", "status": "Re-check required", "tone": "warning", "progress": 55, "stage": "Collection check", "nextAction": "Request reassessment", "details": ["Arrived: 3,480 kg", "Grade A: 2,900 kg", "Deviation: 580 kg", "Purchase not confirmed"] }
       ]
     },
-    "Buyer trades": {
-      "subtitle": "Manage conditional commitments, frozen buyer terms and fulfilment.",
-      "primaryAction": "Evaluate demand",
-      "filters": ["All", "Interested", "Conditional", "Confirmed"],
+    "Inventory": {
+      "subtitle": "Manage produce after Farmer purchase completion, with ownership lineage, storage, allocation and dispatch kept together.",
+      "primaryAction": "Review incoming purchases",
+      "filters": ["All", "Needs action", "In storage", "Buyer allocated"],
+      "fields": [],
+      "records": []
+    },
+    "Open demand": {
+      "subtitle": "Review public opportunities and private Buyer bids before responding.",
+      "primaryAction": "Browse buyer demand",
+      "filters": ["All", "Public", "Private", "Expiring"],
       "fields": [
         { "label": "Buyer requirement", "placeholder": "Select public demand", "type": "text" },
         { "label": "Maximum supply", "placeholder": "Quantity in kg", "type": "number" }
       ],
       "records": [
-        { "id": "CC-071", "title": "MahaFresh Foods · 20T onion", "subtitle": "Pune · delivery by 9 Sep", "metric": "₹30.00/kg", "status": "Conditional", "tone": "warning", "progress": 82, "stage": "Supply condition", "nextAction": "Review viability", "details": ["Required reserved: 20T", "Currently reserved: 16.4T", "Projected margin: 6.8%", "Condition closes: 6 Sep, 18:00"] },
+        { "id": "CC-071", "title": "MahaFresh Foods · 20T onion", "subtitle": "Private direct offer for REQ-331 · delivery to Pune", "metric": "₹30.00/kg", "status": "Awaiting FPO response", "tone": "warning", "progress": 82, "stage": "Direct offer", "nextAction": "Review demand terms", "details": ["Requirement remaining: 4.72T", "Maximum offered to FPO: 11T", "Projected margin: 6.8%", "Acceptance commits the exact accepted quantity"] },
+        { "id": "REQ-328", "title": "MahaFresh Foods · 5T pomegranate", "subtitle": "Public requirement · delivery to Mumbai", "metric": "Up to ₹55.00/kg", "status": "Proposals open", "tone": "positive", "progress": 0, "stage": "Public proposal window", "nextAction": "Submit supply proposal", "details": ["Required: 5T", "Quality: Export grade", "Proposal deadline: 8 Sep, 16:00", "Buyer selects and awards exact quantities"] }
+      ]
+    },
+    "Responses": {
+      "subtitle": "Track public proposals awaiting Buyer awards and private commitments already reserved.",
+      "primaryAction": "View open demand",
+      "filters": ["All", "Accepted", "Partial", "Counter", "Conditional"],
+      "fields": [
+        { "label": "Buyer or requirement", "placeholder": "Search submitted responses", "type": "text" }
+      ],
+      "records": [
+        { "id": "RSP-064", "title": "FreshRoute Retail · 12T tomato", "subtitle": "Public proposal for REQ-326 · delivery to Mumbai", "metric": "8,000 kg proposed", "status": "Awaiting Buyer award", "tone": "warning", "progress": 0, "stage": "Public proposal submitted", "nextAction": "Review response", "details": ["Proposed price: ₹24.80/kg", "Supply secured: 6,400 of 8,000 kg", "Proposal valid until: 7 Sep, 18:00", "No trade exists until Buyer award"] }
+      ]
+    },
+    "Confirmed trades": {
+      "subtitle": "Fulfil awarded Buyer quantities under frozen commercial terms.",
+      "primaryAction": "Review active fulfilment",
+      "filters": ["All", "Confirmed", "Fulfilment", "Delivered", "Payment due"],
+      "fields": [
+        { "label": "Trade, Buyer or produce", "placeholder": "Search confirmed trades", "type": "text" }
+      ],
+      "records": [
         { "id": "TR-1038", "title": "Maha Mills · 30T wheat", "subtitle": "Buyer trade · terms frozen", "metric": "₹7.83L", "status": "Confirmed", "tone": "positive", "progress": 58, "stage": "Fulfilment", "nextAction": "Plan outbound transport", "details": ["FPO-owned: 18.2T", "Still procuring: 11.8T", "Buyer payment: 7 days", "Ownership: buyer acceptance"] }
       ]
+    },
+    "Service requests": {
+      "subtitle": "Review Farmer requests for harvesting, handling and market-linkage support before accepting work.",
+      "primaryAction": "Manage service catalogue",
+      "filters": ["All", "Public", "Private", "Accepted", "Declined"],
+      "fields": [],
+      "records": []
     },
     "Services": {
       "subtitle": "Operate farmer services separately from crop procurement.",
@@ -113,8 +151,8 @@
   "buyer": {
     "Requirements": {
       "subtitle": "Create complete purchase proposals and track seller negotiation and sourcing.",
-      "primaryAction": "Post requirement",
-      "filters": ["All", "Draft", "Active", "Partially sourced"],
+      "primaryAction": "Add requirement",
+      "filters": ["All", "Draft", "Public", "Private", "Partially sourced"],
       "fields": [
         { "label": "Crop and grade", "placeholder": "e.g. Red Onion · Grade A", "type": "text" },
         { "label": "Required quantity", "placeholder": "e.g. 20,000 kg", "type": "number" },
@@ -122,13 +160,13 @@
         { "label": "Delivery location", "placeholder": "City or facility", "type": "text" }
       ],
       "records": [
-        { "id": "REQ-331", "title": "Nashik Red Onion · Grade A", "subtitle": "Public purchase proposal · Pune", "metric": "16.4T / 20T", "status": "Partially sourced", "tone": "warning", "progress": 82, "stage": "Seller review", "nextAction": "Review agreement", "details": ["Matched: 28.6T", "Selected: 16.4T", "Received: 0 kg", "Target price: ≤ ₹31/kg"] },
-        { "id": "REQ-328", "title": "Pomegranate · Export grade", "subtitle": "Public requirement · Mumbai", "metric": "5T required", "status": "Active", "tone": "positive", "progress": 38, "stage": "Offer review", "nextAction": "Compare offers", "details": ["Matched: 8.2T", "Selected: 2T", "Required by: 12 Sep", "Payment: 3 days"] }
+        { "id": "REQ-331", "title": "Nashik Red Onion · Grade A", "subtitle": "Private direct offer · Pune", "metric": "15.28T / 20T", "status": "Partially committed", "tone": "warning", "progress": 76, "stage": "Private acceptance window", "nextAction": "Manage commitments", "visibility": "private", "pendingOffers": 1, "gatheredQuantity": 15280, "targetQuantity": 20000, "details": ["Invited capacity: 40.68T", "Accepted and locked: 15.28T", "Invites pending: 1", "Remaining: 4.72T"] },
+        { "id": "REQ-328", "title": "Pomegranate · Export grade", "subtitle": "Public requirement · Mumbai", "metric": "2T / 5T awarded", "status": "Proposals received", "tone": "positive", "progress": 40, "stage": "Public proposal review", "nextAction": "Review proposals", "visibility": "public", "pendingOffers": 3, "gatheredQuantity": 2000, "targetQuantity": 5000, "details": ["Proposed: 8.6T", "Awarded: 2T", "Proposals pending review: 3", "Required by: 12 Sep"] }
       ]
     },
     "Marketplace": {
       "subtitle": "Compare verified supply by fit, landed cost and seller reliability.",
-      "primaryAction": "Build procurement plan",
+      "primaryAction": "Manage sourcing",
       "filters": ["All", "Verified", "FPO produce", "Upcoming"],
       "fields": [
         { "label": "Requirement", "placeholder": "Select active requirement", "type": "text" },
@@ -183,6 +221,13 @@
         { "id": "FAC-02", "title": "Cold room B", "subtitle": "Nashik hub · 2–6°C", "metric": "14T available", "status": "Available", "tone": "positive", "progress": 42, "stage": "Published capacity", "nextAction": "Update capacity", "details": ["Total: 28T", "Occupied: 12T", "Held: 2T", "Rate: ₹1.80/kg/day"] },
         { "id": "FAC-03", "title": "Cold room C", "subtitle": "Nashik hub · 0–4°C", "metric": "14.5T available", "status": "Maintenance today", "tone": "warning", "progress": 51, "stage": "Temporarily limited", "nextAction": "Review schedule", "details": ["Total: 30T", "Confirmed bookings unchanged", "Maintenance: 18:00–21:00", "New holds paused"] }
       ]
+    },
+    "Requests": {
+      "subtitle": "Review public and private Farmer storage requests before confirming a booking.",
+      "primaryAction": "Manage facilities",
+      "filters": ["All", "Public", "Private", "Accepted", "Declined"],
+      "fields": [],
+      "records": []
     },
     "Bookings": {
       "subtitle": "Coordinate confirmed storage terms, check-in and check-out evidence.",
@@ -255,7 +300,7 @@
         { "id": "VEH-08", "title": "MH 15 HH 1190", "subtitle": "8T refrigerated · S. More", "metric": "Available now", "status": "Available", "tone": "positive", "progress": 0, "stage": "Published availability", "nextAction": "Assign vehicle", "details": ["2–8°C handling", "Nashik region", "Available until 9 Sep", "Capacity: 8T"] }
       ]
     },
-    "Quotes": {
+    "Quote requests": {
       "subtitle": "Respond with vehicle, schedule and complete price terms.",
       "primaryAction": "Send quote",
       "filters": ["All", "New", "Sent", "Expiring"],
@@ -285,6 +330,13 @@
     }
   },
   "quality": {
+    "Requests": {
+      "subtitle": "Review quantity-measurement and crop-assessment requests before scheduling field work.",
+      "primaryAction": "Set availability",
+      "filters": ["All", "Measurement", "Quality", "Public", "Private"],
+      "fields": [],
+      "records": []
+    },
     "Assessments": {
       "subtitle": "Complete structured inspections and preserve verified evidence.",
       "primaryAction": "Start assessment",

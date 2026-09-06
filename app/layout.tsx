@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { PrototypeStore } from '@/components/prototype-store';
+import { ApplicationProvider } from '@/components/application-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <PrototypeStore>{children}</PrototypeStore>
+        <ApplicationProvider>{children}</ApplicationProvider>
       </body>
     </html>
   );
