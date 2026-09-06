@@ -8,3 +8,7 @@ export { default as serviceRequestsFixture } from '@/mockdata/service-requests.j
 export { default as tradeAgreementsFixture } from '@/mockdata/trade-agreements.json';
 export { default as verifiedProfilesFixture } from '@/mockdata/verified-profiles.json';
 export { default as workspacesFixture } from '@/mockdata/workspaces.json';
+
+// NOTE: Mandi data is now served from the FastAPI backend via /api/v1/mandi
+// Use mandiApi from lib/api/mandi.ts for live data
+export const mandiFixture = { note: 'Live data from backend' } as const;

@@ -2,7 +2,9 @@
 
 A responsive frontend prototype for KisanMitra, an agricultural market-intelligence and transaction-enablement interface. It contains tailored workspaces for Farmer, FPO, Buyer, Storage Manager, Transport Manager, Quality Assessor, and Admin actors.
 
-This repository is UI/UX only. It has no backend, database, authentication service, or external API dependency. Demonstration data is loaded from JSON files in [`mockdata/`](mockdata/).
+This frontend uses Clerk for OAuth/email authentication and sends the Clerk session token to the KisanMitra FastAPI API. Supabase remains the database and storage layer on the server. Existing workspace fixtures remain available for prototype-only flows that do not yet have a matching backend screen.
+
+The landing page supports guest demo browsing and public Maharashtra Mandi prices. Authenticated users can open Geography to view a privacy-safe map of nearby Farmers, Buyers, and FPOs. Configure `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` in `.env.local`; keep the Clerk secret and JWKS settings in the backend only.
 
 ## Prerequisites
 
@@ -27,7 +29,7 @@ npm run dev
 
 The development server prints its local URL in the terminal. By default, open [http://localhost:3000](http://localhost:3000).
 
-No environment variables or service credentials are required.
+Copy `.env.example` to `.env.local` and provide only public browser settings. `NEXT_PUBLIC_API_BASE_URL` defaults to `http://localhost:8000/api/v1` for local development. Never add a Supabase service-role key, database URL, or mandi API key to frontend environment files.
 
 ## Actor routes
 

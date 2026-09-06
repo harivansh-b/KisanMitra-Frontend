@@ -1,9 +1,9 @@
 import type { RoleId } from '@/domain/contracts';
 
 export const roleSections: Record<RoleId, readonly string[]> = {
-  farmer: ['overview', 'produce', 'offers', 'trades', 'services'],
-  fpo: ['overview', 'campaigns', 'farmer-supply', 'inventory', 'open-demand', 'responses', 'confirmed-trades', 'service-requests', 'services'],
-  buyer: ['overview', 'requirements', 'marketplace', 'purchases', 'deliveries'],
+  farmer: ['overview', 'produce', 'offers', 'trades', 'services', 'mandi', 'rankings', 'geography', 'verification'],
+  fpo: ['overview', 'campaigns', 'farmer-supply', 'inventory', 'open-demand', 'responses', 'confirmed-trades', 'service-requests', 'services', 'mandi', 'geography'],
+  buyer: ['overview', 'requirements', 'marketplace', 'purchases', 'deliveries', 'mandi', 'rankings', 'geography', 'verification'],
   storage: ['overview', 'facilities', 'requests', 'bookings', 'inventory', 'operations'],
   transport: ['overview', 'shipments', 'vehicles', 'quote-requests', 'routes'],
   quality: ['overview', 'requests', 'assessments', 'schedule', 'reports', 'availability'],

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ApplicationProvider } from '@/components/application-provider';
+import { ClerkAuthBridge, ClerkRootProvider } from '@/components/clerk-auth-bridge';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <ApplicationProvider>{children}</ApplicationProvider>
+        <ClerkRootProvider><ClerkAuthBridge><ApplicationProvider>{children}</ApplicationProvider></ClerkAuthBridge></ClerkRootProvider>
       </body>
     </html>
   );

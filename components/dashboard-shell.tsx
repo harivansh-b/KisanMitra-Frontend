@@ -6,7 +6,7 @@ import {
   AlertTriangle, ArrowRight, Bell, Boxes, Building2, Check, ChevronDown,
   ClipboardCheck, Command, FileText, Gauge, HandCoins, HelpCircle,
   LayoutDashboard, Leaf, Menu, MoreHorizontal, PackageCheck, Search, Settings, ShieldCheck,
-  ShoppingBasket, Store, RotateCcw, Truck, X,
+  ShoppingBasket, Store, RotateCcw, Truck, X, MapPin,
 } from 'lucide-react';
 
 import { dashboardFixture as dashboardData, formsFixture as formData } from '@/data/fixtures';
@@ -14,6 +14,12 @@ import { ActionDialog, type FormValues } from '@/components/action-dialog';
 import { AgreementBuilderDialog, AgreementReviewSheet, getAgreementView } from '@/components/commercial-agreement';
 import { ProcurementPlanDialog } from '@/components/procurement-plan';
 import { FpoInventory } from '@/components/fpo-inventory';
+import { MandiModule } from '@/components/mandi-module';
+import { ChatbotWidget } from '@/components/chatbot-widget';
+import { AuthControl } from '@/components/auth-control';
+import { VerificationModule } from '@/components/verification-module';
+import { RankingModule } from '@/components/ranking-module';
+import { GeographyModule } from '@/components/geography-module';
 import { Button } from '@/components/ui/button';
 import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
@@ -34,7 +40,7 @@ const roleNavigation: Record<RoleId, NavItem[]> = {
   farmer: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Produce', icon: Boxes },
     { label: 'Offers', icon: HandCoins }, { label: 'Trades', icon: FileText },
-    { label: 'Services', icon: Truck },
+    { label: 'Services', icon: Truck }, { label: 'Mandi', icon: Store, target: 'Mandi' }, { label: 'Rankings', icon: Gauge }, { label: 'Geography', icon: MapPin }, { label: 'Verification', icon: ShieldCheck },
   ],
   fpo: [
     { label: 'Home', icon: LayoutDashboard, target: 'Overview' },
@@ -42,11 +48,12 @@ const roleNavigation: Record<RoleId, NavItem[]> = {
     { label: 'Inventory', icon: Boxes },
     { label: 'Sales', icon: HandCoins, target: 'Open demand' },
     { label: 'Services', icon: Truck, target: 'Service requests' },
+    { label: 'Mandi', icon: Store, target: 'Mandi' }, { label: 'Geography', icon: MapPin },
   ],
   buyer: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Requirements', icon: FileText },
     { label: 'Marketplace', icon: Store }, { label: 'Purchases', icon: ShoppingBasket },
-    { label: 'Deliveries', icon: Truck },
+    { label: 'Deliveries', icon: Truck }, { label: 'Mandi', icon: Store, target: 'Mandi' }, { label: 'Rankings', icon: Gauge }, { label: 'Geography', icon: MapPin }, { label: 'Verification', icon: ShieldCheck },
   ],
   storage: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Facilities', icon: Building2 },
@@ -76,6 +83,7 @@ const fpoWorkspaceGroups = [
   { label: 'Inventory', screens: ['Inventory'] },
   { label: 'Sales', screens: ['Open demand', 'Responses', 'Confirmed trades'] },
   { label: 'Services', screens: ['Service requests', 'Services'] },
+  { label: 'Mandi', screens: ['Mandi'] },
 ];
 
 function Logo() {
@@ -282,6 +290,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
               <ChevronDown aria-hidden="true" />
             </div>
             <Button className="notification-button" variant="outline" size="icon" aria-label={`Open ${notificationCount} notifications`} onClick={() => setNotificationsOpen(true)}><Bell />{notificationCount > 0 && <span>{notificationCount > 9 ? '9+' : notificationCount}</span>}</Button>
+            <AuthControl />
           </div>
         </header>
 
@@ -316,6 +325,14 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
             />
           ) : roleId === 'fpo' && activeNav === 'Inventory' ? (
             <FpoInventory onAction={runAction} />
+          ) : activeNav === 'Mandi' ? (
+            <MandiModule />
+          ) : (roleId === 'farmer' || roleId === 'buyer') && activeNav === 'Rankings' ? (
+            <RankingModule role={roleId} />
+          ) : (roleId === 'farmer' || roleId === 'buyer' || roleId === 'fpo') && activeNav === 'Geography' ? (
+            <GeographyModule />
+          ) : (roleId === 'farmer' || roleId === 'buyer') && activeNav === 'Verification' ? (
+            <VerificationModule role={roleId} />
           ) : (
             <WorkspaceView roleId={roleId} screenName={activeNav} onAction={runAction} onOpenProcurementPlan={openProcurementPlan} />
           )}
@@ -407,6 +424,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
         </SheetContent>
       </Sheet>
       {notice && <output className="toast-notice" aria-live="polite"><Check />{notice}</output>}
+      <ChatbotWidget />
     </div>
   );
 }
