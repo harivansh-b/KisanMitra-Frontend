@@ -4,9 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   AlertTriangle, ArrowRight, Bell, Boxes, Building2, Check, ChevronDown,
-  ClipboardCheck, Command, FileText, Gauge, HandCoins, HelpCircle,
+  ClipboardCheck, Command, FileText, Gauge, Globe, HandCoins, HelpCircle,
   LayoutDashboard, Leaf, Menu, MoreHorizontal, PackageCheck, Search, Settings, ShieldCheck,
-  ShoppingBasket, Store, RotateCcw, Truck, X, MapPin,
+  ShoppingBasket, Store, RotateCcw, Truck, X, MapPin, User, FileCheck,
 } from 'lucide-react';
 
 import { dashboardFixture as dashboardData, formsFixture as formData } from '@/data/fixtures';
@@ -20,6 +20,9 @@ import { AuthControl } from '@/components/auth-control';
 import { VerificationModule } from '@/components/verification-module';
 import { RankingModule } from '@/components/ranking-module';
 import { GeographyModule } from '@/components/geography-module';
+import { DocumentModule } from '@/components/document-module';
+import { AccountManagementModal } from '@/components/account-management-modal';
+import { useLanguage, Language } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
@@ -40,7 +43,9 @@ const roleNavigation: Record<RoleId, NavItem[]> = {
   farmer: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Produce', icon: Boxes },
     { label: 'Offers', icon: HandCoins }, { label: 'Trades', icon: FileText },
-    { label: 'Services', icon: Truck }, { label: 'Mandi', icon: Store, target: 'Mandi' }, { label: 'Rankings', icon: Gauge }, { label: 'Geography', icon: MapPin }, { label: 'Verification', icon: ShieldCheck },
+    { label: 'Services', icon: Truck }, { label: 'Mandi', icon: Store, target: 'Mandi' },
+    { label: 'Rankings', icon: Gauge }, { label: 'Geography', icon: MapPin },
+    { label: 'Documents', icon: FileCheck }, { label: 'Verification', icon: ShieldCheck },
   ],
   fpo: [
     { label: 'Home', icon: LayoutDashboard, target: 'Overview' },
@@ -48,32 +53,39 @@ const roleNavigation: Record<RoleId, NavItem[]> = {
     { label: 'Inventory', icon: Boxes },
     { label: 'Sales', icon: HandCoins, target: 'Open demand' },
     { label: 'Services', icon: Truck, target: 'Service requests' },
-    { label: 'Mandi', icon: Store, target: 'Mandi' }, { label: 'Geography', icon: MapPin },
+    { label: 'Mandi', icon: Store, target: 'Mandi' },
+    { label: 'Geography', icon: MapPin }, { label: 'Documents', icon: FileCheck },
   ],
   buyer: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Requirements', icon: FileText },
     { label: 'Marketplace', icon: Store }, { label: 'Purchases', icon: ShoppingBasket },
-    { label: 'Deliveries', icon: Truck }, { label: 'Mandi', icon: Store, target: 'Mandi' }, { label: 'Rankings', icon: Gauge }, { label: 'Geography', icon: MapPin }, { label: 'Verification', icon: ShieldCheck },
+    { label: 'Deliveries', icon: Truck }, { label: 'Mandi', icon: Store, target: 'Mandi' },
+    { label: 'Rankings', icon: Gauge }, { label: 'Geography', icon: MapPin },
+    { label: 'Documents', icon: FileCheck }, { label: 'Verification', icon: ShieldCheck },
   ],
   storage: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Facilities', icon: Building2 },
-    { label: 'Requests', icon: ClipboardCheck }, { label: 'Bookings', icon: FileText }, { label: 'Inventory', icon: Boxes },
-    { label: 'Operations', icon: Gauge },
+    { label: 'Requests', icon: ClipboardCheck }, { label: 'Bookings', icon: FileText },
+    { label: 'Inventory', icon: Boxes }, { label: 'Operations', icon: Gauge },
+    { label: 'Geography', icon: MapPin }, { label: 'Documents', icon: FileCheck },
   ],
   transport: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Shipments', icon: PackageCheck },
     { label: 'Vehicles', icon: Truck }, { label: 'Quote requests', icon: HandCoins },
-    { label: 'Routes', icon: Gauge },
+    { label: 'Routes', icon: Gauge }, { label: 'Geography', icon: MapPin },
+    { label: 'Documents', icon: FileCheck },
   ],
   quality: [
-    { label: 'Overview', icon: LayoutDashboard }, { label: 'Requests', icon: HandCoins }, { label: 'Assessments', icon: ClipboardCheck },
-    { label: 'Schedule', icon: FileText }, { label: 'Reports', icon: PackageCheck },
-    { label: 'Availability', icon: Gauge },
+    { label: 'Overview', icon: LayoutDashboard }, { label: 'Requests', icon: HandCoins },
+    { label: 'Assessments', icon: ClipboardCheck }, { label: 'Schedule', icon: FileText },
+    { label: 'Reports', icon: PackageCheck }, { label: 'Availability', icon: Gauge },
+    { label: 'Geography', icon: MapPin }, { label: 'Documents', icon: FileCheck },
   ],
   admin: [
     { label: 'Overview', icon: LayoutDashboard }, { label: 'Verification', icon: ShieldCheck },
     { label: 'Grievances', icon: AlertTriangle }, { label: 'Disputes', icon: FileText },
-    { label: 'Analytics', icon: Gauge },
+    { label: 'Analytics', icon: Gauge }, { label: 'Geography', icon: MapPin },
+    { label: 'Documents', icon: FileCheck },
   ],
 };
 
@@ -97,6 +109,8 @@ function Logo() {
 
 export function DashboardShell({ initialRole, initialSection = 'Overview' }: { initialRole: string; initialSection?: string }) {
   const router = useRouter();
+  const { language, setLanguage, t } = useLanguage();
+  const [isSignedUpMode, setIsSignedUpMode] = useState(false);
   const {
     state: prototypeState, addEvent, addProduce, addAgreement, markRequirementSent,
     respondToAgreement,
@@ -106,6 +120,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
   const [roleId, setRoleId] = useState<RoleId>(safeInitial as RoleId);
   const [activeNav, setActiveNav] = useState(initialSection);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [accountModalOpen, setAccountModalOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [procurementPlanOpen, setProcurementPlanOpen] = useState(false);
   const [procurementRequirementId, setProcurementRequirementId] = useState('REQ-331');
@@ -252,9 +267,9 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
             );
           })}
           <p className="nav-label nav-section">Manage</p>
-          <button className="nav-item" disabled title="Coming later"><FileText /><span>Documents <small>Coming later</small></span></button>
-          <button className="nav-item" disabled title="Coming later"><Settings /><span>Settings <small>Coming later</small></span></button>
-          <button className="nav-item" onClick={restoreDemo}><RotateCcw /><span>Reset demo</span></button>
+          <button className="nav-item" onClick={() => navigate('Documents')}><FileCheck /><span>{t('doc.title')}</span></button>
+          <button className="nav-item" onClick={() => setAccountModalOpen(true)}><Settings /><span>{t('header.manage_account')}</span></button>
+          <button className="nav-item" onClick={restoreDemo}><RotateCcw /><span>{t('nav.reset_demo')}</span></button>
         </nav>
 
         <div className="sidebar-support">
@@ -262,7 +277,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
           <span><strong>Need help?</strong><small>Guidance coming later</small></span>
           <ArrowRight aria-hidden="true" />
         </div>
-        <div className="sidebar-profile">
+        <div className="sidebar-profile" onClick={() => setAccountModalOpen(true)} style={{ cursor: 'pointer' }}>
           <span className="avatar">{role.profile.charAt(0)}</span>
           <span className="profile-copy"><VerifiedIdentity name={role.profile} as="strong" /><small>{role.name}</small></span>
           <ChevronDown aria-hidden="true" />
@@ -282,13 +297,58 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
             <Search aria-hidden="true" /><span>Search produce, trades and people</span><kbd><Command /> K</kbd>
           </button>
           <div className="topbar-actions">
-            <div className="role-switcher-wrap">
-              <label htmlFor="role-switcher">Viewing as</label>
-              <select id="role-switcher" value={roleId} onChange={(event) => changeRole(event.target.value as RoleId)}>
-                {dashboardData.roles.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}
+            <div className="flex items-center gap-1 text-xs border rounded-md px-2 py-1 bg-background">
+              <Globe className="h-3.5 w-3.5 text-muted-foreground" />
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as Language)}
+                className="bg-transparent border-none focus:outline-none cursor-pointer"
+              >
+                <option value="en">EN (English)</option>
+                <option value="mr">MR (मराठी)</option>
+                <option value="hi">HI (हिंदी)</option>
               </select>
-              <ChevronDown aria-hidden="true" />
             </div>
+            {/* State Toggle: Non-signup (Demo) vs Signup (Authenticated User) */}
+            <button
+              type="button"
+              onClick={() => setIsSignedUpMode(prev => !prev)}
+              className={`hidden sm:inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold border transition-colors ${
+                isSignedUpMode
+                  ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/40 dark:text-emerald-400'
+                  : 'bg-amber-500/10 text-amber-600 border-amber-500/40 dark:text-amber-400'
+              }`}
+              title="Toggle between Non-signup (Demo mode with role switcher) and Signup state"
+            >
+              <span className={`h-2 w-2 rounded-full ${isSignedUpMode ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+              {isSignedUpMode ? 'Signed-up State' : 'Non-signup State (Demo)'}
+            </button>
+
+            {/* User Type Role Switcher: Present ONLY in Non-signup state */}
+            {!isSignedUpMode ? (
+              <div className="role-switcher-wrap" title="Explore user roles in Non-signup Demo Mode">
+                <label htmlFor="role-switcher">{t('header.viewing_as')}</label>
+                <select id="role-switcher" value={roleId} onChange={(event) => changeRole(event.target.value as RoleId)}>
+                  {dashboardData.roles.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}
+                </select>
+                <ChevronDown aria-hidden="true" />
+              </div>
+            ) : (
+              <div className="hidden sm:flex items-center gap-1.5 rounded-md border bg-muted/40 px-2.5 py-1 text-xs font-semibold">
+                <span className="text-muted-foreground">Active Role:</span>
+                <span className="text-primary font-bold">{role.name}</span>
+              </div>
+            )}
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setAccountModalOpen(true)}
+              className="hidden sm:inline-flex gap-1.5 text-xs font-medium"
+            >
+              <User className="h-3.5 w-3.5 text-primary" />
+              {t('header.manage_account')}
+            </Button>
             <Button className="notification-button" variant="outline" size="icon" aria-label={`Open ${notificationCount} notifications`} onClick={() => setNotificationsOpen(true)}><Bell />{notificationCount > 0 && <span>{notificationCount > 9 ? '9+' : notificationCount}</span>}</Button>
             <AuthControl />
           </div>
@@ -329,8 +389,10 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
             <MandiModule />
           ) : (roleId === 'farmer' || roleId === 'buyer') && activeNav === 'Rankings' ? (
             <RankingModule role={roleId} />
-          ) : (roleId === 'farmer' || roleId === 'buyer' || roleId === 'fpo') && activeNav === 'Geography' ? (
+          ) : activeNav === 'Geography' ? (
             <GeographyModule />
+          ) : activeNav === 'Documents' ? (
+            <DocumentModule role={roleId} />
           ) : (roleId === 'farmer' || roleId === 'buyer') && activeNav === 'Verification' ? (
             <VerificationModule role={roleId} />
           ) : (
@@ -424,6 +486,12 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
         </SheetContent>
       </Sheet>
       {notice && <output className="toast-notice" aria-live="polite"><Check />{notice}</output>}
+      <AccountManagementModal
+        currentRole={roleId}
+        onRoleChange={(newRole) => changeRole(newRole as RoleId)}
+        open={accountModalOpen}
+        onClose={() => setAccountModalOpen(false)}
+      />
       <ChatbotWidget />
     </div>
   );
