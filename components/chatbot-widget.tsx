@@ -41,8 +41,6 @@ export function ChatbotWidget() {
     
     if (language === 'mr') {
       utterance.lang = 'mr-IN';
-    } else if (language === 'hi') {
-      utterance.lang = 'hi-IN';
     } else {
       utterance.lang = 'en-IN';
     }
@@ -174,11 +172,10 @@ export function ChatbotWidget() {
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as Language)}
-                className="rounded border bg-background px-1.5 py-0.5 text-xs"
+                className="rounded border bg-background px-1.5 py-0.5 text-xs font-semibold"
               >
                 <option value="en">English</option>
                 <option value="mr">मराठी</option>
-                <option value="hi">हिंदी</option>
               </select>
               <button
                 type="button"

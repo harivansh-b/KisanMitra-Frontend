@@ -16,6 +16,7 @@ import {
   Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/lib/i18n';
 
 type Tone = 'neutral' | 'positive' | 'warning';
 
@@ -197,6 +198,7 @@ export function WorkspaceView({
   onAction: (message: string) => void;
   onOpenProcurementPlan?: (requirementId?: string) => void;
 }) {
+  const { t, language } = useLanguage();
   const screen = getWorkspaceScreen(roleId, screenName);
   const {
     state: prototypeState, addServiceRequest, respondToAgreement, respondToServiceRequest,
@@ -438,10 +440,10 @@ export function WorkspaceView({
   return (
     <>
       <section className={cn('workspace-summary', `workspace-summary-${roleId}`)} aria-label={`${screenName} summary`}>
-        <div><span>Records</span><strong>{records.length}</strong></div>
-        <div><span>Needs attention</span><strong>{attentionCount}</strong></div>
-        <div><span>Visible now</span><strong>{filteredRecords.length}</strong></div>
-        <div><span>Data mode</span><strong>Local demo</strong></div>
+        <div><span>{language === 'mr' ? 'एकूण नोंदी' : 'Records'}</span><strong>{records.length}</strong></div>
+        <div><span>{language === 'mr' ? 'लक्ष देण्याची गरज' : 'Needs attention'}</span><strong>{attentionCount}</strong></div>
+        <div><span>{language === 'mr' ? 'दाखवलेल्या नोंदी' : 'Visible now'}</span><strong>{filteredRecords.length}</strong></div>
+        <div><span>{language === 'mr' ? 'माहिती मोड' : 'Data mode'}</span><strong>{language === 'mr' ? 'डेमो मोड' : 'Local demo'}</strong></div>
       </section>
 
       <section className={cn('workspace-board panel', `workspace-board-${roleId}`)}>
@@ -450,7 +452,7 @@ export function WorkspaceView({
             <Search aria-hidden="true" />
             <Input
               aria-label={`Search ${screenName}`}
-              placeholder={`Search ${screenName.toLowerCase()}`}
+              placeholder={language === 'mr' ? 'शोधा (उदा. कांदा, लासलगाव, व्यापारी...)' : `Search ${screenName.toLowerCase()}`}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />

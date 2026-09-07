@@ -23,6 +23,7 @@ import { GeographyModule } from '@/components/geography-module';
 import { DocumentModule } from '@/components/document-module';
 import { AccountManagementModal } from '@/components/account-management-modal';
 import { useLanguage, Language } from '@/lib/i18n';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { Button } from '@/components/ui/button';
 import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
@@ -297,18 +298,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
             <Search aria-hidden="true" /><span>Search produce, trades and people</span><kbd><Command /> K</kbd>
           </button>
           <div className="topbar-actions">
-            <div className="flex items-center gap-1 text-xs border rounded-md px-2 py-1 bg-background">
-              <Globe className="h-3.5 w-3.5 text-muted-foreground" />
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as Language)}
-                className="bg-transparent border-none focus:outline-none cursor-pointer"
-              >
-                <option value="en">EN (English)</option>
-                <option value="mr">MR (मराठी)</option>
-                <option value="hi">HI (हिंदी)</option>
-              </select>
-            </div>
+            <LanguageSwitcher />
             {/* State Toggle: Non-signup (Demo) vs Signup (Authenticated User) */}
             <button
               type="button"
@@ -388,7 +378,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
           ) : activeNav === 'Mandi' ? (
             <MandiModule />
           ) : activeNav === 'Rankings' ? (
-            <RankingModule role={roleId} />
+            <RankingModule role={roleId === 'buyer' ? 'buyer' : 'farmer'} />
           ) : activeNav === 'Geography' ? (
             <GeographyModule />
           ) : activeNav === 'Documents' ? (

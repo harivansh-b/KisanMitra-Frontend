@@ -1,17 +1,201 @@
-'use client';
-
 import {
-  ArrowRight, Check, ChevronRight, ClipboardCheck, Clock3, IndianRupee, Leaf, MapPin,
-  LockKeyhole, PackageCheck, ShieldCheck, Thermometer, Truck, Users,
+  ArrowRight, BadgeCheck, Check, ChevronRight, ClipboardCheck, Clock3, IndianRupee, Leaf, MapPin,
+  LockKeyhole, PackageCheck, ShieldCheck, Thermometer, Truck, Users, Warehouse, Building2, ShoppingCart, FlaskConical,
 } from 'lucide-react';
 
 import { roleOverviewFixture as overviewData } from '@/data/fixtures';
 import { Button } from '@/components/ui/button';
 import { VerifiedIdentity } from '@/components/verified-badge';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/lib/i18n';
 
-type RoleId = keyof typeof overviewData;
+type RoleId = keyof typeof overviewData | string;
 type Tone = 'neutral' | 'positive' | 'warning';
+
+interface OverviewProps {
+  roleId: RoleId;
+  onAction: (actionMessage: string) => void;
+  onNavigate: (sectionLabel: string) => void;
+  onOpenAgreement?: (agreementId: string) => void;
+}
+
+export const ROLE_ACCESS_RIGHTS = {
+  farmer: {
+    title: { en: 'Farmer Platform Access Rights & Verified Capabilities', mr: 'शेतकरी व्यासपीठ वापर अधिकार आणि वैशिष्ट्ये' },
+    subtitle: { en: 'Verified grower privileges for direct market access, storage, and logistics', mr: 'थेट शेतमाल विक्री, गोदाम आणि मालवाहतूक वापर हक्क' },
+    rights: [
+      {
+        title: { en: 'Direct Produce Sales & Listing', mr: 'थेट शेतमाल विक्री व लिस्टिंग' },
+        desc: { en: 'List crops (Onion, Cotton, Soybean) with quality grade directly for Buyers & FPOs', mr: 'कांदा, सोयाबीन, कापूस इत्यादी शेतमालाची थेट खरेदीदार व FPO ला विक्री करा' },
+        tag: { en: 'Core Right', mr: 'मुख्य अधिकार' },
+      },
+      {
+        title: { en: 'Live Mandi Price Stock Ticker', mr: 'थेट बाजार भाव (Mandi Ticker)' },
+        desc: { en: 'Real-time price streams from Lasalgaon, Nashik, Pune, Solapur mandis with stock charts', mr: 'लासलगाव, नाशिक, पुणे आणि सोलापूर बाजार समित्यांमधील थेट भाव पहा' },
+        tag: { en: 'Live Access', mr: 'थेट माहिती' },
+      },
+      {
+        title: { en: 'Warehouse & Cold Storage Booking', mr: 'गोदाम व शीतगृह जागा नोंदणी' },
+        desc: { en: 'Reserve certified cold storage space across Maharashtra to avoid distress sale', mr: 'उत्तम भावासाठी महाराष्ट्रातील मान्यताप्राप्त गोदामांमध्ये जागा आरक्षित करा' },
+        tag: { en: 'Storage Access', mr: 'गोदाम हक्क' },
+      },
+      {
+        title: { en: 'Logistics & Transport Dispatch', mr: 'मालवाहतूक वाहन बुकिंग' },
+        desc: { en: 'Request pickup trucks & agri transport logistics from local providers', mr: 'शेतातून माल उचलण्यासाठी स्थानिक वाहतूकदारांची सेवा मिळवा' },
+        tag: { en: 'Logistics', mr: 'वाहतूक हक्क' },
+      },
+      {
+        title: { en: 'Quality Grading Certificate', mr: 'गुणवत्ता चाचणी प्रमाणपत्र' },
+        desc: { en: 'Get NABL/APEDA compliant grade certificates from Quality Assessors', mr: 'मान्यताप्राप्त गुणतज्ज्ञांकडून गुणवत्ता आणि आद्रता प्रमाणपत्र मिळवा' },
+        tag: { en: 'Verified', mr: 'प्रमाणित' },
+      },
+      {
+        title: { en: 'Direct Buyer Escrow Contracts', mr: 'सुरक्षित खरेदीदार करार' },
+        desc: { en: 'Sign binding digital trade agreements with escrow payment protection', mr: 'पैशांच्या सुरक्षेसाठी थेट खरेदीदारांसोबत डिजीटल करार करा' },
+        tag: { en: 'Escrow Protected', mr: 'सुरक्षित व्यवहार' },
+      },
+    ],
+  },
+  fpo: {
+    title: { en: 'FPO Organization Access Rights & Aggregation Privileges', mr: 'FPO संस्था वापर अधिकार व वैशिष्ट्ये' },
+    subtitle: { en: 'Collective farmer management, bulk contract fulfillment, and margin tracking', mr: 'शेतकरी गट एकत्रीकरण आणि घाऊक पुरवठा व्यवस्थापन' },
+    rights: [
+      {
+        title: { en: 'Farmer Member Aggregation', mr: 'शेतकरी गट एकत्रीकरण' },
+        desc: { en: 'Aggregate produce volumes across member farmers in your district', mr: 'जिल्ह्यातील सभासद शेतकऱ्यांचा माल एकत्र करून मोठा पुरवठा तयार करा' },
+        tag: { en: 'Collective Right', mr: 'गट अधिकार' },
+      },
+      {
+        title: { en: 'Bulk Procurement Sourcing', mr: 'घाऊक खरेदी करार व्यवस्थापन' },
+        desc: { en: 'B2B sourcing contracts with institutional corporate buyers', mr: 'मोठ्या कॉर्पोरेट खरेदीदारांशी घाऊक पुरवठा करार करा' },
+        tag: { en: 'Institutional', mr: 'संस्थात्मक' },
+      },
+      {
+        title: { en: 'Collective Storage Management', mr: 'गट साठवणूक गोदाम वाटप' },
+        desc: { en: 'Allocate FPO warehouse quota for member farmer produce storage', mr: 'सभासदांच्या मालासाठी FPO गोदामांचे नियोजन व वाटप करा' },
+        tag: { en: 'Storage Operations', mr: 'गोदाम हक्क' },
+      },
+    ],
+  },
+  buyer: {
+    title: { en: 'Agri Buyer Access Rights & Procurement Requisitions', mr: 'शेतमाल खरेदीदार वापर अधिकार व वैशिष्ट्ये' },
+    subtitle: { en: 'Direct farmer/FPO sourcing, verified crop quality, and escrow contracts', mr: 'थेट शेतकरी/FPO पुरवठा खरेदी, गुणवत्ता तपासणी आणि सुरक्षित करार' },
+    rights: [
+      {
+        title: { en: 'Crop Sourcing Requisitions', mr: 'खरेदी मागणी नोंदणी (Requisition)' },
+        desc: { en: 'Issue volume requirements with specific grade & delivery parameters', mr: 'हव्या असलेल्या पिकांची श्रेणी व मुदतीसह खरेदी मागणी नोंदवा' },
+        tag: { en: 'Procurement', mr: 'खरेदी हक्क' },
+      },
+      {
+        title: { en: 'Digital Escrow Trade Agreements', mr: 'डिजिटल एस्क्रो व्यापार करार' },
+        desc: { en: 'Secure seller commitments with locked escrow trade terms', mr: 'शेतकरी व FPO सोबत सुरक्षित डिजिटल एस्क्रो करार निश्चित करा' },
+        tag: { en: 'Secure Escrow', mr: 'सुरक्षित एस्क्रो' },
+      },
+      {
+        title: { en: 'Lab Quality Report Access', mr: 'प्रयोगशाळा गुणवत्ता अहवाल' },
+        desc: { en: 'Review certified moisture and grading reports before dispatch release', mr: 'माल उचलण्यापूर्वी लॅब गुणवत्ता अहवाल ऑनलाइन तपासा' },
+        tag: { en: 'Verified Sourcing', mr: 'प्रमाणित खरेदी' },
+      },
+    ],
+  },
+  storage: {
+    title: { en: 'Storage Manager Access Rights & Capacity Management', mr: 'गोदाम व शीतगृह व्यवस्थापक वापर अधिकार' },
+    subtitle: { en: 'Warehouse capacity tracking, deposit receipt issuance, and climate logs', mr: 'गोदाम क्षमता ट्रॅकिंग आणि पावती नोंदणी' },
+    rights: [
+      {
+        title: { en: 'Warehouse Capacity Management', mr: 'गोदाम क्षमता ट्रॅकिंग' },
+        desc: { en: 'Manage dry warehouse and cold storage occupancy in MT', mr: 'गोदाम आणि शीतगृहाची उपलब्ध क्षमता (MT) व्यवस्थापित करा' },
+        tag: { en: 'Facility Right', mr: 'गोदाम अधिकार' },
+      },
+      {
+        title: { en: 'Warehouse Receipt (WHR) Issuance', mr: 'गोदाम पावती (WHR) वितरण' },
+        desc: { en: 'Issue digital deposit receipts to farmers and FPOs for collateral finance', mr: 'शेतकऱ्यांना कायदेशीर डिजिटल गोदाम ठेव पावती (WHR) द्या' },
+        tag: { en: 'WHR Authorized', mr: 'प्रमाणित पावती' },
+      },
+    ],
+  },
+  transport: {
+    title: { en: 'Transport Logistics Access Rights & Fleet Management', mr: 'वाहतूक लॉजिस्टिक्स व्यवस्थापक वापर अधिकार' },
+    subtitle: { en: 'Fleet dispatching, route transit tracking, and load assignment', mr: 'वाहन वाटप, वाहतूक ट्रॅकिंग आणि शेतमाल वाहतूक' },
+    rights: [
+      {
+        title: { en: 'Agri Goods Fleet Dispatch', mr: 'शेती मालवाहतूक वाहन वाटप' },
+        desc: { en: 'Assign mini-trucks and heavy transport for farm-to-mandi delivery', mr: 'शेतकऱ्यांच्या मालासाठी पिकअप आणि ट्रक्सचे वाटप करा' },
+        tag: { en: 'Fleet Manager', mr: 'वाहतूक अधिकार' },
+      },
+      {
+        title: { en: 'Live Transit & Route Tracking', mr: 'थेट रस्ता वाहतूक ट्रॅकिंग' },
+        desc: { en: 'Provide real-time dispatch updates and estimated arrival times', mr: 'वाहनाचे लोकेशन आणि पोहचण्याची वेळ थेट अपडेट करा' },
+        tag: { en: 'Transit Operator', mr: 'ट्रॅकिंग अधिकार' },
+      },
+    ],
+  },
+  quality: {
+    title: { en: 'Quality Assessor Access Rights & Certification', mr: 'गुणवत्ता निरीक्षक वापर अधिकार आणि प्रमाणपत्र' },
+    subtitle: { en: 'Produce grading, moisture content testing, and official certificate issue', mr: 'शेतमाल गुणवत्ता चाचणी आणि लॅब प्रमाणपत्र' },
+    rights: [
+      {
+        title: { en: 'Grade & Moisture Certification', mr: 'गुणवत्ता आणि आद्रता प्रमाणपत्र' },
+        desc: { en: 'Test grain moisture, foreign matter, and assign Grade A/B/FAQ status', mr: 'पिकातील आद्रता, रंग व आकार तपासून ग्रेड A/B प्रमाणपत्र द्या' },
+        tag: { en: 'Accredited Tester', mr: 'परीक्षक अधिकार' },
+      },
+      {
+        title: { en: 'APEDA/NABL Test Certificate Issue', mr: 'अधिकृत लॅब रिपोर्ट जारी करणे' },
+        desc: { en: 'Issue digitally signed quality passports for buyers and export compliance', mr: 'खरेदीदारांसाठी डिजिटल गुणवत्ता अहवाल जारी करा' },
+        tag: { en: 'Certified Assessor', mr: 'प्रमाणित अहवाल' },
+      },
+    ],
+  },
+  admin: {
+    title: { en: 'System Administrator Operations & Governance', mr: 'सिस्टम प्रशासक वापर अधिकार' },
+    subtitle: { en: 'Full platform management, entity verification, and system parameter controls', mr: 'संपूर्ण व्यासपीठ व्यवस्थापन आणि वापरकर्ता पडताळणी' },
+    rights: [
+      {
+        title: { en: 'Platform Verification & Governance', mr: 'व्यासपीठ वापरकर्ता पडताळणी' },
+        desc: { en: 'Approve KYC levels, 7/12 land records, and trade licenses', mr: 'शेतकरी 7/12 आणि व्यापाऱ्यांचे परवाने पडताळून मंजूर करा' },
+        tag: { en: 'Full Admin', mr: 'प्रशासक अधिकार' },
+      },
+    ],
+  },
+};
+
+export function RoleAccessRightsFeature({ roleId }: { roleId: string }) {
+  const { language } = useLanguage();
+  const key = (roleId || 'farmer').toLowerCase();
+  const roleRights = ROLE_ACCESS_RIGHTS[key as keyof typeof ROLE_ACCESS_RIGHTS] ?? ROLE_ACCESS_RIGHTS.farmer;
+
+  return (
+    <section className="panel p-5 border-l-4 border-l-emerald-600 bg-emerald-500/5 space-y-4 my-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-emerald-500/20 pb-3">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+          <div>
+            <h3 className="text-base font-bold text-foreground">{roleRights.title[language === 'mr' ? 'mr' : 'en']}</h3>
+            <p className="text-xs text-muted-foreground">{roleRights.subtitle[language === 'mr' ? 'mr' : 'en']}</p>
+          </div>
+        </div>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+          <BadgeCheck className="h-4 w-4" />
+          {language === 'mr' ? 'सक्रिय व्यासपीठ वापर अधिकार' : 'Active Verified Access Rights'}
+        </span>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {roleRights.rights.map((item, idx) => (
+          <div key={idx} className="rounded-lg border bg-card p-3 shadow-sm space-y-1 hover:border-emerald-500/50 transition-colors">
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-xs text-foreground">{item.title[language === 'mr' ? 'mr' : 'en']}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
+                {item.tag[language === 'mr' ? 'mr' : 'en']}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">{item.desc[language === 'mr' ? 'mr' : 'en']}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function Status({ tone = 'neutral', children }: { tone?: Tone; children: React.ReactNode }) {
   return <span className={cn('status-badge', `status-${tone}`)}>{children}</span>;
@@ -27,76 +211,171 @@ function PanelTitle({ eyebrow, title, action, onAction }: { eyebrow: string; tit
 }
 
 function FarmerOverview({ onAction, onNavigate, onOpenAgreement }: OverviewProps) {
+  const { t, tCrop, language } = useLanguage();
   const data = overviewData.farmer;
+
   return (
     <div className="role-overview farmer-overview">
       <section className="farmer-alert">
         <span className="role-icon"><Clock3 /></span>
-        <div><strong>{data.urgent.title}</strong><p>{data.urgent.detail}</p></div>
-        <Button onClick={() => onNavigate('Offers')}>{data.urgent.action}<ArrowRight data-icon="inline-end" /></Button>
+        <div>
+          <strong>{language === 'mr' ? 'कांदा भाव वाढीचा इशारा' : data.urgent.title}</strong>
+          <p>{language === 'mr' ? 'लासलगाव मंडीमध्ये कांद्याचे भाव +३.४% वाढले आहेत. ५ व्यापारी खरेदीसाठी तयार आहेत.' : data.urgent.detail}</p>
+        </div>
+        <Button onClick={() => onNavigate('Offers')}>
+          {language === 'mr' ? 'प्रस्ताव पहा' : data.urgent.action}
+          <ArrowRight data-icon="inline-end" />
+        </Button>
       </section>
+
+      <RoleAccessRightsFeature roleId="farmer" />
 
       <section className="farmer-main-grid">
         <article className="panel farmer-produce-card">
-          <PanelTitle eyebrow="Ready to sell" title="Your active produce" action="View all produce" onAction={() => onNavigate('Produce')} />
+          <PanelTitle
+            eyebrow={language === 'mr' ? 'विक्रीसाठी तयार' : 'Ready to sell'}
+            title={language === 'mr' ? 'तुमचा सक्रिय शेतमाल' : 'Your active produce'}
+            action={language === 'mr' ? 'सर्व शेतमाल पहा' : 'View all produce'}
+            onAction={() => onNavigate('Produce')}
+          />
           <div className="farmer-crop">
             <span className="crop-mark"><Leaf /></span>
-            <div className="crop-title"><h3>{data.produce.crop}</h3><p>{data.produce.id} · {data.produce.location}</p></div>
-            <Status tone="positive">{data.produce.marketStatus}</Status>
+            <div className="crop-title">
+              <h3>{tCrop(data.produce.crop)}</h3>
+              <p>{data.produce.id} · {data.produce.location}</p>
+            </div>
+            <Status tone="positive">{language === 'mr' ? 'प्रस्ताव सुरू' : data.produce.marketStatus}</Status>
           </div>
-          <div className="crop-facts"><span><small>Available</small><strong>{data.produce.quantity}</strong></span><span><small>Quality</small><strong>{data.produce.grade}</strong></span><span><small>Current produce stage</small><strong>{data.produce.stage}</strong></span></div>
-          <div className="produce-lifecycle-head"><span>Produce journey</span><strong>4 of 8 stages</strong></div>
-          <div className="farmer-steps-scroll"><ol className="farmer-steps">{data.produceLifecycle.map((step, index) => <li className={cn(step.state === 'complete' && 'is-complete', step.state === 'current' && 'is-current')} key={step.label}><span>{step.state === 'complete' ? <Check /> : index + 1}</span><small>{step.label}</small></li>)}</ol></div>
+          <div className="crop-facts">
+            <span><small>{language === 'mr' ? 'उपलब्ध प्रमाण' : 'Available'}</small><strong>{data.produce.quantity}</strong></span>
+            <span><small>{language === 'mr' ? 'गुणवत्ता श्रेणी' : 'Quality'}</small><strong>{data.produce.grade}</strong></span>
+            <span><small>{language === 'mr' ? 'सध्याचा टप्पा' : 'Current produce stage'}</small><strong>{language === 'mr' ? 'गुणवत्ता तपासली' : data.produce.stage}</strong></span>
+          </div>
+          <div className="produce-lifecycle-head">
+            <span>{language === 'mr' ? 'शेतमाल प्रवास' : 'Produce journey'}</span>
+            <strong>4 {language === 'mr' ? 'पैकी ८ टप्पे' : 'of 8 stages'}</strong>
+          </div>
+          <div className="farmer-steps-scroll">
+            <ol className="farmer-steps">
+              {data.produceLifecycle.map((step, index) => (
+                <li className={cn(step.state === 'complete' && 'is-complete', step.state === 'current' && 'is-current')} key={step.label}>
+                  <span>{step.state === 'complete' ? <Check /> : index + 1}</span>
+                  <small>{step.label}</small>
+                </li>
+              ))}
+            </ol>
+          </div>
         </article>
 
         <article className="panel decision-card">
-          <PanelTitle eyebrow="Decision support" title="Sell now or wait?" />
-          <div className="scenario-list">{data.sellScenarios.map((scenario) => (
-            <button className={cn('scenario-row', scenario.recommended && 'is-recommended')} key={scenario.label} onClick={() => onAction(`${scenario.label} scenario opened.`)}>
-              <span><strong>{scenario.label}</strong><small>{scenario.detail}</small></span><b>{scenario.value}</b>{scenario.recommended && <Status tone="positive">Recommended</Status>}
-            </button>
-          ))}</div>
-          <p className="context-note"><IndianRupee />Net values include the listed transport, storage and market costs.</p>
+          <PanelTitle
+            eyebrow={language === 'mr' ? 'निर्णय सहाय्य' : 'Decision support'}
+            title={language === 'mr' ? 'आत्ताच विका की वाट पाहा?' : 'Sell now or wait?'}
+          />
+          <div className="scenario-list">
+            {data.sellScenarios.map((scenario) => (
+              <button className={cn('scenario-row', scenario.recommended && 'is-recommended')} key={scenario.label} onClick={() => onAction(`${scenario.label} scenario opened.`)}>
+                <span><strong>{scenario.label}</strong><small>{scenario.detail}</small></span>
+                <b>{scenario.value}</b>
+                {scenario.recommended && <Status tone="positive">{language === 'mr' ? 'शिफारस केलेले' : 'Recommended'}</Status>}
+              </button>
+            ))}
+          </div>
+          <p className="context-note">
+            <IndianRupee />
+            {language === 'mr' ? 'निव्वळ मूल्यांमध्ये सर्व वाहतूक आणि गोदाम खर्च समाविष्ट आहेत.' : 'Net values include the listed transport, storage and market costs.'}
+          </p>
         </article>
       </section>
 
       <section className="panel farmer-offers">
-        <PanelTitle eyebrow="Competitive offer window" title="Offers ranked for your return" action="Compare full terms" onAction={() => onNavigate('Offers')} />
-        <div className="offer-cards">{data.offers.map((offer, index) => (
-          <button className={cn('offer-card', index === 0 && 'is-best')} key={offer.id} onClick={() => onOpenAgreement?.(offer.id)}>
-            <span className="offer-rank">#{index + 1}</span><Status tone={offer.tone as Tone}>{offer.tag}</Status>
-            <VerifiedIdentity name={offer.buyer} as="h3" /><p>{offer.terms}</p>
-            <div><span><small>Price</small><strong>{offer.price}</strong></span><span><small>Expected net</small><strong>{offer.net}</strong></span></div>
-          </button>
-        ))}</div>
+        <PanelTitle
+          eyebrow={language === 'mr' ? 'स्पर्धात्मक खरेदीदार विंडो' : 'Competitive offer window'}
+          title={language === 'mr' ? 'तुमच्या उत्पन्नानुसार क्रमवारी लावलेले प्रस्ताव' : 'Offers ranked for your return'}
+          action={language === 'mr' ? 'सर्व अटींची तुलना करा' : 'Compare full terms'}
+          onAction={() => onNavigate('Offers')}
+        />
+        <div className="offer-cards">
+          {data.offers.map((offer, index) => (
+            <button className={cn('offer-card', index === 0 && 'is-best')} key={offer.id} onClick={() => onOpenAgreement?.(offer.id)}>
+              <span className="offer-rank">#{index + 1}</span>
+              <Status tone={offer.tone as Tone}>{offer.tag}</Status>
+              <VerifiedIdentity name={offer.buyer} as="h3" />
+              <p>{offer.terms}</p>
+              <div>
+                <span><small>{language === 'mr' ? 'दर (प्रति क्विंटल)' : 'Price'}</small><strong>{offer.price}</strong></span>
+                <span><small>{language === 'mr' ? 'अपेक्षित निव्वळ उत्पन्न' : 'Expected net'}</small><strong>{offer.net}</strong></span>
+              </div>
+            </button>
+          ))}
+        </div>
       </section>
     </div>
   );
 }
 
 function FpoOverview({ onNavigate }: OverviewProps) {
+  const { language } = useLanguage();
   const data = overviewData.fpo;
+
   return (
     <div className="role-overview fpo-overview">
       <section className="fpo-home-focus">
-        <div><p className="eyebrow">Priority campaign · {data.campaign.id}</p><h2>{data.campaign.name}</h2><p><VerifiedIdentity name={data.campaign.buyer} /> · {data.campaign.deadline}</p></div>
-        <span><small>Reserved</small><strong>16.4T</strong><em>of {data.campaign.target}</em></span>
-        <span className="is-warning"><small>Still required</small><strong>3.6T</strong><em>before commitment closes</em></span>
-        <Button onClick={() => onNavigate('Campaigns')}>Open procurement<ArrowRight data-icon="inline-end" /></Button>
+        <div>
+          <p className="eyebrow">{language === 'mr' ? 'प्राधान्य खरेदी मोहीम' : 'Priority campaign'} · {data.campaign.id}</p>
+          <h2>{data.campaign.name}</h2>
+          <p><VerifiedIdentity name={data.campaign.buyer} /> · {data.campaign.deadline}</p>
+        </div>
+        <span><small>{language === 'mr' ? 'आरक्षित प्रमाण' : 'Reserved'}</small><strong>16.4T</strong><em>of {data.campaign.target}</em></span>
+        <span className="is-warning"><small>{language === 'mr' ? 'अजून आवश्यक' : 'Still required'}</small><strong>3.6T</strong><em>{language === 'mr' ? 'मुदत संपण्यापूर्वी' : 'before commitment closes'}</em></span>
+        <Button onClick={() => onNavigate('Campaigns')}>
+          {language === 'mr' ? 'खरेदी मोहीम उघडा' : 'Open procurement'}
+          <ArrowRight data-icon="inline-end" />
+        </Button>
       </section>
 
       <section className="fpo-home-grid">
         <article className="panel fpo-action-queue">
-          <PanelTitle eyebrow="Today" title="Work needing attention" />
-          <button onClick={() => onNavigate('Campaigns')}><span className="role-icon"><Users /></span><span><strong>Secure remaining onion supply</strong><small>{data.campaign.id} · 3.6T shortfall</small></span><Status tone="warning">Due first</Status><ChevronRight /></button>
-          <button onClick={() => onNavigate('Farmer supply')}><span className="role-icon"><ClipboardCheck /></span><span><strong>Review Farmer collections</strong><small>{data.reservations.length} grouped reservations</small></span><Status tone="neutral">Needs review</Status><ChevronRight /></button>
-          <button onClick={() => onNavigate('Inventory')}><span className="role-icon"><PackageCheck /></span><span><strong>Place newly purchased produce</strong><small>4,280 kg onion · ownership received</small></span><Status tone="warning">Storage due</Status><ChevronRight /></button>
+          <PanelTitle eyebrow={language === 'mr' ? 'आजचे काम' : 'Today'} title={language === 'mr' ? 'लक्ष देण्याची गरज असलेले काम' : 'Work needing attention'} />
+          <button onClick={() => onNavigate('Campaigns')}>
+            <span className="role-icon"><Users /></span>
+            <span><strong>{language === 'mr' ? 'उरलेला कांदा पुरवठा मिळवा' : 'Secure remaining onion supply'}</strong><small>{data.campaign.id} · 3.6T shortfall</small></span>
+            <Status tone="warning">{language === 'mr' ? 'तात्काळ' : 'Due first'}</Status>
+            <ChevronRight />
+          </button>
+          <button onClick={() => onNavigate('Farmer supply')}>
+            <span className="role-icon"><ClipboardCheck /></span>
+            <span><strong>{language === 'mr' ? 'शेतकरी संकलन तपासा' : 'Review Farmer collections'}</strong><small>{data.reservations.length} grouped reservations</small></span>
+            <Status tone="neutral">{language === 'mr' ? 'तपासणी बाकी' : 'Needs review'}</Status>
+            <ChevronRight />
+          </button>
+          <button onClick={() => onNavigate('Inventory')}>
+            <span className="role-icon"><PackageCheck /></span>
+            <span><strong>{language === 'mr' ? 'नवीन शेतमाल गोदामात ठेवा' : 'Place newly purchased produce'}</strong><small>4,280 kg onion · ownership received</small></span>
+            <Status tone="warning">{language === 'mr' ? 'गोदाम बाकी' : 'Storage due'}</Status>
+            <ChevronRight />
+          </button>
         </article>
 
         <article className="panel economics-card fpo-home-economics">
-          <PanelTitle eyebrow="Priority campaign" title="Commercial snapshot" action="Buyer terms" onAction={() => onNavigate('Open demand')} />
-          <dl>{data.economics.map((item, index) => <div className={cn(index === data.economics.length - 1 && 'is-total')} key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl>
-          <p className="context-note"><ShieldCheck />Detailed sourcing, reservations and terms remain available in their workspaces.</p>
+          <PanelTitle
+            eyebrow={language === 'mr' ? 'व्यापारी अटी' : 'Priority campaign'}
+            title={language === 'mr' ? 'आर्थिक अहवाल' : 'Commercial snapshot'}
+            action={language === 'mr' ? 'व्यापारी अटी पहा' : 'Buyer terms'}
+            onAction={() => onNavigate('Open demand')}
+          />
+          <dl>
+            {data.economics.map((item, index) => (
+              <div className={cn(index === data.economics.length - 1 && 'is-total')} key={item.label}>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="context-note">
+            <ShieldCheck />
+            {language === 'mr' ? 'सर्व पुरवठा व खरेदी अटी सुरक्षित रेषेत उपलब्ध आहेत.' : 'Detailed sourcing, reservations and terms remain available in their workspaces.'}
+          </p>
         </article>
       </section>
     </div>
@@ -104,109 +383,50 @@ function FpoOverview({ onNavigate }: OverviewProps) {
 }
 
 function BuyerOverview({ onNavigate }: OverviewProps) {
+  const { language } = useLanguage();
   const data = overviewData.buyer;
+
   return (
     <div className="role-overview buyer-overview">
-      <section className="panel requirement-hero">
-        <div className="requirement-heading"><span className="role-icon"><PackageCheck /></span><div><p className="eyebrow">Active requirement · {data.requirement.id}</p><h2>{data.requirement.name}</h2><p>{data.requirement.destination} · {data.requirement.delivery}</p></div><Button variant="outline" onClick={() => onNavigate('Requirements')}>Manage requirement</Button></div>
-        <div className="fulfilment-flow">{data.fulfilment.map((stage, index) => <div className="fulfilment-stage" key={stage.label}><span className="flow-index">{index + 1}</span><small>{stage.label}</small><strong>{stage.value}</strong></div>)}</div>
-      </section>
-      <section className="buyer-layout">
-        <article className="panel supply-plan">
-          <PanelTitle eyebrow="Private direct offer" title="Accepted supply and pending responses" action="Manage sourcing" onAction={() => onNavigate('Requirements')} />
-          <div className="supply-plan-list">{data.supplyPlan.map((produce) => <button key={produce.produce} onClick={() => onNavigate('Requirements')}><span className={cn('selection-box', produce.selected && 'is-locked')}>{produce.selected ? <LockKeyhole /> : <Clock3 />}</span><span><VerifiedIdentity name={produce.seller} as="strong" /><small>{produce.produce} · {produce.quality}</small></span><span><small>{produce.selected ? 'Committed' : 'Offered'}</small><strong>{produce.quantity}</strong></span><span><small>Landed</small><strong>{produce.landed}</strong></span><ChevronRight /></button>)}</div>
-        </article>
-        <article className="panel buyer-costs">
-          <PanelTitle eyebrow="Decision total" title="Landed cost" />
-          <dl>{data.costs.map((cost, index) => <div className={cn(index === data.costs.length - 1 && 'is-total')} key={cost.label}><dt>{cost.label}</dt><dd>{cost.value}</dd></div>)}</dl>
-          <Status tone="positive">Within {data.requirement.budget} budget</Status>
-        </article>
-      </section>
-      <section className="arrival-strip"><span className="role-icon"><Truck /></span><div><small>Receiving now</small><strong><VerifiedIdentity name={data.arrival.seller} /> · {data.arrival.quantity}</strong><p>{data.arrival.time}</p></div><Button onClick={() => onNavigate('Deliveries')}>{data.arrival.action}<ArrowRight data-icon="inline-end" /></Button></section>
-    </div>
-  );
-}
-
-function StorageOverview({ onAction, onNavigate }: OverviewProps) {
-  const data = overviewData.storage;
-  return (
-    <div className="role-overview storage-overview">
-      <section className="panel capacity-board">
-        <PanelTitle eyebrow="Space control" title="Capacity by facility" action="Manage facilities" onAction={() => onNavigate('Facilities')} />
-        <div className="capacity-legend"><span className="available">Available</span><span className="held">Held</span><span className="reserved">Reserved</span><span className="occupied">Occupied</span></div>
-        <div className="facility-capacity-list">{data.facilities.map((facility) => <button key={facility.name} onClick={() => onAction(`${facility.name} opened.`)}><span><strong>{facility.name}</strong><small>{facility.range} · {facility.total}</small></span><span className="capacity-stack">{(['available','held','reserved','occupied'] as const).map((key) => <i className={key} style={{ '--segment': `${facility[key]}%` } as React.CSSProperties} key={key} />)}</span><b>{facility.available}% free</b><ChevronRight /></button>)}</div>
-      </section>
-      <section className="storage-grid">
-        <article className="panel dock-schedule"><PanelTitle eyebrow="Dock operations" title="Today’s movements" action="All bookings" onAction={() => onNavigate('Bookings')} /><div>{data.schedule.map((item) => <button key={`${item.time}-${item.crop}`} onClick={() => onAction(`${item.type} opened.`)}><time>{item.time}</time><span className={cn('movement-type', item.type === 'Check-in' ? 'incoming' : 'outgoing')}>{item.type}</span><span><strong>{item.crop}</strong><small>{item.party}</small></span><span><strong>{item.dock}</strong><small>{item.state}</small></span></button>)}</div></article>
-        <div className="storage-side">
-          <article className="panel condition-panel"><PanelTitle eyebrow="Condition monitoring" title="Rooms" />{data.conditions.map((room) => <button key={room.room} onClick={() => onAction(`${room.room} conditions opened.`)}><Thermometer /><span><strong>{room.room}</strong><small>{room.detail}</small></span><b>{room.value}</b><Status tone={room.tone as Tone}>{room.tone === 'warning' ? 'Alert' : 'Live'}</Status></button>)}</article>
-          <article className="panel quote-mini"><PanelTitle eyebrow="Sales queue" title="Quote requests" action="View all" onAction={() => onNavigate('Requests')} />{data.quotes.map((quote) => <button key={`${quote.crop}-${quote.capacity}`} onClick={() => onNavigate('Requests')}><span><strong>{quote.crop}</strong><small>{quote.capacity} · {quote.requester}</small></span><b>{quote.due}</b></button>)}</article>
+      <section className="panel buyer-focus">
+        <div>
+          <p className="eyebrow">{language === 'mr' ? 'सक्रिय खरेदी आवश्यकता' : 'Active procurement'}</p>
+          <h2>{data.requirement.name}</h2>
+          <p>{data.requirement.destination} · {data.requirement.budget}</p>
         </div>
+        <span><small>{language === 'mr' ? 'जमा झालेले प्रमाण' : 'Gathered'}</small><strong>16.4T / 20T</strong></span>
+        <Button onClick={() => onNavigate('Requirements')}>
+          {language === 'mr' ? 'खरेदी व्यवस्थापन पहा' : 'Manage sourcing'}
+          <ArrowRight data-icon="inline-end" />
+        </Button>
       </section>
+
+      <RoleAccessRightsFeature roleId="buyer" />
     </div>
   );
 }
 
-function TransportOverview({ onAction, onNavigate }: OverviewProps) {
-  const data = overviewData.transport;
+export function RoleOverview({ roleId, onAction, onNavigate, onOpenAgreement }: OverviewProps) {
+  const { language } = useLanguage();
+  if (roleId === 'farmer') {
+    return <FarmerOverview roleId={roleId} onAction={onAction} onNavigate={onNavigate} onOpenAgreement={onOpenAgreement} />;
+  }
+  if (roleId === 'fpo') {
+    return <FpoOverview roleId={roleId} onAction={onAction} onNavigate={onNavigate} onOpenAgreement={onOpenAgreement} />;
+  }
+  if (roleId === 'buyer') {
+    return <BuyerOverview roleId={roleId} onAction={onAction} onNavigate={onNavigate} onOpenAgreement={onOpenAgreement} />;
+  }
+
+  // Storage Manager, Transport Logistics, Quality Assessor, System Administrator
+  const titleStr = language === 'mr' ? `${roleId.toUpperCase()} कार्यसंचालन डॅशबोर्ड` : `${roleId.toUpperCase()} Operational Dashboard`;
+  const descStr = language === 'mr' ? 'महाराष्ट्रातील सर्व कामे, नेटवर्क आणि व्यवहार सुलभपणे व्यवस्थापित करा.' : 'Manage your operations, network connections, and tasks smoothly in Maharashtra.';
+
   return (
-    <div className="role-overview transport-overview">
-      <section className="dispatch-layout">
-        <article className="panel active-route">
-          <PanelTitle eyebrow={`Live shipment · ${data.route.id}`} title={`${data.route.load} to ${data.route.destination}`} action="Open route" onAction={() => onNavigate('Routes')} />
-          <div className="vehicle-strip"><Truck /><span><small>Vehicle</small><strong>{data.route.vehicle}</strong></span><span><small>Driver</small><strong>{data.route.driver}</strong></span><span><small>Estimated arrival</small><strong>{data.route.eta}</strong></span><Status tone="positive">On schedule</Status></div>
-          <ol className="route-line">{data.stops.map((stop, index) => <li className={cn(stop.state === 'Complete' && 'is-complete', stop.state === 'Loading' && 'is-current')} key={`${stop.time}-${stop.place}`}><span className="route-node">{stop.state === 'Complete' ? <Check /> : index + 1}</span><time>{stop.time}</time><strong>{stop.place}</strong><small>{stop.detail} · {stop.state}</small></li>)}</ol>
-          <Button onClick={() => onAction('Driver update requested.')}>Message driver<ArrowRight data-icon="inline-end" /></Button>
-        </article>
-        <article className="panel fleet-board"><PanelTitle eyebrow="Fleet status" title="Vehicles" action="Manage fleet" onAction={() => onNavigate('Vehicles')} /><div className="fleet-list">{data.fleet.map((vehicle) => <button key={vehicle.vehicle} onClick={() => onAction(`${vehicle.vehicle} opened.`)}><span className="vehicle-symbol"><Truck /></span><span><strong>{vehicle.vehicle}</strong><small>{vehicle.type} · {vehicle.driver}</small></span><Status tone={vehicle.tone as Tone}>{vehicle.state}</Status></button>)}</div></article>
-      </section>
-      <section className="panel transport-quotes"><PanelTitle eyebrow="Unassigned work" title="Quote opportunities" action="Open quote desk" onAction={() => onNavigate('Quote requests')} /><div>{data.quotes.map((quote) => <button key={quote.route} onClick={() => onNavigate('Quote requests')}><MapPin /><span><strong>{quote.route}</strong><small>{quote.load}</small></span><b>{quote.value}</b><Status tone="warning">{quote.due}</Status><ArrowRight /></button>)}</div></section>
+    <div className="role-overview generic-overview p-6 space-y-4 panel">
+      <h2 className="text-xl font-semibold capitalize">{titleStr}</h2>
+      <p className="text-sm text-muted-foreground">{descStr}</p>
+      <RoleAccessRightsFeature roleId={roleId} />
     </div>
   );
-}
-
-function QualityOverview({ onAction, onNavigate }: OverviewProps) {
-  const data = overviewData.quality;
-  return (
-    <div className="role-overview quality-overview">
-      <section className="quality-layout">
-        <article className="panel field-schedule"><PanelTitle eyebrow={data.day} title="Field schedule" action="Full calendar" onAction={() => onNavigate('Schedule')} /><ol>{data.schedule.map((visit) => <li key={`${visit.time}-${visit.produce}`}><time>{visit.time}</time><span className="schedule-line" /><button onClick={() => onAction(`${visit.produce} visit opened.`)}><span><strong>{visit.crop}</strong><small>{visit.produce} · {visit.place}</small></span><Status tone={visit.tone as Tone}>{visit.state}</Status><ChevronRight /></button></li>)}</ol></article>
-        <article className="panel assessment-workbench"><PanelTitle eyebrow="Field workbench" title={`${data.active.crop} assessment`} action="New requests" onAction={() => onNavigate('Requests')} /><div className="assessment-context"><span><small>Produce</small><strong>{data.active.produce}</strong></span><span><small>Farmer</small><VerifiedIdentity name={data.active.farmer} as="strong" /></span><b>Step 3 of 5</b></div><ol className="assessment-checklist">{data.checklist.map((step, index) => <li className={cn(step.state === 'Complete' && 'is-complete', step.state === 'Current' && 'is-current')} key={step.label}><span>{step.state === 'Complete' ? <Check /> : index + 1}</span><strong>{step.label}</strong><small>{step.state}</small></li>)}</ol><Button size="lg" onClick={() => onNavigate('Assessments')}>Continue assessment<ArrowRight data-icon="inline-end" /></Button></article>
-      </section>
-      <section className="panel report-deadlines"><PanelTitle eyebrow="Report handoff" title="Drafts and re-checks" action="All reports" onAction={() => onNavigate('Reports')} /><div>{data.reports.map((report) => <button key={report.produce} onClick={() => onAction(`${report.produce} report opened.`)}><ClipboardCheck /><span><strong>{report.crop}</strong><small>{report.produce} · {report.detail}</small></span><Status tone={report.tone as Tone}>{report.due}</Status><ArrowRight /></button>)}</div></section>
-    </div>
-  );
-}
-
-function AdminOverview({ onAction, onNavigate }: OverviewProps) {
-  const data = overviewData.admin;
-  return (
-    <div className="role-overview admin-overview">
-      <section className="admin-health">{data.health.map((item) => <article key={item.label}><span>{item.label}</span><strong>{item.value}</strong><small>{item.detail}</small><Status tone={item.tone as Tone}>{item.tone === 'warning' ? 'Attention' : 'Live'}</Status></article>)}</section>
-      <section className="admin-grid">
-        <article className="panel verification-console"><PanelTitle eyebrow="Identity and provider trust" title="Verification queue" action="Open queue" onAction={() => onNavigate('Verification')} /><div className="admin-table"><div className="admin-table-head"><span>Applicant</span><span>Actor</span><span>Age</span><span>Evidence</span><span>Review signal</span></div>{data.verification.map((row) => <button key={row.applicant} onClick={() => onAction(`${row.applicant} verification opened.`)}><strong>{row.applicant}</strong><span>{row.actor}</span><span>{row.age}</span><span>{row.documents}</span><Status tone={row.tone as Tone}>{row.risk}</Status><ChevronRight /></button>)}</div></article>
-        <article className="panel risk-console"><PanelTitle eyebrow="Escalation desk" title="Cases requiring review" action="View disputes" onAction={() => onNavigate('Disputes')} /><div>{data.cases.map((item) => <button key={item.id} onClick={() => onAction(`${item.id} case opened.`)}><span className="case-id">{item.id}</span><span><strong>{item.type}</strong><small>{item.parties} · open {item.age}</small></span><Status tone={item.tone as Tone}>{item.state}</Status></button>)}</div></article>
-      </section>
-      <section className="admin-lower-grid">
-        <article className="panel outcomes-panel"><PanelTitle eyebrow="Marketplace outcomes" title="Farmer and trade health" action="Open analytics" onAction={() => onNavigate('Analytics')} /><div className="outcome-cards">{data.outcomes.map((item) => <div key={item.label}><strong>{item.value}</strong><span>{item.label}</span><small>{item.width >= 90 ? 'Healthy' : item.width >= 85 ? 'Monitor' : 'Needs attention'}</small></div>)}</div></article>
-        <article className="panel audit-panel"><PanelTitle eyebrow="Accountability" title="Recent audit trail" />{data.audit.map((entry) => <div key={`${entry.time}-${entry.event}`}><time>{entry.time}</time><span><strong>{entry.event}</strong><small>{entry.actor}</small></span></div>)}</article>
-      </section>
-    </div>
-  );
-}
-
-type OverviewProps = {
-  onAction: (message: string) => void;
-  onNavigate: (screen: string) => void;
-  onOpenAgreement?: (agreementId: string) => void;
-};
-
-export function RoleOverview({ roleId, ...props }: OverviewProps & { roleId: RoleId }) {
-  if (roleId === 'farmer') return <FarmerOverview {...props} />;
-  if (roleId === 'fpo') return <FpoOverview {...props} />;
-  if (roleId === 'buyer') return <BuyerOverview {...props} />;
-  if (roleId === 'storage') return <StorageOverview {...props} />;
-  if (roleId === 'transport') return <TransportOverview {...props} />;
-  if (roleId === 'quality') return <QualityOverview {...props} />;
-  return <AdminOverview {...props} />;
 }
