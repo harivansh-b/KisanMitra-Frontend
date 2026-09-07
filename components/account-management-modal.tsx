@@ -31,7 +31,6 @@ export function AccountManagementModal({ currentRole, onRoleChange, open, onClos
     setSuccess(false);
 
     try {
-      // Synchronize role update with backend API
       await api.put('/auth/role', {
         role: selectedRole.toUpperCase(),
         organization_name: organization || undefined,
@@ -45,8 +44,7 @@ export function AccountManagementModal({ currentRole, onRoleChange, open, onClos
         onClose();
         setSuccess(false);
       }, 1200);
-    } catch (err) {
-      // Fallback local role state change if API endpoint is unattached or mock mode
+    } catch {
       onRoleChange(selectedRole);
       setSuccess(true);
       setTimeout(() => {
@@ -74,7 +72,7 @@ export function AccountManagementModal({ currentRole, onRoleChange, open, onClos
         <div className="flex items-center justify-between border-b pb-3">
           <div className="flex items-center gap-2">
             <User className="h-5 w-5 text-primary" />
-            <h3 className="text-lg font-semibold">{t('header.manage_account')}</h3>
+            <h3 className="text-lg font-semibold">{t('account.title')}</h3>
           </div>
           <button type="button" onClick={onClose} className="rounded p-1 hover:bg-muted">
             <X className="h-4 w-4" />
@@ -92,7 +90,7 @@ export function AccountManagementModal({ currentRole, onRoleChange, open, onClos
 
         <div className="space-y-3">
           <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Select User Role:
+            {t('account.role')}
           </label>
           <div className="grid gap-2 max-h-56 overflow-y-auto pr-1">
             {roleOptions.map((r) => (
@@ -121,7 +119,7 @@ export function AccountManagementModal({ currentRole, onRoleChange, open, onClos
 
         <div className="grid gap-3 pt-2 sm:grid-cols-2">
           <div>
-            <label className="text-xs font-medium">Maharashtra District:</label>
+            <label className="text-xs font-medium">{t('account.district')}:</label>
             <select
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
@@ -153,10 +151,10 @@ export function AccountManagementModal({ currentRole, onRoleChange, open, onClos
 
         <div className="flex justify-end gap-2 pt-3 border-t">
           <Button variant="outline" onClick={onClose} size="sm">
-            Cancel
+            {t('account.cancel')}
           </Button>
           <Button disabled={saving} onClick={handleSave} size="sm">
-            {saving ? 'Updating...' : 'Save Profile & Role'}
+            {saving ? 'Updating...' : t('account.save')}
           </Button>
         </div>
       </div>

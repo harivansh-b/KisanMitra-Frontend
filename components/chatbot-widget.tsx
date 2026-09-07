@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { MessageCircle, Send, Sparkles, X, Mic, MicOff, Volume2, Globe } from 'lucide-react';
+import { MessageCircle, Send, Sparkles, X, Mic, MicOff, Volume2, Globe, VolumeX } from 'lucide-react';
 import { api, getApiErrorMessage } from '@/lib/api/client';
 import { useLanguage, Language } from '@/lib/i18n';
 
@@ -21,10 +21,38 @@ export function ChatbotWidget() {
   const [sending, setSending] = useState(false);
   const [recording, setRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
+  const [speakingIdx, setSpeakingIdx] = useState<number | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<number | null>(null);
+
+  function speakText(text: string, idx: number) {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    
+    if (speakingIdx === idx) {
+      window.speechSynthesis.cancel();
+      setSpeakingIdx(null);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    if (language === 'mr') {
+      utterance.lang = 'mr-IN';
+    } else if (language === 'hi') {
+      utterance.lang = 'hi-IN';
+    } else {
+      utterance.lang = 'en-IN';
+    }
+
+    utterance.onend = () => setSpeakingIdx(null);
+    utterance.onerror = () => setSpeakingIdx(null);
+
+    setSpeakingIdx(idx);
+    window.speechSynthesis.speak(utterance);
+  }
 
   async function submitText(textToSubmit: string) {
     if (!textToSubmit.trim()) return;
@@ -116,7 +144,7 @@ export function ChatbotWidget() {
         { sender: 'assistant', text: res.answer },
       ]);
     } catch (cause) {
-      const fallbackQuery = 'What are the current onion and soybean mandi prices in Maharashtra?';
+      const fallbackQuery = 'What are current onion and soybean mandi prices in Maharashtra?';
       setChatHistory(prev => [
         ...prev,
         { sender: 'user', text: `🎤 "${fallbackQuery}"` },
@@ -167,13 +195,24 @@ export function ChatbotWidget() {
             {chatHistory.map((item, idx) => (
               <div
                 key={idx}
-                className={`rounded-lg p-2.5 text-xs leading-5 ${
+                className={`relative group rounded-lg p-2.5 text-xs leading-5 ${
                   item.sender === 'user'
                     ? 'ml-auto max-w-[85%] bg-primary text-primary-foreground'
                     : 'mr-auto max-w-[90%] bg-muted/70 text-foreground'
                 }`}
               >
-                {item.text}
+                <div>{item.text}</div>
+                {item.sender === 'assistant' && (
+                  <button
+                    type="button"
+                    onClick={() => speakText(item.text, idx)}
+                    title={t('chat.tts_read')}
+                    className="mt-1 flex items-center gap-1 text-[10px] text-primary hover:underline font-semibold"
+                  >
+                    {speakingIdx === idx ? <VolumeX className="h-3 w-3 animate-pulse text-destructive" /> : <Volume2 className="h-3 w-3" />}
+                    {speakingIdx === idx ? 'Stop Speaking' : t('chat.tts_read')}
+                  </button>
+                )}
               </div>
             ))}
             {sending && (
@@ -183,20 +222,42 @@ export function ChatbotWidget() {
             )}
           </div>
 
+          {/* Quick Prompts */}
+          <div className="mt-3 flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
+            <button
+              onClick={() => submitText(t('chat.quick_prompt1'))}
+              className="shrink-0 rounded-full border bg-muted/30 px-2.5 py-0.5 text-[11px] hover:bg-muted font-medium"
+            >
+              💡 {t('chat.quick_prompt1')}
+            </button>
+            <button
+              onClick={() => submitText(t('chat.quick_prompt2'))}
+              className="shrink-0 rounded-full border bg-muted/30 px-2.5 py-0.5 text-[11px] hover:bg-muted font-medium"
+            >
+              💡 {t('chat.quick_prompt2')}
+            </button>
+            <button
+              onClick={() => submitText(t('chat.quick_prompt3'))}
+              className="shrink-0 rounded-full border bg-muted/30 px-2.5 py-0.5 text-[11px] hover:bg-muted font-medium"
+            >
+              💡 {t('chat.quick_prompt3')}
+            </button>
+          </div>
+
           {error && <p className="mt-2 text-xs text-destructive">{error}</p>}
 
           {recording && (
             <div className="mt-3 flex items-center justify-between rounded-md bg-destructive/10 p-2 text-xs text-destructive">
               <span className="flex items-center gap-2 font-medium">
                 <span className="h-2 w-2 animate-ping rounded-full bg-destructive" />
-                Recording voice ({recordingTime}s)...
+                Recording voice query ({recordingTime}s)...
               </span>
               <button
                 type="button"
                 onClick={stopRecording}
                 className="rounded bg-destructive px-2 py-1 font-semibold text-destructive-foreground"
               >
-                Done
+                {t('chat.mic_stop')}
               </button>
             </div>
           )}
@@ -215,7 +276,7 @@ export function ChatbotWidget() {
               onClick={recording ? stopRecording : startRecording}
               className={`rounded-md p-2 text-xs ${
                 recording
-                  ? 'bg-destructive text-destructive-foreground'
+                  ? 'bg-destructive text-destructive-foreground animate-pulse'
                   : 'bg-muted hover:bg-muted/80 text-foreground'
               }`}
             >

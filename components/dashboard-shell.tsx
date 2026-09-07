@@ -387,13 +387,13 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
             <FpoInventory onAction={runAction} />
           ) : activeNav === 'Mandi' ? (
             <MandiModule />
-          ) : (roleId === 'farmer' || roleId === 'buyer') && activeNav === 'Rankings' ? (
+          ) : activeNav === 'Rankings' ? (
             <RankingModule role={roleId} />
           ) : activeNav === 'Geography' ? (
             <GeographyModule />
           ) : activeNav === 'Documents' ? (
             <DocumentModule role={roleId} />
-          ) : (roleId === 'farmer' || roleId === 'buyer') && activeNav === 'Verification' ? (
+          ) : activeNav === 'Verification' ? (
             <VerificationModule role={roleId} />
           ) : (
             <WorkspaceView roleId={roleId} screenName={activeNav} onAction={runAction} onOpenProcurementPlan={openProcurementPlan} />

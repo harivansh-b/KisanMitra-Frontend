@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import { FileText, Upload, Trash2, ExternalLink, ShieldCheck, CheckCircle2, Clock, FileCheck } from 'lucide-react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { FileText, Upload, Trash2, ExternalLink, ShieldCheck, CheckCircle2, Clock, FileCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { api, getApiErrorMessage } from '@/lib/api/client';
 import { Button } from '@/components/ui/button';
@@ -52,6 +52,26 @@ const DEFAULT_DOCUMENTS: DocumentItem[] = [
     status: 'PENDING',
     url: '#',
   },
+  {
+    id: 'doc-004',
+    file_name: 'GST_Trade_License_Wholesale_APMC.pdf',
+    content_type: 'application/pdf',
+    size: 1120000,
+    category: 'doc.trade_license',
+    created_at: new Date(Date.now() - 86400000 * 10).toISOString(),
+    status: 'VERIFIED',
+    url: '#',
+  },
+  {
+    id: 'doc-005',
+    file_name: 'Cold_Storage_Warehouse_Permit_2026.pdf',
+    content_type: 'application/pdf',
+    size: 3400000,
+    category: 'doc.warehouse_license',
+    created_at: new Date(Date.now() - 86400000 * 12).toISOString(),
+    status: 'VERIFIED',
+    url: '#',
+  },
 ];
 
 export function DocumentModule({ role }: { role?: string }) {
@@ -62,6 +82,7 @@ export function DocumentModule({ role }: { role?: string }) {
   const [selectedCategory, setSelectedCategory] = useState('doc.land_record');
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [docLimit, setDocLimit] = useState(4);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -76,7 +97,7 @@ export function DocumentModule({ role }: { role?: string }) {
         setDocuments(res.map(d => ({ ...d, category: selectedCategory, status: 'VERIFIED' })));
       }
     } catch {
-      // Fallback to local state if backend unattached
+      // Fallback local documents
     } finally {
       setLoading(false);
     }
@@ -112,8 +133,7 @@ export function DocumentModule({ role }: { role?: string }) {
 
       setDocuments(prev => [newDoc, ...prev]);
       setSuccessMsg(`"${file.name}" uploaded successfully! Document recorded under profile verification.`);
-    } catch (err) {
-      // Fallback local upload handling
+    } catch {
       const fallbackDoc: DocumentItem = {
         id: `doc-${Date.now()}`,
         file_name: file.name,
@@ -147,6 +167,8 @@ export function DocumentModule({ role }: { role?: string }) {
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
+
+  const visibleDocs = useMemo(() => documents.slice(0, docLimit), [documents, docLimit]);
 
   return (
     <div className="space-y-6">
@@ -204,8 +226,11 @@ export function DocumentModule({ role }: { role?: string }) {
       </section>
 
       <section className="panel overflow-hidden">
-        <div className="border-b p-4 font-semibold">
-          Uploaded Documents ({documents.length})
+        <div className="border-b p-4 flex items-center justify-between font-semibold">
+          <span>Uploaded Document Records</span>
+          <span className="text-xs text-muted-foreground font-mono">
+            {t('listing.showing_limit', { current: visibleDocs.length, total: documents.length })}
+          </span>
         </div>
 
         {loading ? (
@@ -216,50 +241,80 @@ export function DocumentModule({ role }: { role?: string }) {
             <p className="mt-3 text-sm">{t('doc.no_docs')}</p>
           </div>
         ) : (
-          <div className="divide-y">
-            {documents.map((doc) => (
-              <div key={doc.id} className="flex flex-col justify-between gap-4 p-4 sm:flex-row sm:items-center">
-                <div className="flex items-start gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
-                    <FileText className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <strong className="text-sm font-medium">{doc.file_name}</strong>
-                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
-                        doc.status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300'
-                      }`}>
-                        {doc.status === 'VERIFIED' ? <ShieldCheck className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
-                        {doc.status === 'VERIFIED' ? 'Verified' : 'Pending Review'}
-                      </span>
+          <div>
+            <div className="divide-y">
+              {visibleDocs.map((doc) => (
+                <div key={doc.id} className="flex flex-col justify-between gap-4 p-4 sm:flex-row sm:items-center">
+                  <div className="flex items-start gap-3">
+                    <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
+                      <FileText className="h-5 w-5" />
                     </div>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {t(doc.category || 'doc.land_record')} · {formatSize(doc.size)} · Uploaded {new Date(doc.created_at).toLocaleDateString()}
-                    </p>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <strong className="text-sm font-medium">{doc.file_name}</strong>
+                        <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                          doc.status === 'VERIFIED' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300'
+                        }`}>
+                          {doc.status === 'VERIFIED' ? <ShieldCheck className="h-3 w-3" /> : <Clock className="h-3 w-3" />}
+                          {doc.status === 'VERIFIED' ? 'Verified' : 'Pending Review'}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {t(doc.category || 'doc.land_record')} · {formatSize(doc.size)} · Uploaded {new Date(doc.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {doc.url && doc.url !== '#' && (
+                      <a
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" /> View / Download
+                      </a>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => deleteDoc(doc.id)}
+                      className="inline-flex items-center gap-1 rounded-md border border-destructive/30 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/10"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" /> Remove
+                    </button>
                   </div>
                 </div>
+              ))}
+            </div>
 
-                <div className="flex items-center gap-2">
-                  {doc.url && doc.url !== '#' && (
-                    <a
-                      href={doc.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-md border px-3 py-1.5 text-xs font-medium hover:bg-muted"
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" /> View / Download
-                    </a>
-                  )}
+            {/* Show More / Show Less for Documents */}
+            {documents.length > 4 && (
+              <div className="flex items-center justify-between border-t p-3 bg-muted/20">
+                <span className="text-xs text-muted-foreground">
+                  {t('listing.showing_limit', { current: visibleDocs.length, total: documents.length })}
+                </span>
+                {docLimit < documents.length ? (
                   <button
                     type="button"
-                    onClick={() => deleteDoc(doc.id)}
-                    className="inline-flex items-center gap-1 rounded-md border border-destructive/30 px-3 py-1.5 text-xs font-medium text-destructive hover:bg-destructive/10"
+                    onClick={() => setDocLimit(prev => Math.min(prev + 4, documents.length))}
+                    className="inline-flex items-center gap-1 rounded-md border bg-background px-3 py-1.5 text-xs font-semibold text-primary hover:bg-muted transition-colors"
                   >
-                    <Trash2 className="h-3.5 w-3.5" /> Remove
+                    <ChevronDown className="h-4 w-4" />
+                    {t('listing.show_more')} (+4)
                   </button>
-                </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setDocLimit(4)}
+                    className="inline-flex items-center gap-1 rounded-md border bg-background px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted transition-colors"
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                    {t('listing.show_less')}
+                  </button>
+                )}
               </div>
-            ))}
+            )}
           </div>
         )}
       </section>
