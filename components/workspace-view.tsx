@@ -86,37 +86,62 @@ function ProduceRecordCard({ record, onOpen, onAction }: {
   onOpen: () => void;
   onAction: () => void;
 }) {
+  const { language, tCrop } = useLanguage();
   const score = record.conditionScore;
   const conditionTone = score === undefined ? 'pending' : score >= 85 ? 'good' : score >= 65 ? 'watch' : 'risk';
+
+  const titleDisplay = tCrop(record.title);
+  const statusDisplay = language === 'mr'
+    ? (record.status === 'Offers open' ? 'प्रस्ताव सुरू'
+      : record.status === 'Payment due' ? 'पेमेंट बाकी'
+      : record.status === 'In transport' ? 'वाहतुकीत आहे'
+      : record.status)
+    : record.status;
+
+  const stageDisplay = language === 'mr'
+    ? (record.stage === 'Quality assessed' ? 'गुणवत्ता तपासली'
+      : record.stage === 'Pre-harvest' ? 'काढणीपूर्व'
+      : record.stage === 'Harvested' ? 'काढणी पूर्ण'
+      : record.stage === 'Quantity recorded' ? 'प्रमाण नोंदवले'
+      : record.stage)
+    : record.stage;
+
+  const nextActionDisplay = language === 'mr'
+    ? (record.nextAction === 'Compare offers' ? 'प्रस्तावांची तुलना करा'
+      : record.nextAction === 'Review payment' ? 'पेमेंट तपासा'
+      : record.nextAction === 'View shipment' ? 'वाहतूक पहा'
+      : record.nextAction)
+    : record.nextAction;
+
   return (
     <article className="produce-record-card">
       <button className="produce-card-main" onClick={onOpen}>
         <span className="produce-card-heading">
           <span className="produce-card-icon"><Leaf aria-hidden="true" /></span>
-          <span><small>{record.id}</small><strong>{record.title}</strong><em>{record.subtitle}</em></span>
+          <span><small>{record.id}</small><strong>{titleDisplay}</strong><em>{record.subtitle}</em></span>
         </span>
-        <Status tone={record.tone}>{record.status}</Status>
+        <Status tone={record.tone}>{statusDisplay}</Status>
       </button>
       <div className="produce-card-facts">
-        <span><small>Available quantity</small><strong>{record.metric}</strong></span>
-        <span><small>Current stage</small><strong>{record.stage}</strong></span>
-        <span><small>Harvest</small><strong><CalendarDays aria-hidden="true" />{record.harvestLabel ?? 'Date recorded'}</strong></span>
-        <span><small>Quality</small><strong><ShieldCheck aria-hidden="true" />{record.qualityLabel ?? record.status}</strong></span>
+        <span><small>{language === 'mr' ? 'उपलब्ध प्रमाण' : 'Available quantity'}</small><strong>{record.metric}</strong></span>
+        <span><small>{language === 'mr' ? 'सध्याचा टप्पा' : 'Current stage'}</small><strong>{stageDisplay}</strong></span>
+        <span><small>{language === 'mr' ? 'काढणी' : 'Harvest'}</small><strong><CalendarDays aria-hidden="true" />{record.harvestLabel ?? (language === 'mr' ? 'तारीख नोंदवली' : 'Date recorded')}</strong></span>
+        <span><small>{language === 'mr' ? 'गुणवत्ता' : 'Quality'}</small><strong><ShieldCheck aria-hidden="true" />{record.qualityLabel ?? statusDisplay}</strong></span>
       </div>
       <section className={cn('produce-condition', `condition-${conditionTone}`)} aria-label={score === undefined ? 'Condition estimate starts after harvest' : `Estimated produce condition ${score} percent`}>
         <div className="condition-heading">
-          <span><small>Estimated produce condition</small><strong>{record.conditionLabel ?? 'Handling status recorded'}</strong></span>
+          <span><small>{language === 'mr' ? 'अंदाजित शेतमाल स्थिती' : 'Estimated produce condition'}</small><strong>{record.conditionLabel ?? (language === 'mr' ? 'हाताळणी स्थिती नोंदवली' : 'Handling status recorded')}</strong></span>
           <b>{score === undefined ? '—' : `${score}%`}</b>
         </div>
         <div className="condition-segments" aria-hidden="true">
           {Array.from({ length: 10 }, (_, index) => <i className={cn(score !== undefined && score > index * 10 && 'is-filled')} key={index} />)}
         </div>
-        <p>{record.conditionBasis ?? 'Estimated from the recorded harvest, handling and storage status.'}</p>
-        <small className="condition-disclaimer">Handling estimate · not a verified quality grade</small>
+        <p>{record.conditionBasis ?? (language === 'mr' ? 'नोंदवलेली काढणी, हाताळणी आणि साठवणूक स्थितीनुसार अंदाज.' : 'Estimated from the recorded harvest, handling and storage status.')}</p>
+        <small className="condition-disclaimer">{language === 'mr' ? 'हाताळणीचा अंदाज · प्रमाणित गुणवत्ता ग्रेड नाही' : 'Handling estimate · not a verified quality grade'}</small>
       </section>
       <div className="produce-card-action">
-        <span><small>Recommended next step</small><strong>{record.nextAction}</strong></span>
-        <Button variant="outline" size="sm" onClick={onAction}>{record.nextAction}<ArrowRight data-icon="inline-end" /></Button>
+        <span><small>{language === 'mr' ? 'शिफारस केलेले पुढील पाऊल' : 'Recommended next step'}</small><strong>{nextActionDisplay}</strong></span>
+        <Button variant="outline" size="sm" onClick={onAction}>{nextActionDisplay}<ArrowRight data-icon="inline-end" /></Button>
       </div>
     </article>
   );
@@ -132,6 +157,7 @@ function FarmerServiceGroups({ records, produceNames, onOpen }: {
   produceNames: Map<string, string>;
   onOpen: (record: WorkspaceRecord) => void;
 }) {
+  const { language } = useLanguage();
   const groups = useMemo(() => {
     const grouped = new Map<string, WorkspaceRecord[]>();
     records.forEach((record) => {
@@ -142,10 +168,10 @@ function FarmerServiceGroups({ records, produceNames, onOpen }: {
       produceId,
       produceName: produceNames.get(produceId)
         ?? services.find((service) => service.recordType === 'service-request')?.title.split(' · ').at(-1)
-        ?? 'Other produce services',
+        ?? (language === 'mr' ? 'इतर शेतमाल सेवा' : 'Other produce services'),
       services,
     }));
-  }, [produceNames, records]);
+  }, [language, produceNames, records]);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const activeGroup = openGroup === null ? groups[0]?.produceId : openGroup;
 
@@ -158,13 +184,18 @@ function FarmerServiceGroups({ records, produceNames, onOpen }: {
         return (
           <article className={cn('farmer-service-group', expanded && 'is-open')} key={group.produceId}>
             <button className="service-group-trigger" aria-expanded={expanded} onClick={() => setOpenGroup(expanded ? '' : group.produceId)}>
-              <span className="service-group-produce"><span className="service-group-icon"><Leaf /></span><span><small>{group.produceId === 'OTHER' ? 'Additional services' : group.produceId}</small><strong>{group.produceName}</strong></span></span>
-              <span className="service-group-counts"><span><strong>{group.services.length}</strong><small>Services</small></span><span><strong>{completed}</strong><small>Complete</small></span>{attention > 0 && <Status tone="warning">{attention} needs action</Status>}</span>
+              <span className="service-group-produce"><span className="service-group-icon"><Leaf /></span><span><small>{group.produceId === 'OTHER' ? (language === 'mr' ? 'अतिरिक्त सेवा' : 'Additional services') : group.produceId}</small><strong>{group.produceName}</strong></span></span>
+              <span className="service-group-counts"><span><strong>{group.services.length}</strong><small>{language === 'mr' ? 'सेवा' : 'Services'}</small></span><span><strong>{completed}</strong><small>{language === 'mr' ? 'पूर्ण' : 'Complete'}</small></span>{attention > 0 && <Status tone="warning">{attention} {language === 'mr' ? 'लक्ष देण्याची गरज' : 'needs action'}</Status>}</span>
               <ChevronDown className={cn(expanded && 'is-rotated')} aria-hidden="true" />
             </button>
             {expanded && (
               <div className="service-group-panel">
-                <div className="service-group-labels"><span>Service</span><span>Schedule or cost</span><span>Status</span><span>Action</span></div>
+                <div className="service-group-labels">
+                  <span>{language === 'mr' ? 'सेवा प्रकार' : 'Service'}</span>
+                  <span>{language === 'mr' ? 'वेळापत्रक / खर्च' : 'Schedule or cost'}</span>
+                  <span>{language === 'mr' ? 'स्थिती' : 'Status'}</span>
+                  <span>{language === 'mr' ? 'कृती' : 'Action'}</span>
+                </div>
                 {group.services.map((service) => {
                   const done = service.status.toLowerCase().includes('completed') || service.status.toLowerCase().includes('awarded');
                   const active = service.status.toLowerCase().includes('accepted') || service.status.toLowerCase().includes('way');

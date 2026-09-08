@@ -211,7 +211,7 @@ function PanelTitle({ eyebrow, title, action, onAction }: { eyebrow: string; tit
 }
 
 function FarmerOverview({ onAction, onNavigate, onOpenAgreement }: OverviewProps) {
-  const { t, tCrop, language } = useLanguage();
+  const { t, tCrop, tDistrict, language } = useLanguage();
   const data = overviewData.farmer;
 
   return (
@@ -219,11 +219,11 @@ function FarmerOverview({ onAction, onNavigate, onOpenAgreement }: OverviewProps
       <section className="farmer-alert">
         <span className="role-icon"><Clock3 /></span>
         <div>
-          <strong>{language === 'mr' ? 'कांदा भाव वाढीचा इशारा' : data.urgent.title}</strong>
-          <p>{language === 'mr' ? 'लासलगाव मंडीमध्ये कांद्याचे भाव +३.४% वाढले आहेत. ५ व्यापारी खरेदीसाठी तयार आहेत.' : data.urgent.detail}</p>
+          <strong>{language === 'mr' ? t('farmer.urgent_title') : data.urgent.title}</strong>
+          <p>{language === 'mr' ? t('farmer.urgent_detail') : data.urgent.detail}</p>
         </div>
         <Button onClick={() => onNavigate('Offers')}>
-          {language === 'mr' ? 'प्रस्ताव पहा' : data.urgent.action}
+          {language === 'mr' ? t('farmer.urgent_action') : data.urgent.action}
           <ArrowRight data-icon="inline-end" />
         </Button>
       </section>
@@ -233,81 +233,122 @@ function FarmerOverview({ onAction, onNavigate, onOpenAgreement }: OverviewProps
       <section className="farmer-main-grid">
         <article className="panel farmer-produce-card">
           <PanelTitle
-            eyebrow={language === 'mr' ? 'विक्रीसाठी तयार' : 'Ready to sell'}
-            title={language === 'mr' ? 'तुमचा सक्रिय शेतमाल' : 'Your active produce'}
-            action={language === 'mr' ? 'सर्व शेतमाल पहा' : 'View all produce'}
+            eyebrow={language === 'mr' ? t('farmer.ready_to_sell') : 'Ready to sell'}
+            title={language === 'mr' ? t('farmer.active_produce') : 'Your active produce'}
+            action={language === 'mr' ? t('farmer.view_all_produce') : 'View all produce'}
             onAction={() => onNavigate('Produce')}
           />
           <div className="farmer-crop">
             <span className="crop-mark"><Leaf /></span>
             <div className="crop-title">
               <h3>{tCrop(data.produce.crop)}</h3>
-              <p>{data.produce.id} · {data.produce.location}</p>
+              <p>{data.produce.id} · {language === 'mr' ? 'निफाड, नाशिक' : data.produce.location}</p>
             </div>
-            <Status tone="positive">{language === 'mr' ? 'प्रस्ताव सुरू' : data.produce.marketStatus}</Status>
+            <Status tone="positive">{language === 'mr' ? t('farmer.offers_open') : data.produce.marketStatus}</Status>
           </div>
           <div className="crop-facts">
-            <span><small>{language === 'mr' ? 'उपलब्ध प्रमाण' : 'Available'}</small><strong>{data.produce.quantity}</strong></span>
-            <span><small>{language === 'mr' ? 'गुणवत्ता श्रेणी' : 'Quality'}</small><strong>{data.produce.grade}</strong></span>
-            <span><small>{language === 'mr' ? 'सध्याचा टप्पा' : 'Current produce stage'}</small><strong>{language === 'mr' ? 'गुणवत्ता तपासली' : data.produce.stage}</strong></span>
+            <span><small>{language === 'mr' ? t('farmer.available') : 'Available'}</small><strong>{data.produce.quantity}</strong></span>
+            <span><small>{language === 'mr' ? t('farmer.quality') : 'Quality'}</small><strong>{language === 'mr' ? t('farmer.grade_a_verified') : data.produce.grade}</strong></span>
+            <span><small>{language === 'mr' ? t('farmer.current_stage') : 'Current produce stage'}</small><strong>{language === 'mr' ? t('farmer.quality_assessed') : data.produce.stage}</strong></span>
           </div>
           <div className="produce-lifecycle-head">
-            <span>{language === 'mr' ? 'शेतमाल प्रवास' : 'Produce journey'}</span>
-            <strong>4 {language === 'mr' ? 'पैकी ८ टप्पे' : 'of 8 stages'}</strong>
+            <span>{language === 'mr' ? t('farmer.produce_journey') : 'Produce journey'}</span>
+            <strong>{language === 'mr' ? t('farmer.stages_count', { current: 4, total: 8 }) : '4 of 8 stages'}</strong>
           </div>
           <div className="farmer-steps-scroll">
             <ol className="farmer-steps">
-              {data.produceLifecycle.map((step, index) => (
-                <li className={cn(step.state === 'complete' && 'is-complete', step.state === 'current' && 'is-current')} key={step.label}>
-                  <span>{step.state === 'complete' ? <Check /> : index + 1}</span>
-                  <small>{step.label}</small>
-                </li>
-              ))}
+              {data.produceLifecycle.map((step, index) => {
+                const stepTranslations: Record<string, string> = {
+                  'Pre-harvest': 'पिक काढणीपूर्व',
+                  'Harvested': 'काढणी पूर्ण',
+                  'Quantity recorded': 'प्रमाण नोंदवले',
+                  'Quality assessed': 'गुणवत्ता तपासली',
+                  'Storage / pickup pending': 'गोदाम / पिकअप बाकी',
+                  'In transport': 'वाहतुकीत आहे',
+                  'Delivered': 'पोहोच झाले',
+                  'Transaction complete': 'व्यवहार पूर्ण',
+                };
+                const displayStepLabel = language === 'mr' ? (stepTranslations[step.label] || step.label) : step.label;
+
+                return (
+                  <li className={cn(step.state === 'complete' && 'is-complete', step.state === 'current' && 'is-current')} key={step.label}>
+                    <span>{step.state === 'complete' ? <Check /> : index + 1}</span>
+                    <small>{displayStepLabel}</small>
+                  </li>
+                );
+              })}
             </ol>
           </div>
         </article>
 
         <article className="panel decision-card">
           <PanelTitle
-            eyebrow={language === 'mr' ? 'निर्णय सहाय्य' : 'Decision support'}
-            title={language === 'mr' ? 'आत्ताच विका की वाट पाहा?' : 'Sell now or wait?'}
+            eyebrow={language === 'mr' ? t('farmer.decision_support') : 'Decision support'}
+            title={language === 'mr' ? t('farmer.sell_or_wait') : 'Sell now or wait?'}
           />
           <div className="scenario-list">
-            {data.sellScenarios.map((scenario) => (
-              <button className={cn('scenario-row', scenario.recommended && 'is-recommended')} key={scenario.label} onClick={() => onAction(`${scenario.label} scenario opened.`)}>
-                <span><strong>{scenario.label}</strong><small>{scenario.detail}</small></span>
-                <b>{scenario.value}</b>
-                {scenario.recommended && <Status tone="positive">{language === 'mr' ? 'शिफारस केलेले' : 'Recommended'}</Status>}
-              </button>
-            ))}
+            {data.sellScenarios.map((scenario) => {
+              const scenarioTranslations: Record<string, { label: string; detail: string }> = {
+                'Sell now': { label: t('farmer.sell_now'), detail: t('farmer.sell_now_detail') },
+                'Nearby mandi': { label: t('farmer.nearby_mandi'), detail: t('farmer.nearby_mandi_detail') },
+                'Store 7 days': { label: t('farmer.store_7_days'), detail: t('farmer.store_7_days_detail') },
+              };
+              const currentScenario = language === 'mr' && scenarioTranslations[scenario.label]
+                ? scenarioTranslations[scenario.label]
+                : scenario;
+
+              return (
+                <button className={cn('scenario-row', scenario.recommended && 'is-recommended')} key={scenario.label} onClick={() => onAction(`${scenario.label} scenario opened.`)}>
+                  <span><strong>{currentScenario.label}</strong><small>{currentScenario.detail}</small></span>
+                  <b>{scenario.value}</b>
+                  {scenario.recommended && <Status tone="positive">{language === 'mr' ? t('farmer.recommended') : 'Recommended'}</Status>}
+                </button>
+              );
+            })}
           </div>
           <p className="context-note">
             <IndianRupee />
-            {language === 'mr' ? 'निव्वळ मूल्यांमध्ये सर्व वाहतूक आणि गोदाम खर्च समाविष्ट आहेत.' : 'Net values include the listed transport, storage and market costs.'}
+            {language === 'mr' ? t('farmer.net_values_note') : 'Net values include the listed transport, storage and market costs.'}
           </p>
         </article>
       </section>
 
       <section className="panel farmer-offers">
         <PanelTitle
-          eyebrow={language === 'mr' ? 'स्पर्धात्मक खरेदीदार विंडो' : 'Competitive offer window'}
-          title={language === 'mr' ? 'तुमच्या उत्पन्नानुसार क्रमवारी लावलेले प्रस्ताव' : 'Offers ranked for your return'}
-          action={language === 'mr' ? 'सर्व अटींची तुलना करा' : 'Compare full terms'}
+          eyebrow={language === 'mr' ? t('farmer.offer_window') : 'Competitive offer window'}
+          title={language === 'mr' ? t('farmer.ranked_offers') : 'Offers ranked for your return'}
+          action={language === 'mr' ? t('farmer.compare_terms') : 'Compare full terms'}
           onAction={() => onNavigate('Offers')}
         />
         <div className="offer-cards">
-          {data.offers.map((offer, index) => (
-            <button className={cn('offer-card', index === 0 && 'is-best')} key={offer.id} onClick={() => onOpenAgreement?.(offer.id)}>
-              <span className="offer-rank">#{index + 1}</span>
-              <Status tone={offer.tone as Tone}>{offer.tag}</Status>
-              <VerifiedIdentity name={offer.buyer} as="h3" />
-              <p>{offer.terms}</p>
-              <div>
-                <span><small>{language === 'mr' ? 'दर (प्रति क्विंटल)' : 'Price'}</small><strong>{offer.price}</strong></span>
-                <span><small>{language === 'mr' ? 'अपेक्षित निव्वळ उत्पन्न' : 'Expected net'}</small><strong>{offer.net}</strong></span>
-              </div>
-            </button>
-          ))}
+          {data.offers.map((offer, index) => {
+            const tagTranslations: Record<string, string> = {
+              'Best net return': 'सर्वोत्तम निव्वळ नफा',
+              'Highest price': 'सर्वाधिक भाव',
+              'Reliable terms': 'विश्वासू अटी',
+            };
+            const termsTranslations: Record<string, string> = {
+              'Buyer transport · same-day payment': 'खरेदीदाराची वाहतूक · त्याच दिवशी पेमेंट',
+              'You arrange transport · payment in 7 days': 'तुम्ही वाहतूक करा · ७ दिवसांत पेमेंट',
+              'Pickup included · payment in 2 days': 'पिकअप समाविष्ट · २ दिवसांत पेमेंट',
+            };
+            const tagDisplay = language === 'mr' ? (tagTranslations[offer.tag] || offer.tag) : offer.tag;
+            const termsDisplay = language === 'mr' ? (termsTranslations[offer.terms] || offer.terms) : offer.terms;
+            const priceDisplay = language === 'mr' ? offer.price.replace('/kg', '/किलो') : offer.price;
+
+            return (
+              <button className={cn('offer-card', index === 0 && 'is-best')} key={offer.id} onClick={() => onOpenAgreement?.(offer.id)}>
+                <span className="offer-rank">#{index + 1}</span>
+                <Status tone={offer.tone as Tone}>{tagDisplay}</Status>
+                <VerifiedIdentity name={offer.buyer} as="h3" />
+                <p>{termsDisplay}</p>
+                <div>
+                  <span><small>{language === 'mr' ? t('farmer.price_per_kg') : 'Price'}</small><strong>{priceDisplay}</strong></span>
+                  <span><small>{language === 'mr' ? t('farmer.expected_net') : 'Expected net'}</small><strong>{offer.net}</strong></span>
+                </div>
+              </button>
+            );
+          })}
         </div>
       </section>
     </div>

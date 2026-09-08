@@ -100,17 +100,18 @@ const fpoWorkspaceGroups = [
 ];
 
 function Logo() {
+  const { language } = useLanguage();
   return (
     <div className="brand-mark" aria-label="KisanMitra">
       <span className="brand-icon"><Leaf aria-hidden="true" /></span>
-      <span><strong>KisanMitra</strong><small>Trade with clarity</small></span>
+      <span><strong>KisanMitra</strong><small>{language === 'mr' ? 'पारदर्शक शेती व्यापार' : 'Trade with clarity'}</small></span>
     </div>
   );
 }
 
 export function DashboardShell({ initialRole, initialSection = 'Overview' }: { initialRole: string; initialSection?: string }) {
   const router = useRouter();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, tNav, tRole } = useLanguage();
   const [isSignedUpMode, setIsSignedUpMode] = useState(false);
   const {
     state: prototypeState, addEvent, addProduce, addAgreement, markRequirementSent,
@@ -139,15 +140,30 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
     ? fpoWorkspaceGroups.find((group) => group.screens.includes(activeNav))
     : undefined;
   const activeNavLabel = activeFpoGroup?.label ?? activeNav;
-  const pageEyebrow = roleId === 'fpo'
-    ? activeNavLabel === 'Home' ? 'FPO workspace'
-      : activeNavLabel === 'Procurement' ? 'Procurement workspace'
-        : activeNavLabel === 'Inventory' ? 'Inventory control'
-          : activeNavLabel === 'Sales' ? 'Buyer sales'
-            : 'Farmer services'
-    : role.eyebrow;
+  const pageEyebrow = language === 'mr'
+    ? (roleId === 'farmer' ? 'शेती कार्यसंचालन' : roleId === 'fpo' ? 'FPO कार्यक्षेत्र' : `${tRole(roleId)} कार्यक्षेत्र`)
+    : (roleId === 'fpo'
+      ? activeNavLabel === 'Home' ? 'FPO workspace'
+        : activeNavLabel === 'Procurement' ? 'Procurement workspace'
+          : activeNavLabel === 'Inventory' ? 'Inventory control'
+            : activeNavLabel === 'Sales' ? 'Buyer sales'
+              : 'Farmer services'
+      : role.eyebrow);
   const activeScreen = getWorkspaceScreen(roleId, activeNav);
   const primaryAction = activeScreen?.primaryAction ?? role.primaryAction;
+
+  const displayPrimaryAction = language === 'mr'
+    ? (primaryAction === 'Add produce' ? 'शेतमाल जोडा'
+      : primaryAction === 'Publish offer' ? 'प्रस्ताव प्रसिद्ध करा'
+      : primaryAction === 'New campaign' ? 'नवीन मोहीम'
+      : primaryAction === 'Add requirement' ? 'मागणी जोडा'
+      : primaryAction === 'Add availability' ? 'उपलब्धता जोडा'
+      : primaryAction === 'Publish vehicle' ? 'वाहन नोंदवा'
+      : primaryAction === 'Set availability' ? 'उपलब्धता निश्चित करा'
+      : primaryAction === 'Review queue' ? 'रांगेचे पुनरावलोकन करा'
+      : primaryAction)
+    : primaryAction;
+
   const isFarmerProduceAction = roleId === 'farmer' && (activeNav === 'Overview' || activeNav === 'Produce');
   const isAgreementAction = (roleId === 'buyer' && (activeNav === 'Overview' || activeNav === 'Requirements'))
     || (roleId === 'fpo' && (activeNav === 'Overview' || activeNav === 'Campaigns'))
@@ -249,10 +265,11 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
           <Button className="mobile-only" variant="ghost" size="icon" onClick={() => setMobileMenuOpen(false)} aria-label="Close navigation"><X /></Button>
         </div>
 
-        <nav className="primary-nav" aria-label={`${role.name} navigation`}>
-          <p className="nav-label">Workspace</p>
+        <nav className="primary-nav" aria-label={`${tRole(role.id)} navigation`}>
+          <p className="nav-label">{t('shell.workspace')}</p>
           {navItems.map((item) => {
             const Icon = item.icon;
+            const labelText = tNav(item.label);
             return (
               <button
                 className={cn('nav-item', activeNavLabel === item.label && 'is-active')}
@@ -262,12 +279,12 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
                   navigate(item.target ?? item.label);
                 }}
               >
-                <Icon aria-hidden="true" /><span>{item.label}</span>
+                <Icon aria-hidden="true" /><span>{labelText}</span>
                 {activeNavLabel === item.label && <span className="nav-indicator" />}
               </button>
             );
           })}
-          <p className="nav-label nav-section">Manage</p>
+          <p className="nav-label nav-section">{t('shell.manage')}</p>
           <button className="nav-item" onClick={() => navigate('Documents')}><FileCheck /><span>{t('doc.title')}</span></button>
           <button className="nav-item" onClick={() => setAccountModalOpen(true)}><Settings /><span>{t('header.manage_account')}</span></button>
           <button className="nav-item" onClick={restoreDemo}><RotateCcw /><span>{t('nav.reset_demo')}</span></button>
@@ -275,12 +292,12 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
 
         <div className="sidebar-support">
           <HelpCircle aria-hidden="true" />
-          <span><strong>Need help?</strong><small>Guidance coming later</small></span>
+          <span><strong>{t('shell.need_help')}</strong><small>{t('shell.guidance_later')}</small></span>
           <ArrowRight aria-hidden="true" />
         </div>
         <div className="sidebar-profile" onClick={() => setAccountModalOpen(true)} style={{ cursor: 'pointer' }}>
           <span className="avatar">{role.profile.charAt(0)}</span>
-          <span className="profile-copy"><VerifiedIdentity name={role.profile} as="strong" /><small>{role.name}</small></span>
+          <span className="profile-copy"><VerifiedIdentity name={role.profile} as="strong" /><small>{tRole(role.id)}</small></span>
           <ChevronDown aria-hidden="true" />
         </div>
       </aside>
@@ -291,11 +308,11 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
         <header className="topbar">
           <div className="topbar-left">
             <Button className="mobile-only" variant="ghost" size="icon" onClick={() => setMobileMenuOpen(true)} aria-label="Open navigation"><Menu /></Button>
-            <div className="desktop-only breadcrumb"><span>{role.name}</span><span>/</span><strong>{activeNavLabel}</strong>{roleId === 'fpo' && activeNav !== 'Overview' && activeNav !== activeNavLabel && <><span>/</span><strong>{activeNav}</strong></>}</div>
+            <div className="desktop-only breadcrumb"><span>{tRole(role.id)}</span><span>/</span><strong>{tNav(activeNavLabel)}</strong>{roleId === 'fpo' && activeNav !== 'Overview' && activeNav !== activeNavLabel && <><span>/</span><strong>{tNav(activeNav)}</strong></>}</div>
             <Logo />
           </div>
           <button className="command-search" disabled title="Search is coming later">
-            <Search aria-hidden="true" /><span>Search produce, trades and people</span><kbd><Command /> K</kbd>
+            <Search aria-hidden="true" /><span>{t('header.search_produce_trades')}</span><kbd><Command /> K</kbd>
           </button>
           <div className="topbar-actions">
             <LanguageSwitcher />
@@ -311,7 +328,7 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
               title="Toggle between Non-signup (Demo mode with role switcher) and Signup state"
             >
               <span className={`h-2 w-2 rounded-full ${isSignedUpMode ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-              {isSignedUpMode ? 'Signed-up State' : 'Non-signup State (Demo)'}
+              {isSignedUpMode ? (language === 'mr' ? 'प्रमाणित वापरकर्ता स्थिती' : 'Signed-up State') : (language === 'mr' ? 'डेमो मोड (सक्रिय)' : 'Non-signup State (Demo)')}
             </button>
 
             {/* User Type Role Switcher: Present ONLY in Non-signup state */}
@@ -319,14 +336,14 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
               <div className="role-switcher-wrap" title="Explore user roles in Non-signup Demo Mode">
                 <label htmlFor="role-switcher">{t('header.viewing_as')}</label>
                 <select id="role-switcher" value={roleId} onChange={(event) => changeRole(event.target.value as RoleId)}>
-                  {dashboardData.roles.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}
+                  {dashboardData.roles.map((item) => <option value={item.id} key={item.id}>{tRole(item.id)}</option>)}
                 </select>
                 <ChevronDown aria-hidden="true" />
               </div>
             ) : (
               <div className="hidden sm:flex items-center gap-1.5 rounded-md border bg-muted/40 px-2.5 py-1 text-xs font-semibold">
-                <span className="text-muted-foreground">Active Role:</span>
-                <span className="text-primary font-bold">{role.name}</span>
+                <span className="text-muted-foreground">{t('header.active_role')}</span>
+                <span className="text-primary font-bold">{tRole(role.id)}</span>
               </div>
             )}
 
@@ -348,8 +365,20 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
           <section className="page-heading">
             <div>
               <p className="eyebrow">{pageEyebrow}</p>
-              <h1>{activeNav === 'Overview' ? role.title : activeNavLabel}</h1>
-              <p>{activeNav === 'Overview' ? role.subtitle : activeScreen?.subtitle}</p>
+              <h1>
+                {activeNav === 'Overview'
+                  ? (language === 'mr' ? (roleId === 'farmer' ? 'नमस्कार, रमेश' : `${tRole(roleId)} विहंगावलोकन`) : role.title)
+                  : tNav(activeNavLabel)}
+              </h1>
+              <p>
+                {activeNav === 'Overview'
+                  ? (language === 'mr'
+                    ? (roleId === 'farmer'
+                      ? 'तुमच्या लाल कांद्यासाठी ३ सक्रिय प्रस्ताव आले आहेत. प्रस्तावाची मुदत संपण्यापूर्वी निव्वळ नफा तपासा.'
+                      : role.subtitle)
+                    : role.subtitle)
+                  : activeScreen?.subtitle}
+              </p>
             </div>
             <Button size="lg" onClick={() => {
               if (isProcurementPlanAction) openProcurementPlan();
@@ -357,12 +386,12 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
               else if (isFpoInventoryAction) setActiveNav('Farmer supply');
               else if (providerRequestActionTarget) setActiveNav(providerRequestActionTarget);
               else setDialogOpen(true);
-            }}>{primaryAction}<ArrowRight data-icon="inline-end" /></Button>
+            }}>{displayPrimaryAction}<ArrowRight data-icon="inline-end" /></Button>
           </section>
 
           {roleId === 'fpo' && activeFpoGroup && activeFpoGroup.screens.length > 1 && (
             <nav className="fpo-workspace-tabs" aria-label={`${activeFpoGroup.label} views`}>
-              {activeFpoGroup.screens.map((screen) => <button className={cn(activeNav === screen && 'is-active')} key={screen} onClick={() => setActiveNav(screen)}>{screen}</button>)}
+              {activeFpoGroup.screens.map((screen) => <button className={cn(activeNav === screen && 'is-active')} key={screen} onClick={() => setActiveNav(screen)}>{tNav(screen)}</button>)}
             </nav>
           )}
 
@@ -394,9 +423,9 @@ export function DashboardShell({ initialRole, initialSection = 'Overview' }: { i
       <nav className={cn('mobile-nav', roleId === 'fpo' && 'fpo-mobile-nav')} aria-label="Mobile navigation">
         {navItems.slice(0, 4).map((item) => {
           const Icon = item.icon;
-          return <button key={item.label} aria-current={activeNavLabel === item.label ? 'page' : undefined} className={cn(activeNavLabel === item.label && 'is-active')} onClick={() => navigate(item.target ?? item.label)}><Icon /><span>{item.label}</span></button>;
+          return <button key={item.label} aria-current={activeNavLabel === item.label ? 'page' : undefined} className={cn(activeNavLabel === item.label && 'is-active')} onClick={() => navigate(item.target ?? item.label)}><Icon /><span>{tNav(item.label)}</span></button>;
         })}
-        <button className={cn(!navItems.slice(0, 4).some((item) => activeNavLabel === item.label) && 'is-active')} aria-label="Open more navigation" onClick={() => setMobileMenuOpen(true)}><MoreHorizontal /><span>More</span></button>
+        <button className={cn(!navItems.slice(0, 4).some((item) => activeNavLabel === item.label) && 'is-active')} aria-label="Open more navigation" onClick={() => setMobileMenuOpen(true)}><MoreHorizontal /><span>{language === 'mr' ? 'अधिक' : 'More'}</span></button>
       </nav>
 
       <ActionDialog

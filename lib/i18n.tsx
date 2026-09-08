@@ -13,8 +13,8 @@ export interface Translations {
 
 export const translations: Translations = {
   // Navigation & Shell
-  'nav.overview': { en: 'Overview', mr: 'विहंगावलोकन / डॅशबोर्ड' },
-  'nav.produce': { en: 'Produce', mr: 'शेतमाल / पिके' },
+  'nav.overview': { en: 'Overview', mr: 'विहंगावलोकन' },
+  'nav.produce': { en: 'Produce', mr: 'शेतमाल' },
   'nav.offers': { en: 'Offers', mr: 'व्यापार प्रस्ताव' },
   'nav.trades': { en: 'Trades', mr: 'खरेदी-विक्री व्यवहार' },
   'nav.services': { en: 'Services', mr: 'कृषी सेवा' },
@@ -24,6 +24,29 @@ export const translations: Translations = {
   'nav.verification': { en: 'Verification', mr: 'प्रोफाईल सत्यापन (KYC)' },
   'nav.documents': { en: 'Document Center', mr: 'कागदपत्रे व दस्तऐवज' },
   'nav.reset_demo': { en: 'Reset Demo', mr: 'डेमो रीसेट करा' },
+  'nav.home': { en: 'Home', mr: 'मुख्यपृष्ठ' },
+  'nav.procurement': { en: 'Procurement', mr: 'खरेदी मोहीम' },
+  'nav.inventory': { en: 'Inventory', mr: 'गोदाम साठा' },
+  'nav.sales': { en: 'Sales', mr: 'विक्री' },
+  'nav.requirements': { en: 'Requirements', mr: 'खरेदी मागण्या' },
+  'nav.marketplace': { en: 'Marketplace', mr: 'बाजारपेठ' },
+  'nav.purchases': { en: 'Purchases', mr: 'खरेदी' },
+  'nav.deliveries': { en: 'Deliveries', mr: 'वाहतूक व पोहोच' },
+  'nav.facilities': { en: 'Facilities', mr: 'गोदाम सुविधा' },
+  'nav.requests': { en: 'Requests', mr: 'सेवा मागण्या' },
+  'nav.bookings': { en: 'Bookings', mr: 'गोदाम आरक्षण' },
+  'nav.operations': { en: 'Operations', mr: 'कार्यसंचालन' },
+  'nav.shipments': { en: 'Shipments', mr: 'मालवाहतूक' },
+  'nav.vehicles': { en: 'Vehicles', mr: 'वाहने' },
+  'nav.quote_requests': { en: 'Quote requests', mr: 'कोटेशन मागण्या' },
+  'nav.routes': { en: 'Routes', mr: 'मार्ग व ट्रॅकिंग' },
+  'nav.assessments': { en: 'Assessments', mr: 'गुणवत्ता तपासणी' },
+  'nav.schedule': { en: 'Schedule', mr: 'वेळापत्रक' },
+  'nav.reports': { en: 'Reports', mr: 'अहवाल' },
+  'nav.availability': { en: 'Availability', mr: 'उपलब्धता' },
+  'nav.grievances': { en: 'Grievances', mr: 'तक्रारी' },
+  'nav.disputes': { en: 'Disputes', mr: 'तंटे' },
+  'nav.analytics': { en: 'Analytics', mr: 'विश्लेषण' },
 
   // Role Names (Updated exact role names for DB & UI)
   'role.farmer': { en: 'Farmer', mr: 'शेतकरी' },
@@ -34,14 +57,60 @@ export const translations: Translations = {
   'role.quality': { en: 'Quality Assessor', mr: 'गुणवत्ता तपासक (Quality Assessor)' },
   'role.admin': { en: 'System Administrator', mr: 'सिस्टम प्रशासक (Admin)' },
 
+  // Shell & Navigation Labels
+  'shell.workspace': { en: 'Workspace', mr: 'कार्यक्षेत्र' },
+  'shell.manage': { en: 'Manage', mr: 'व्यवस्थापन' },
+  'shell.need_help': { en: 'Need help?', mr: 'मदत हवी आहे?' },
+  'shell.guidance_later': { en: 'Guidance coming later', mr: 'मार्गदर्शन लवकरच उपलब्ध होईल' },
+  'shell.tagline': { en: 'Trade with clarity', mr: 'पारदर्शक शेती व्यापार' },
+
   // Header & Controls
   'header.viewing_as': { en: 'Viewing as', mr: 'भूमिका निवडा' },
   'header.language': { en: 'Language', mr: 'भाषा' },
   'header.search_placeholder': { en: 'Search produce, mandis and participants in Maharashtra...', mr: 'महाराष्ट्रातील शेतमाल, मंडी आणि सदस्य शोधा...' },
+  'header.search_produce_trades': { en: 'Search produce, trades and people', mr: 'शेतमाल, व्यवहार आणि सदस्य शोधा' },
   'header.manage_account': { en: 'Account Settings', mr: 'खाते व्यवस्थापन' },
   'header.update_role': { en: 'Change Role', mr: 'भूमिका बदला' },
   'header.demo_mode': { en: 'Demo Switcher Active', mr: 'डेमो मोड सक्रिय' },
   'header.authenticated': { en: 'Authenticated Profile', mr: 'प्रमाणित प्रोफाईल' },
+  'header.signed_up_state': { en: 'Signed-up State', mr: 'प्रमाणित वापरकर्ता स्थिती' },
+  'header.demo_state': { en: 'Non-signup State (Demo)', mr: 'डेमो मोड (सक्रिय)' },
+  'header.active_role': { en: 'Active Role:', mr: 'सक्रिय भूमिका:' },
+
+  // Farmer Overview Specific Translations
+  'farmer.eyebrow': { en: 'Farm operations', mr: 'शेती कार्यसंचालन' },
+  'farmer.title': { en: 'Good morning, Ramesh', mr: 'नमस्कार, रमेश' },
+  'farmer.subtitle': { en: 'Your red onion produce record has three active offers. Review the net return before the offer window closes.', mr: 'तुमच्या लाल कांद्यासाठी ३ सक्रिय प्रस्ताव आले आहेत. प्रस्तावाची मुदत संपण्यापूर्वी निव्वळ नफा तपासा.' },
+  'farmer.add_produce': { en: 'Add produce', mr: 'शेतमाल जोडा' },
+  'farmer.urgent_title': { en: 'Choose an offer for your onion produce', mr: 'तुमच्या कांदा शेतमालासाठी प्रस्तावाची निवड करा' },
+  'farmer.urgent_detail': { en: '3 valid offers · closes today at 5:30 PM', mr: '३ वैध प्रस्ताव उपलब्ध · आज संध्याकाळी ५:३० वाजता मुदत संपेल' },
+  'farmer.urgent_action': { en: 'Compare offers', mr: 'प्रस्तावांची तुलना करा' },
+  'farmer.ready_to_sell': { en: 'Ready to sell', mr: 'विक्रीसाठी तयार' },
+  'farmer.active_produce': { en: 'Your active produce', mr: 'तुमचा सक्रिय शेतमाल' },
+  'farmer.view_all_produce': { en: 'View all produce', mr: 'सर्व शेतमाल पहा' },
+  'farmer.offers_open': { en: 'Offers open', mr: 'प्रस्ताव सुरू' },
+  'farmer.available': { en: 'Available', mr: 'उपलब्ध प्रमाण' },
+  'farmer.quality': { en: 'Quality', mr: 'गुणवत्ता श्रेणी' },
+  'farmer.grade_a_verified': { en: 'Grade A verified', mr: 'अ वर्ग (प्रमाणित)' },
+  'farmer.current_stage': { en: 'Current produce stage', mr: 'सध्याचा टप्पा' },
+  'farmer.quality_assessed': { en: 'Quality assessed', mr: 'गुणवत्ता तपासली' },
+  'farmer.produce_journey': { en: 'Produce journey', mr: 'शेतमाल प्रवास' },
+  'farmer.stages_count': { en: '{current} of {total} stages', mr: '{total} पैकी {current} टप्पे' },
+  'farmer.decision_support': { en: 'Decision support', mr: 'निर्णय सहाय्य' },
+  'farmer.sell_or_wait': { en: 'Sell now or wait?', mr: 'आत्ताच विका की वाट पाहा?' },
+  'farmer.sell_now': { en: 'Sell now', mr: 'आत्ताच विका' },
+  'farmer.sell_now_detail': { en: 'Best confirmed net offer', mr: 'उत्कृष्ट खात्रीशीर निव्वळ ऑफर' },
+  'farmer.nearby_mandi': { en: 'Nearby mandi', mr: 'जवळची मंडी' },
+  'farmer.nearby_mandi_detail': { en: 'After travel and fees', mr: 'वाहतूक व बाजार शुल्कानंतर' },
+  'farmer.store_7_days': { en: 'Store 7 days', mr: '७ दिवस साठवा' },
+  'farmer.store_7_days_detail': { en: 'Forecast after storage cost', mr: 'गोदाम भाड्यानंतरचा अंदाज' },
+  'farmer.recommended': { en: 'Recommended', mr: 'शिफारस केलेले' },
+  'farmer.net_values_note': { en: 'Net values include the listed transport, storage and market costs.', mr: 'निव्वळ मूल्यांमध्ये सर्व वाहतूक आणि गोदाम खर्च समाविष्ट आहेत.' },
+  'farmer.offer_window': { en: 'Competitive offer window', mr: 'स्पर्धात्मक खरेदीदार विंडो' },
+  'farmer.ranked_offers': { en: 'Offers ranked for your return', mr: 'तुमच्या उत्पन्नानुसार क्रमवारी लावलेले प्रस्ताव' },
+  'farmer.compare_terms': { en: 'Compare full terms', mr: 'सर्व अटींची तुलना करा' },
+  'farmer.price_per_kg': { en: 'Price', mr: 'दर (प्रति किलो)' },
+  'farmer.expected_net': { en: 'Expected net', mr: 'अपेक्षित निव्वळ उत्पन्न' },
 
   // Listings & Controls (Show More / Limits)
   'listing.show_more': { en: 'Show More Items', mr: 'आणखी पहा' },
@@ -122,6 +191,43 @@ export const translations: Translations = {
   'account.cancel': { en: 'Cancel', mr: 'रद्द करा' },
 };
 
+// Nav Label Specific Localization Dictionary
+export const NAV_LOCALIZATION: Record<string, { en: string; mr: string }> = {
+  'overview': { en: 'Overview', mr: 'विहंगावलोकन' },
+  'produce': { en: 'Produce', mr: 'शेतमाल' },
+  'offers': { en: 'Offers', mr: 'व्यापार प्रस्ताव' },
+  'trades': { en: 'Trades', mr: 'व्यवहार' },
+  'services': { en: 'Services', mr: 'कृषी सेवा' },
+  'mandi': { en: 'Mandi', mr: 'मंडी भाव' },
+  'rankings': { en: 'Rankings', mr: 'क्रमवारी' },
+  'geography': { en: 'Geography', mr: 'नकाशा' },
+  'verification': { en: 'Verification', mr: 'सत्यापन' },
+  'documents': { en: 'Documents', mr: 'कागदपत्रे' },
+  'home': { en: 'Home', mr: 'मुख्यपृष्ठ' },
+  'procurement': { en: 'Procurement', mr: 'खरेदी मोहीम' },
+  'inventory': { en: 'Inventory', mr: 'गोदाम साठा' },
+  'sales': { en: 'Sales', mr: 'विक्री' },
+  'requirements': { en: 'Requirements', mr: 'खरेदी मागण्या' },
+  'marketplace': { en: 'Marketplace', mr: 'बाजारपेठ' },
+  'purchases': { en: 'Purchases', mr: 'खरेदी' },
+  'deliveries': { en: 'Deliveries', mr: 'वाहतूक व पोहोच' },
+  'facilities': { en: 'Facilities', mr: 'गोदाम सुविधा' },
+  'requests': { en: 'Requests', mr: 'सेवा मागण्या' },
+  'bookings': { en: 'Bookings', mr: 'गोदाम आरक्षण' },
+  'operations': { en: 'Operations', mr: 'कार्यसंचालन' },
+  'shipments': { en: 'Shipments', mr: 'मालवाहतूक' },
+  'vehicles': { en: 'Vehicles', mr: 'वाहने' },
+  'quote requests': { en: 'Quote requests', mr: 'कोटेशन मागण्या' },
+  'routes': { en: 'Routes', mr: 'मार्ग व ट्रॅकिंग' },
+  'assessments': { en: 'Assessments', mr: 'गुणवत्ता तपासणी' },
+  'schedule': { en: 'Schedule', mr: 'वेळापत्रक' },
+  'reports': { en: 'Reports', mr: 'अहवाल' },
+  'availability': { en: 'Availability', mr: 'उपलब्धता' },
+  'grievances': { en: 'Grievances', mr: 'तक्रारी' },
+  'disputes': { en: 'Disputes', mr: 'तंटे' },
+  'analytics': { en: 'Analytics', mr: 'विश्लेषण' },
+};
+
 // Domain Localization Dictionaries
 export const CROP_LOCALIZATION: Record<string, { en: string; mr: string }> = {
   'onion': { en: 'Onion', mr: 'कांदा' },
@@ -162,6 +268,8 @@ export const DISTRICT_LOCALIZATION: Record<string, { en: string; mr: string }> =
   'ahmednagar': { en: 'Ahmednagar', mr: 'अहमदनगर' },
   'akola': { en: 'Akola', mr: 'अकोला' },
   'sangli': { en: 'Sangli', mr: 'सांगली' },
+  'niphad, nashik': { en: 'Niphad, Nashik', mr: 'निफाड, नाशिक' },
+  'niphad': { en: 'Niphad', mr: 'निफाड' },
 };
 
 export const UNIT_LOCALIZATION: Record<string, { en: string; mr: string }> = {
@@ -176,6 +284,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string, replacements?: Record<string, string | number>) => string;
+  tNav: (navLabel: string) => string;
   tCrop: (cropName: string) => string;
   tDistrict: (districtName: string) => string;
   tUnit: (unitName: string) => string;
@@ -186,6 +295,7 @@ const LanguageContext = createContext<LanguageContextType>({
   language: 'en',
   setLanguage: () => {},
   t: (key: string) => key,
+  tNav: (name: string) => name,
   tCrop: (name: string) => name,
   tDistrict: (name: string) => name,
   tUnit: (name: string) => name,
@@ -223,6 +333,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return result;
   };
 
+  const tNav = (navLabel: string): string => {
+    if (!navLabel) return '';
+    const key = navLabel.toLowerCase().trim();
+    const item = NAV_LOCALIZATION[key];
+    if (item) return item[language] || item['en'] || navLabel;
+    return navLabel;
+  };
+
   const tCrop = (cropName: string): string => {
     if (!cropName) return '';
     const key = cropName.toLowerCase().trim();
@@ -254,7 +372,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, tCrop, tDistrict, tUnit, tRole }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, tNav, tCrop, tDistrict, tUnit, tRole }}>
       {children}
     </LanguageContext.Provider>
   );
