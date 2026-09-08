@@ -218,3 +218,51 @@ export interface NearbyParticipant {
   verification_status: VerificationStatus;
   distance_km: number;
 }
+
+export interface PricePredictionPoint {
+  ds: string;
+  predicted_modal_price: number;
+  temp_max: number;
+  temp_min: number;
+  temp_mean: number;
+  rainfall: number;
+  et0: number;
+}
+
+export interface PredictionMetrics {
+  mae: number;
+  rmse: number;
+  mape: number;
+  training_markets_count: number;
+  total_observations: number;
+  test_observations: number;
+}
+
+export interface PricePredictionForecast {
+  unique_id: string;
+  market_name: string;
+  commodity: string;
+  district: string;
+  model_type: string;
+  input_window_days: number;
+  forecast_horizon_days: number;
+  weather_source: string;
+  metrics?: PredictionMetrics;
+  last_historical_price?: number;
+  last_historical_date?: string;
+  forecasts: PricePredictionPoint[];
+}
+
+export interface MarketPredictionSummary {
+  unique_id: string;
+  market_name: string;
+  commodity: string;
+  district: string;
+  last_price?: number;
+  next_predicted_price: number;
+  final_predicted_price: number;
+  forecast_trend: 'UP' | 'DOWN';
+  metrics?: PredictionMetrics;
+}
+
+

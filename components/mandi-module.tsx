@@ -4,12 +4,13 @@ import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   AlertCircle, LocateFixed, MapPin, RefreshCw, Search, TrendingUp, TrendingDown,
-  Activity, ArrowUpRight, ArrowDownRight, Layers, BarChart3, Building2, ExternalLink, ChevronDown, ChevronUp
+  Activity, ArrowUpRight, ArrowDownRight, Layers, BarChart3, Building2, ExternalLink, ChevronDown, ChevronUp, Sparkles, Cpu
 } from 'lucide-react';
 import { mandiApi } from '@/lib/api/mandi';
 import { getApiErrorMessage } from '@/lib/api/client';
 import type { MandiPrice, NearbyMandi } from '@/lib/api/types';
 import { useLanguage } from '@/lib/i18n';
+import { PricePredictionModule } from '@/components/price-prediction-module';
 
 const money = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(value);
 const dateStr = (value: string) => new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${value}T00:00:00`));
@@ -25,7 +26,8 @@ const MOCK_TICKER_DATA = [
 ];
 
 export function MandiModule() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const [activeTab, setActiveTab] = useState<'prices' | 'prediction'>('prices');
   const [district, setDistrict] = useState('');
   const [mandiId, setMandiId] = useState('');
   const [commodity, setCommodity] = useState('');
@@ -33,6 +35,7 @@ export function MandiModule() {
   const [filterTab, setFilterTab] = useState<'all' | 'gainers' | 'losers'>('all');
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>({ latitude: 19.7515, longitude: 75.7139 });
   const [locationMessage, setLocationMessage] = useState('Showing mandis around central Maharashtra.');
+
   
   // Listing display limit states ("Show More")
   const [stockLimit, setStockLimit] = useState(8);
@@ -88,52 +91,87 @@ export function MandiModule() {
 
   return (
     <div className="space-y-6">
-      {/* Real-time Stock Market Live Ticker Bar */}
-      <section className="overflow-hidden rounded-xl border bg-card p-3 shadow-sm">
-        <div className="flex items-center gap-3 border-b pb-2 mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          <Activity className="h-4 w-4 text-emerald-500 animate-pulse" />
-          <span>{t('mandi.ticker_title')}</span>
-          <span className="ml-auto text-[11px] normal-case text-muted-foreground">{t('mandi.ticker_updated')}</span>
-        </div>
-        <div className="flex items-center gap-6 overflow-x-auto py-1 scrollbar-none">
-          {MOCK_TICKER_DATA.map((tItem, idx) => (
-            <div key={idx} className="flex shrink-0 items-center gap-2 rounded-lg bg-muted/40 px-3 py-1.5 text-xs font-medium">
-              <span className="font-semibold text-foreground">{tItem.commodity}</span>
-              <span className="text-muted-foreground">({tItem.district})</span>
-              <span className="font-bold">{money(tItem.price)}/q</span>
-              <span className={`inline-flex items-center text-[11px] font-bold ${
-                tItem.change > 0 ? 'text-emerald-600 dark:text-emerald-400' : tItem.change < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-muted-foreground'
-              }`}>
-                {tItem.change > 0 ? <ArrowUpRight className="h-3.5 w-3.5" /> : tItem.change < 0 ? <ArrowDownRight className="h-3.5 w-3.5" /> : null}
-                {tItem.change > 0 ? `+${tItem.change}%` : `${tItem.change}%`}
-              </span>
-            </div>
-          ))}
+      {/* Sub-Navigation Tabs Bar */}
+      <section className="flex items-center justify-between border-b pb-2">
+        <div className="flex items-center gap-2 rounded-lg bg-muted/60 p-1 font-semibold text-xs">
+          <button
+            onClick={() => setActiveTab('prices')}
+            className={`flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${
+              activeTab === 'prices'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <BarChart3 className="h-4 w-4 text-primary" />
+            <span>{language === 'mr' ? 'लाईव्ह मंडी स्टॉक बोर्ड' : 'Live Mandi Stock Board'}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('prediction')}
+            className={`flex items-center gap-2 rounded-md px-4 py-2 transition-colors ${
+              activeTab === 'prediction'
+                ? 'bg-emerald-500 text-white font-bold shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Cpu className="h-4 w-4 animate-pulse text-amber-300" />
+            <span>{language === 'mr' ? 'N-BEATSX कांदा भाव अंदाज (AI)' : 'AI Price Prediction Service (N-BEATSX)'}</span>
+            <span className="rounded-full bg-emerald-700/80 text-[10px] px-1.5 py-0.5 text-white font-mono">NEW</span>
+          </button>
         </div>
       </section>
 
-      {/* Header & Source Disclaimer */}
-      <section className="panel p-5 sm:p-6">
-        <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
-          <div>
-            <p className="eyebrow">{t('nav.mandi')}</p>
-            <h2 className="text-2xl font-semibold tracking-tight">{t('mandi.title')}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{t('mandi.subtitle')}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => void pricesQuery.refetch()}
-            className="inline-flex items-center justify-center gap-2 rounded-md border px-3.5 py-2 text-sm font-medium hover:bg-muted transition-colors"
-          >
-            <RefreshCw className={pricesQuery.isFetching ? 'h-4 w-4 animate-spin' : 'h-4 w-4'} />
-            {t('mandi.refresh')}
-          </button>
-        </div>
-        <div className="mt-4 flex items-start gap-3 rounded-md border bg-muted/30 p-3 text-xs text-muted-foreground">
-          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-          <p>{t('mandi.demo_notice')}</p>
-        </div>
-      </section>
+      {activeTab === 'prediction' ? (
+        <PricePredictionModule />
+      ) : (
+        <>
+          {/* Real-time Stock Market Live Ticker Bar */}
+          <section className="overflow-hidden rounded-xl border bg-card p-3 shadow-sm">
+            <div className="flex items-center gap-3 border-b pb-2 mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <Activity className="h-4 w-4 text-emerald-500 animate-pulse" />
+              <span>{t('mandi.ticker_title')}</span>
+              <span className="ml-auto text-[11px] normal-case text-muted-foreground">{t('mandi.ticker_updated')}</span>
+            </div>
+            <div className="flex items-center gap-6 overflow-x-auto py-1 scrollbar-none">
+              {MOCK_TICKER_DATA.map((tItem, idx) => (
+                <div key={idx} className="flex shrink-0 items-center gap-2 rounded-lg bg-muted/40 px-3 py-1.5 text-xs font-medium">
+                  <span className="font-semibold text-foreground">{tItem.commodity}</span>
+                  <span className="text-muted-foreground">({tItem.district})</span>
+                  <span className="font-bold">{money(tItem.price)}/q</span>
+                  <span className={`inline-flex items-center text-[11px] font-bold ${
+                    tItem.change > 0 ? 'text-emerald-600 dark:text-emerald-400' : tItem.change < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-muted-foreground'
+                  }`}>
+                    {tItem.change > 0 ? <ArrowUpRight className="h-3.5 w-3.5" /> : tItem.change < 0 ? <ArrowDownRight className="h-3.5 w-3.5" /> : null}
+                    {tItem.change > 0 ? `+${tItem.change}%` : `${tItem.change}%`}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Header & Source Disclaimer */}
+          <section className="panel p-5 sm:p-6">
+            <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-start">
+              <div>
+                <p className="eyebrow">{t('nav.mandi')}</p>
+                <h2 className="text-2xl font-semibold tracking-tight">{t('mandi.title')}</h2>
+                <p className="mt-1 text-sm text-muted-foreground">{t('mandi.subtitle')}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => void pricesQuery.refetch()}
+                className="inline-flex items-center justify-center gap-2 rounded-md border px-3.5 py-2 text-sm font-medium hover:bg-muted transition-colors"
+              >
+                <RefreshCw className={pricesQuery.isFetching ? 'h-4 w-4 animate-spin' : 'h-4 w-4'} />
+                {t('mandi.refresh')}
+              </button>
+            </div>
+            <div className="mt-4 flex items-start gap-3 rounded-md border bg-muted/30 p-3 text-xs text-muted-foreground">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <p>{t('mandi.demo_notice')}</p>
+            </div>
+          </section>
+
 
       {/* Search & Stock Filter Bar */}
       <section className="panel p-5">
@@ -388,6 +426,9 @@ export function MandiModule() {
           </div>
         )}
       </section>
+        </>
+      )}
     </div>
   );
 }
+
